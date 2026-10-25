@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1e1838">
 <title>School Rush · ¡Que llegamos tarde!</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Lilita+One&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Fredoka';src:url(fonts/Fredoka.ttf) format('truetype');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Lilita One';src:url(fonts/LilitaOne-Regular.ttf) format('truetype');font-display:swap}
 :root{--ink:#2b2340;--accent:#ff6b4a;--violet:#7b6cf6;--ok:#2bb673}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;background:#1e1838;overflow:hidden;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);touch-action:none;user-select:none;-webkit-user-select:none}
@@ -891,7 +891,7 @@ function finish(){
   let best=0,rec=false;try{best=parseInt(localStorage.getItem('sr-best'))||0;if(R.score>best){localStorage.setItem('sr-best',R.score);rec=best>0;best=R.score;}}catch(e){}
   const e=$('#end');
   e.innerHTML=`<div class="card"><h1>${title}</h1><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${msg}</p>
-    <div class="res"><span>🏆 ${R.score} puntos</span><span>🍞 ${R.toasts} tostadas</span><span>💥 ${R.hits} golpes</span></div>
+    <div class="res"><span>🏆 ${R.score} puntos</span><span>🍞 ${R.toasts} ${R.toasts===1?'tostada':'tostadas'}</span><span>💥 ${R.hits} ${R.hits===1?'golpe':'golpes'}</span></div>
     ${rec?'<p class="best">¡NUEVO RÉCORD!</p>':`<p class="best">Récord: ${best}</p>`}
     ${prizes.length?`<div class="prize">🎁 ¡Desbloqueado!<br>${prizes.join(' · ')}</div>`:`<p class="small">Retos: ${G.done.length}/${RETOS.length}</p>`}
     <button class="btn" id="again">OTRA MAÑANA</button>${prizes.length?'<button class="btn alt" id="dress">👕 VESTIR PEQUES</button>':'<button class="btn alt" id="tomenu">MENÚ</button>'}</div>`;

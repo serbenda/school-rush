@@ -1,17 +1,298 @@
-# 🏫🔔 School Rush — ¡Que llegamos tarde!
+<div align="center">
 
-Son las 8:40 y el cole cierra a las 9:00. Mamá o papá corren con los peques de casa al cole en una carrera continua con gráficos de dibujos animados.
+<img src="docs/img/banner.png" alt="School Rush · ¡Que llegamos tarde!" width="100%">
 
-- **3 tramos seguidos:** 🏠 casa → 🌳 calle → 🏫 cole
-- **3 momentos rápidos:** lavarse los dientes, el semáforo en rojo y la puerta del cole cerrándose
-- **Saltar** (doble salto) y **agacharse** para esquivar Legos, gatos, ropa tendida, perros, palomas, obras…
-- **Tostadas** para sumar puntos y rachas (x2…x5)
-- **Power-ups:** 🛴 patinete (arrasa con todo), ☂️ paraguas (planeas) y ☕ café (turbo)
-- Los peques te siguen; si te das un golpe, uno se tropieza y tienes que esperarle
-- **Personaliza a los peques:** nombre, peinado, pelo, camiseta, mochila y accesorios
-- **8 retos** que desbloquean gafas de sol, corona, orejas de gato, capa de héroe, mochila arcoíris…
-- Tutorial jugable la primera vez
+**Una carrera de dibujos animados para llevar a los peques al cole antes de que suene la campana de las 9:00.**<br>
+Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 
-**Controles:** Espacio/↑ saltar · ↓ agacharse · en móvil, toca la derecha para saltar y mantén la izquierda para agacharte.
+[![Jugar ahora](https://img.shields.io/badge/%E2%96%B6%20JUGAR%20AHORA-serbenda.github.io%2Fschool--rush-ff6b4a?style=for-the-badge&labelColor=2b2340)](https://serbenda.github.io/school-rush/)
 
-Un solo `index.html`, sin dependencias. Se publica solo en GitHub Pages con cada push a `main` (`.github/workflows/pages.yml`).
+[![Publicación](https://github.com/serbenda/school-rush/actions/workflows/pages.yml/badge.svg)](https://github.com/serbenda/school-rush/actions/workflows/pages.yml)
+![HTML5](https://img.shields.io/badge/HTML5-Canvas-e5483a?style=flat-square&logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-a%20pelo-ffcf3a?style=flat-square&logo=javascript&logoColor=black)
+![Dependencias](https://img.shields.io/badge/dependencias-0-3f7fe6?style=flat-square)
+![Un archivo](https://img.shields.io/badge/juego-1%20archivo-7b6cf6?style=flat-square)
+![Móvil](https://img.shields.io/badge/m%C3%B3vil-t%C3%A1ctil-2bb673?style=flat-square)
+![RGPD](https://img.shields.io/badge/datos-solo%20en%20tu%20m%C3%B3vil-4fd6e8?style=flat-square)
+
+</div>
+
+---
+
+## 🏃 La idea
+
+Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse… y la puerta del cole se cierra a las **9:00**. **School Rush** convierte esa carrera de cada mañana en un juego: mamá o papá corren de casa al cole con los peques detrás, esquivando Legos, gatos, charcos y palomas, mientras el reloj no perdona.
+
+<table>
+<tr>
+<td width="46%" align="center" valign="top">
+<img src="docs/img/partida.gif" alt="Una partida" width="420"><br>
+<sub><b>Una partida de verdad:</b> la juega el robot de las capturas</sub>
+</td>
+<td width="54%" valign="top">
+
+### En 30 segundos
+
+- 👩‍👧‍👦 **Elige quién lleva a los niños**: mamá o papá.
+- 🦘 **Salta** (doble salto en el aire) y **agáchate** para esquivar.
+- 🏠➡️🌳➡️🏫 **Tres tramos seguidos**: la casa, la calle y el cole.
+- 🪥🚦🚪 **Tres momentos rápidos**: dientes, semáforo y la puerta que se cierra.
+- 🍞 **Tostadas** para sumar puntos y **rachas** de hasta x5.
+- 🛴☂️☕ **Power-ups**: patinete, paraguas y café.
+- 👕 **Viste a los peques** con su nombre, peinado y accesorios.
+- 🎁 **8 retos** que desbloquean gafas de sol, corona, capa de héroe…
+- ⭐ **Llega antes de las 8:58** para las tres estrellas.
+
+</td>
+</tr>
+</table>
+
+## 🗺️ Los tres tramos
+
+| 🏠 La casa | 🌳 La calle | 🏫 El cole |
+| :---: | :---: | :---: |
+| <img src="docs/img/casa.png" alt="La casa"> | <img src="docs/img/calle.png" alt="La calle"> | <img src="docs/img/cole.png" alt="El cole"> |
+| Estantería con libros, dibujos en la pared y Legos por el suelo | Balcones, persianas y tiendas de barrio: panadería, farmacia, kiosco… | Fachada de ladrillo, torre del reloj, valla verde y balonazos |
+
+## ⏱️ Los momentos
+
+A mitad de carrera, el juego se para un instante… pero **el reloj sigue corriendo**.
+
+| 🪥 Dientes | 🚦 Semáforo | 🚪 La puerta del cole |
+| :---: | :---: | :---: |
+| <img src="docs/img/momento-dientes.png" alt="Lavarse los dientes"> | <img src="docs/img/momento-semaforo.png" alt="El semáforo"> | <img src="docs/img/momento-puerta.png" alt="La puerta del cole"> |
+| **Pulsa rápido** 12 veces en 4 segundos para quitar los bichos | **Espera al verde** y pulsa con buenos reflejos | El conserje está cerrando: **pulsa sin parar** para colaros |
+
+| Momento | Si te sale bien | Si no |
+| --- | --- | --- |
+| 🪥 Dientes | *¡Sonrisa brillante!* **+150 puntos** | *Dientes a medias…* **+1 min** |
+| 🚦 Semáforo | Hasta **+200 puntos** según lo rápido que reacciones | Pulsar en rojo: **+1 min** (como mucho dos veces) |
+| 🚪 Puerta | *¡Dentro!* **+200 puntos** | *Te toca firmar en conserjería* **+2 min** |
+
+## 🎮 Cómo se juega
+
+### Controles
+
+| | 💻 Ordenador | 📱 Móvil o tablet (en horizontal) |
+| --- | --- | --- |
+| **Saltar** | `Espacio` o `↑` | Toca la **mitad derecha** |
+| **Doble salto** | Pulsa otra vez en el aire | Toca otra vez en el aire |
+| **Agacharse** | Mantén `↓` | Mantén pulsada la **mitad izquierda** |
+| **Bajar rápido** | `↓` en el aire | Izquierda en el aire |
+| **Momentos** | `Espacio` | Toca la pantalla |
+
+> La primera vez, un **tutorial a cámara lenta** te dice *¡SALTA!* y *¡AGÁCHATE!* justo cuando toca.
+
+<p align="center"><img src="docs/img/tutorial.png" alt="Tutorial" width="70%"></p>
+
+### 📜 Reglas de la mañana
+
+| Situación | Qué pasa |
+| --- | --- |
+| Chocas con algo | **+1 min**, frenazo, te mareas 😵 y se pierde la racha |
+| Un peque tropieza | Le salen estrellitas ⭐ y **tienes que ir más despacio** hasta que te alcanza (*¡ESPERA, MAMÁ!*) |
+| Esquivas un obstáculo | **+5 puntos** × racha |
+| Coges una tostada 🍞 | **+10 puntos** × racha |
+| Cada 8 tostadas seguidas | La racha sube: **x2, x3, x4, x5** |
+| Llegas al cole | Estrellas según la hora |
+
+### 🚧 Obstáculos
+
+| Tramo | ⬆️ Salta | ⬇️ Agáchate |
+| --- | --- | --- |
+| 🏠 Casa | Legos, pelota que bota, el gato, el cesto de la ropa | Ropa tendida (¡calzoncillo en la cara!) |
+| 🌳 Calle | Charcos, perros, cubos de basura, carritos de bebé | Palomas y el andamio de las obras |
+| 🏫 Cole | Balones, charcos, carritos de bebé | Palomas |
+
+### ⚡ Power-ups
+
+| | Dura | Qué hace |
+| :---: | :---: | --- |
+| 🛴 **Patinete** | 5 s | Vas un 40 % más rápido y **arrasas con todo** lo que te encuentras (+20 por obstáculo) |
+| ☂️ **Paraguas** | 8 s | **Planeas** al caer: saltos larguísimos |
+| ☕ **Café** | 6 s | **Turbo**: un 28 % más rápido, así llegas antes |
+
+### ⭐ Estrellas
+
+| Llegada | Resultado |
+| --- | --- |
+| **8:58 o antes** | ⭐⭐⭐ *¡Familia puntual!* |
+| **8:59 – 9:00** | ⭐⭐ *¡Por los pelos!* |
+| **Después de las 9:00** | ⭐ *¡Llegamos tarde!* |
+
+Una partida dura **algo más de un minuto** y, jugando bien, se llega sobre las 8:55.
+
+## 👕 Los peques
+
+| Escritorio | Móvil |
+| :---: | :---: |
+| <img src="docs/img/peques.png" alt="Editor de los peques"> | <img src="docs/img/movil-peques.png" alt="Editor en el móvil" width="420"> |
+
+En **👕 Peques** cada niño tiene su **nombre**, **peinado** (coletas, melena o corto), **color de pelo**, **camiseta**, **mochila** y un **extra**. Lo que tiene un 🔒 se desbloquea con los retos; si lo tocas, te dice cómo conseguirlo.
+
+### 🎁 Retos
+
+| Reto | Premio |
+| --- | --- |
+| Llega al cole por primera vez | 😎 Gafas de sol |
+| Llega con 3 estrellas | 🐱 Orejas de gato |
+| Consigue una racha x5 | 👑 Corona |
+| Coge 100 tostadas en una carrera | 🧢 Gorra |
+| Semáforo en menos de 0,35 s | 🦸 Capa de héroe |
+| Usa los 3 power-ups en una carrera | ✨ Camiseta dorada |
+| Haz 3.000 puntos | 💙 Pelo azul |
+| Llega sin ningún golpe | 🌈 Mochila arcoíris |
+
+<p align="center"><img src="docs/img/final.png" alt="Final con premios" width="70%"></p>
+
+## 📱 En el móvil
+
+| Menú | Carrera |
+| :---: | :---: |
+| <img src="docs/img/movil-menu.png" alt="Menú en el móvil"> | <img src="docs/img/movil-juego.png" alt="Carrera en el móvil"> |
+
+Se juega **en horizontal**; si el móvil está en vertical, el juego te pide que lo gires.
+
+> Todas las imágenes de este README las saca un robot que juega partidas de verdad (ver [Capturas automáticas](#-capturas-automáticas)).
+
+## ✨ Características
+
+- 🎨 **Dibujos animados hechos con código**: personajes que parpadean, se estiran al saltar, se aplastan al caer y dan una voltereta en el doble salto.
+- 🏙️ **Fondos ilustrados por capas** con efecto de profundidad (*parallax*).
+- 💥 **Golpes que se notan**: frenazo, tambaleo, ojos en X y cámara temblando.
+- 💬 **Frases de mañana con prisas**: *¡Que llegamos tarde!*, *¿Y los zapatos?*, *¡Mis llaves!*
+- 🎵 **Música y efectos** generados en directo, sin archivos de audio. Botón 🔇 para silenciar.
+- 🏆 **Récord de puntos** guardado en el móvil.
+- 🔒 **Sin anuncios, sin cuentas y sin recoger datos.**
+
+## 🔒 Privacidad
+
+El juego no trata datos personales fuera del propio dispositivo.
+
+| | |
+| --- | --- |
+| **Qué se guarda** | Quién lleva a los niños, nombre y aspecto de cada peque, retos conseguidos, récord de puntos, si ya viste el tutorial y si el sonido está silenciado |
+| **Dónde** | Solo en el `localStorage` del navegador de ese móvil o tablet. Nada se envía a ningún servidor |
+| **Qué no hace** | Sin cookies, sin analítica, sin publicidad y sin rastreadores |
+| **Fuentes** | Las letras van dentro de la propia web (`fonts/`): el juego no hace peticiones a Google |
+| **Borrar** | Borra los datos del sitio en el navegador |
+
+## 📲 Abrirlo como una app
+
+| Android (Chrome) | iPhone / iPad (Safari) |
+| --- | --- |
+| Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → menú **⋮** → **Añadir a pantalla de inicio** | Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → **Compartir** → **Añadir a pantalla de inicio** |
+
+De momento necesita conexión; jugar sin internet está en la hoja de ruta.
+
+## 🛠️ Bajo el capó
+
+HTML, CSS y JavaScript a pelo, en **un único `index.html` sin dependencias ni paso de compilación**, dibujando sobre un `<canvas>` de 960 × 540 que se escala a la pantalla.
+
+```mermaid
+flowchart LR
+    bucle["Bucle<br/>requestAnimationFrame"] --> update["update()<br/>física · obstáculos · tostadas · reloj"]
+    bucle --> render["render()<br/>fondos · personajes · HUD"]
+    update --> generador["spawn()<br/>obstáculos por tramo"]
+    update --> momentos["Momentos<br/>dientes · semáforo · puerta"]
+    render --> capas["Capas pre-renderizadas<br/>casa · calle · cole"]
+    render --> personajes["drawAdult() · drawKid()<br/>dibujo vectorial animado"]
+    update --> retos["finish()<br/>estrellas · récord · retos"]
+    retos --> almacen[("localStorage")]
+    editor["Editor de peques"] --> almacen
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Menu
+    Menu --> Peques: 👕 Peques
+    Peques --> Menu: ¡Listo!
+    Menu --> Carrera: ¡A correr!
+    state Carrera {
+        [*] --> Casa
+        Casa --> Dientes: a mitad de la casa
+        Dientes --> Casa
+        Casa --> Calle: SALIDA
+        Calle --> Semaforo: a mitad de la calle
+        Semaforo --> Calle
+        Calle --> Cole
+        Cole --> Puerta: llegada
+    }
+    Carrera --> Final: la puerta se abre o se cierra
+    Final --> Carrera: Otra mañana
+    Final --> Peques: Vestir peques (si hay premio)
+    Final --> Menu
+```
+
+| Pieza | Cómo funciona |
+| --- | --- |
+| **Mundo** | Una carrera de 30.000 unidades: casa hasta 9.000, calle hasta 24.000 y cole hasta el final. La velocidad sube de 330 a 500 por segundo |
+| **Reloj** | Empieza a las 8:40 y avanza un minuto cada 5,5 s. Los golpes y los fallos en los momentos suman minutos |
+| **Física** | Gravedad, salto y doble salto con *buffer* de pulsación; agacharse en el aire te hace caer rápido; el paraguas reduce la gravedad |
+| **Obstáculos** | Se generan por delante según el tramo, con separación según la velocidad. Cada uno sabe si es *bajo* (saltar) o *alto* (agacharse) |
+| **Golpes** | Congelan el juego 0,13 s, tumban a un peque y frenan la carrera hasta que te alcanza |
+| **Personajes** | Dibujados con trazos vectoriales en cada fotograma: piernas y brazos con ciclo de carrera, estirar y aplastar, parpadeo, sombreado y sombras |
+| **Fondos** | Cada tramo se pinta **una sola vez** en capas grandes que luego solo se recortan y desplazan a distinta velocidad, para ir fluido en el móvil |
+| **Tutorial** | La primera partida pone dos obstáculos fijos y ralentiza el tiempo hasta que haces el gesto correcto |
+| **Sonido** | Música y efectos sintetizados con Web Audio: no hay archivos de audio |
+
+### 📁 Estructura
+
+```
+school-rush/
+├── index.html                  # El juego entero: estilos, dibujo, lógica y menús
+├── fonts/                      # Letras Fredoka y Lilita One (SIL OFL), servidas desde la propia web
+├── scripts/
+│   └── capturas.py             # Robot que juega y saca las imágenes del README
+├── docs/img/                   # Imágenes del README (generadas por el robot)
+├── .github/workflows/
+│   └── pages.yml               # Publica el juego en GitHub Pages en cada cambio en main
+├── README.md
+└── LICENSE
+```
+
+### 💻 Probarlo en local
+
+```bash
+git clone https://github.com/serbenda/school-rush.git
+cd school-rush
+python3 -m http.server 8000   # para que carguen las fuentes
+# abre http://localhost:8000
+```
+
+### 🤖 Capturas automáticas
+
+`scripts/capturas.py` abre el juego en un Chromium real con **Playwright**, juega una partida con un pequeño robot (salta lo bajo y se agacha con lo alto), va a cada tramo y momento, saca las capturas en escritorio y móvil y monta el GIF con **ffmpeg** en `docs/img/`.
+
+```bash
+pip install playwright && playwright install chromium
+python3 scripts/capturas.py
+```
+
+## 🗺️ Hoja de ruta
+
+- [x] Carrera continua casa → calle → cole
+- [x] Mamá o papá, con los peques detrás
+- [x] Saltar, doble salto y agacharse
+- [x] Momentos: dientes, semáforo y puerta del cole
+- [x] Tostadas, rachas y power-ups
+- [x] Tutorial jugable la primera vez
+- [x] Personalizar a los peques y 8 retos con premios
+- [x] Fondos ilustrados por capas y personajes con sombreado
+- [x] Fuentes dentro de la web, sin peticiones a Google
+- [ ] Jugar sin internet (app instalable)
+- [ ] Mañanas distintas: lunes, viernes con lluvia, día de excursión
+- [ ] Eventos sorpresa: *¡Se ha dejado el almuerzo!*
+- [ ] Música distinta en cada tramo
+- [ ] El juego también en inglés
+
+## ⚖️ Licencia
+
+© 2026 Santiago. **Todos los derechos reservados.** Puedes jugar y ver el código, pero no copiarlo, modificarlo ni redistribuirlo sin permiso. Ver [LICENSE](LICENSE).
+
+Fuentes: *Fredoka* y *Lilita One*, de Google Fonts, con licencia SIL Open Font License (incluidas en `fonts/`).
+
+<div align="center">
+<br>
+<sub>Hecho con ☕ prisas, 🍞 tostadas y muchas mañanas de <i>¡que llegamos tarde!</i></sub>
+</div>
