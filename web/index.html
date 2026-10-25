@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1e1838">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="School Rush">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>School Rush · ¡Que llegamos tarde!</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<div id="wrap">
+  <div id="game">
+    <canvas id="c"></canvas>
+    <button id="mute" aria-label="Sonido">🔊</button>
+    <div id="menu" class="overlay"></div>
+    <div id="end" class="overlay hidden"></div>
+    <div id="custom" class="overlay hidden"></div>
+  </div>
+  <div id="pad">
+    <div class="pads" style="display:contents">
+      <button class="pb" id="bDuck" aria-label="Agacharse"><b>⬇</b><span>AGACHAR</span></button>
+      <button class="pb" id="bJump" aria-label="Saltar"><b>⬆</b><span>SALTAR</span></button>
+    </div>
+    <div class="rotate">📱↻ Gira el móvil para verlo más grande</div>
+  </div>
+</div>
+
+<script src="js/base.js"></script>
+<script src="js/sonido.js"></script>
+<script src="js/dibujo.js"></script>
+<script src="js/personajes.js"></script>
+<script src="js/peques.js"></script>
+<script src="js/fondos.js"></script>
+<script src="js/obstaculos.js"></script>
+<script src="js/partida.js"></script>
+<script src="js/pantalla.js"></script>
+<script src="js/controles.js"></script>
+<script src="js/menus.js"></script>
+</body>
+</html>
