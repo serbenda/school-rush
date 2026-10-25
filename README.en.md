@@ -28,7 +28,7 @@ Made to play with my daughters (and to laugh at our mornings).
 
 - [🏃 The idea](#idea)
 - [👨‍👩‍👧 For families](#families)
-- [🗺️ The three stretches](#stretches)
+- [🗺️ The stretches](#stretches)
 - [⏱️ The moments](#moments)
 - [🎮 How to play](#play)
 - [👕 The kids](#kids)
@@ -42,7 +42,7 @@ Made to play with my daughters (and to laugh at our mornings).
 
 ## 🏃 The idea
 
-It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school gate closes at **9:00**. **School Rush** turns that daily morning race into a game: mum or dad run from home to school with the kids behind them, dodging Lego bricks, cats, puddles and pigeons while the clock keeps ticking.
+It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school gate closes at **9:00**. **School Rush** turns that daily morning race into a game: mum or dad run from home to school with the kids behind them through the streets of **San Sebastián de los Reyes** and **Alcobendas** (near Madrid), dodging Lego bricks, cats, puddles, pigeons… and a runaway bull from the town's bull run, while the clock keeps ticking.
 
 <table>
 <tr>
@@ -56,7 +56,7 @@ It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school ga
 
 - 👩‍👧‍👦 **Pick who takes the kids**: mum or dad.
 - 🦘 **Jump** (double jump in the air) and **duck** to dodge.
-- 🏠➡️🌳➡️🏫 **Three stretches in a row**: home, the street and school.
+- 🏠➡️🎉➡️🚇➡️🏫 **Four stretches in a row**: home, Sanse during its fiestas, Alcobendas and school.
 - 🪥🚦🚪 **Three quick moments**: teeth, traffic light and the closing gate.
 - 🍞 **Toast** for points and **streaks** up to x5.
 - 🛴☂️☕ **Power-ups**: scooter, umbrella and coffee.
@@ -83,12 +83,15 @@ It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school ga
 
 <a id="stretches"></a>
 
-## 🗺️ The three stretches
+## 🗺️ The stretches
 
-| 🏠 Home | 🌳 Street | 🏫 School |
-| :---: | :---: | :---: |
-| <img src="docs/img/casa.png" alt="Home"> | <img src="docs/img/calle.png" alt="Street"> | <img src="docs/img/cole.png" alt="School"> |
-| Bookshelf, kids' drawings on the wall and Lego on the floor | Balconies, shutters and neighbourhood shops: bakery, pharmacy, kiosk… | Brick façade, clock tower, green fence and flying footballs |
+| 🏠 Home | 🎉 Sanse in fiesta |
+| :---: | :---: |
+| <img src="docs/img/casa.png" alt="Home"> | <img src="docs/img/sanse.png" alt="Sanse"> |
+| Bookshelf, kids' drawings on the wall and Lego on the floor | Town hall with arcades and flags, church tower with its **stork**, Calle Real, churro shop, bunting and wooden **bull-run fences** |
+| 🚇 **Alcobendas** | 🏫 **School** |
+| <img src="docs/img/alcobendas.png" alt="Alcobendas"> | <img src="docs/img/cole.png" alt="School"> |
+| **Exposed-brick** blocks with awnings, Marquesa Viuda de Aldama street, a brick church and the **Metro Line 10** entrance | Brick façade, clock tower and green fence. The sign shows **your school's name** (set it in 👕 Peques) |
 
 <a id="moments"></a>
 
@@ -132,7 +135,8 @@ The first time, a **slow-motion tutorial** shows *¡SALTA!* (jump) and *¡AGÁCH
 | Stretch | ⬆️ Jump over | ⬇️ Duck under |
 | --- | --- | --- |
 | 🏠 Home | Lego, bouncing ball, the cat, laundry basket | Washing line (underpants in the face!) |
-| 🌳 Street | Puddles, dogs, bins, prams | Pigeons and the scaffolding |
+| 🎉 Sanse | **The bull** 🐂, bull-run fences, puddles, dogs, prams | Pigeons |
+| 🚇 Alcobendas | Puddles, dogs, bins, prams | Pigeons and the scaffolding |
 | 🏫 School | Footballs, puddles, prams | Pigeons |
 
 | Power-up | Lasts | Effect |
@@ -153,7 +157,7 @@ The first time, a **slow-motion tutorial** shows *¡SALTA!* (jump) and *¡AGÁCH
 
 <p align="center"><img src="docs/img/peques.png" alt="Kids editor" width="80%"></p>
 
-Each kid has a **name**, **hairstyle** (pigtails, long or short), **hair colour**, **T-shirt**, **backpack** and an **extra**. Anything with a 🔒 is unlocked by a challenge:
+You can type **your school's name** (it appears on the gate and when you arrive), and each kid has a **name**, **hairstyle** (pigtails, long or short), **hair colour**, **T-shirt**, **backpack** and an **extra**. Anything with a 🔒 is unlocked by a challenge:
 
 | Challenge | Prize |
 | --- | --- |
@@ -172,7 +176,7 @@ Each kid has a **name**, **hairstyle** (pigtails, long or short), **hair colour*
 
 | | |
 | --- | --- |
-| **What is stored** | Who takes the kids, each kid's name and look, challenges, best score, tutorial seen, mute setting |
+| **What is stored** | Who takes the kids, the school name, each kid's name and look, challenges, best score, tutorial seen, mute setting |
 | **Where** | Only in the browser's `localStorage` on that device. Nothing is sent to any server |
 | **What it doesn't do** | No cookies, no analytics, no ads, no trackers |
 | **Fonts** | Bundled with the site (`fonts/`): no requests to Google |
@@ -185,7 +189,7 @@ Vanilla HTML, CSS and JavaScript in **a single `index.html` with no dependencies
 
 | Part | How it works |
 | --- | --- |
-| **World** | A 30,000-unit run: home up to 9,000, street up to 24,000, school to the end. Speed rises from 330 to 500 per second |
+| **World** | A 30,000-unit run: home up to 9,000, Sanse up to 17,100, Alcobendas up to 24,000, school to the end. Speed rises from 330 to 500 per second |
 | **Clock** | Starts at 8:40 and moves one minute every 5.5 s; hits and failed moments add minutes |
 | **Physics** | Gravity, jump and double jump with input buffering; ducking mid-air makes you fall fast; the umbrella lowers gravity |
 | **Characters** | Vector drawings animated every frame: run cycle, squash and stretch, blinking, shading and ground shadows |
@@ -215,6 +219,8 @@ python3 scripts/capturas.py
 - [x] Playable tutorial
 - [x] Kid customisation and 8 challenges
 - [x] Illustrated layered backgrounds and shaded characters
+- [x] Streets of Sanse and Alcobendas, with the runaway bull
+- [x] Editable school name
 - [ ] Offline play (installable app)
 - [ ] Different mornings: Monday, rainy Friday, school trip day
 - [ ] Surprise events

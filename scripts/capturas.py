@@ -79,7 +79,11 @@ def main():
         ir_a(pg, 2600); pg.screenshot(path=str(IMG / "casa.png"))
         ir_a(pg, 10400)
         pg.evaluate("()=>{R.power={type:'scooter',t:5};R.st.powers.push('scooter')}")
-        pg.wait_for_timeout(700); pg.screenshot(path=str(IMG / "calle.png"))
+        pg.wait_for_timeout(700); pg.screenshot(path=str(IMG / "sanse.png"))
+        ir_a(pg, 14300)
+        pg.evaluate("()=>{const o={type:'bull',x:R.dist+PX+560,w:108,h:76,t:0,vx:-175};OB.bull.init(o);R.obs.push(o)}")
+        pg.wait_for_timeout(500); pg.screenshot(path=str(IMG / "toro.png"))
+        ir_a(pg, 19300); pg.screenshot(path=str(IMG / "alcobendas.png"))
         ir_a(pg, 25200); pg.screenshot(path=str(IMG / "cole.png"))
 
         # golpe

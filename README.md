@@ -26,7 +26,7 @@ Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 
 - [🏃 La idea](#idea)
 - [👨‍👩‍👧 Para familias](#familias)
-- [🗺️ Los tres tramos](#tramos)
+- [🗺️ Los tramos](#tramos)
 - [⏱️ Los momentos](#momentos)
 - [🎮 Cómo se juega](#jugar)
 - [💥 Así se siente](#sensacion)
@@ -42,7 +42,7 @@ Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 
 ## 🏃 La idea
 
-Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse… y la puerta del cole se cierra a las **9:00**. **School Rush** convierte esa carrera de cada mañana en un juego: mamá o papá corren de casa al cole con los peques detrás, esquivando Legos, gatos, charcos y palomas, mientras el reloj no perdona.
+Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse… y la puerta del cole se cierra a las **9:00**. **School Rush** convierte esa carrera de cada mañana en un juego: mamá o papá corren de casa al cole con los peques detrás, por las calles de **Sanse** y **Alcobendas**, esquivando Legos, gatos, charcos, palomas… ¡y algún toro de los encierros!, mientras el reloj no perdona.
 
 <table>
 <tr>
@@ -56,7 +56,7 @@ Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse…
 
 - 👩‍👧‍👦 **Elige quién lleva a los niños**: mamá o papá.
 - 🦘 **Salta** (doble salto en el aire) y **agáchate** para esquivar.
-- 🏠➡️🌳➡️🏫 **Tres tramos seguidos**: la casa, la calle y el cole.
+- 🏠➡️🎉➡️🚇➡️🏫 **Cuatro tramos seguidos**: la casa, Sanse en fiestas, Alcobendas y el cole.
 - 🪥🚦🚪 **Tres momentos rápidos**: dientes, semáforo y la puerta que se cierra.
 - 🍞 **Tostadas** para sumar puntos y **rachas** de hasta x5.
 - 🛴☂️☕ **Power-ups**: patinete, paraguas y café.
@@ -83,12 +83,19 @@ Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse…
 
 <a id="tramos"></a>
 
-## 🗺️ Los tres tramos
+## 🗺️ Los tramos
 
-| 🏠 La casa | 🌳 La calle | 🏫 El cole |
-| :---: | :---: | :---: |
-| <img src="docs/img/casa.png" alt="La casa"> | <img src="docs/img/calle.png" alt="La calle"> | <img src="docs/img/cole.png" alt="El cole"> |
-| Estantería con libros, dibujos en la pared y Legos por el suelo | Balcones, persianas y tiendas de barrio: panadería, farmacia, kiosco… | Fachada de ladrillo, torre del reloj, valla verde y balonazos |
+De casa al cole pasando por **San Sebastián de los Reyes** y **Alcobendas**, dibujados con el estilo del juego.
+
+| 🏠 La casa | 🎉 Sanse en fiestas |
+| :---: | :---: |
+| <img src="docs/img/casa.png" alt="La casa"> | <img src="docs/img/sanse.png" alt="Sanse"> |
+| Estantería con libros, dibujos en la pared y Legos por el suelo | El Ayuntamiento con sus soportales y banderas, la torre de la iglesia con su **cigüeña**, la Calle Real, la churrería, la peña taurina, banderines y **talanqueras** |
+| 🚇 **Alcobendas** | 🏫 **El cole** |
+| <img src="docs/img/alcobendas.png" alt="Alcobendas"> | <img src="docs/img/cole.png" alt="El cole"> |
+| Bloques de **ladrillo visto** con toldos y aparatos de aire, la calle Marquesa Viuda de Aldama, la iglesia de ladrillo y la boca de **metro de la Línea 10** | Fachada de ladrillo, torre del reloj y valla verde. El cartel lleva **el nombre de tu cole** (lo escribes en 👕 Peques) |
+
+<p align="center"><img src="docs/img/toro.png" alt="El toro de los encierros" width="70%"><br><sub>En Sanse, cuidado: ¡se ha escapado un toro del encierro! 🐂</sub></p>
 
 <a id="momentos"></a>
 
@@ -141,7 +148,8 @@ A mitad de carrera, el juego se para un instante… pero **el reloj sigue corrie
 | Tramo | ⬆️ Salta | ⬇️ Agáchate |
 | --- | --- | --- |
 | 🏠 Casa | Legos, pelota que bota, el gato, el cesto de la ropa | Ropa tendida (¡calzoncillo en la cara!) |
-| 🌳 Calle | Charcos, perros, cubos de basura, carritos de bebé | Palomas y el andamio de las obras |
+| 🎉 Sanse | **El toro** 🐂, **talanqueras**, charcos, perros, carritos | Palomas |
+| 🚇 Alcobendas | Charcos, perros, cubos de basura, carritos de bebé | Palomas y el andamio de las obras |
 | 🏫 Cole | Balones, charcos, carritos de bebé | Palomas |
 
 ### ⚡ Power-ups
@@ -179,7 +187,7 @@ Una partida dura **algo más de un minuto** y, jugando bien, se llega sobre las 
 | :---: | :---: |
 | <img src="docs/img/peques.png" alt="Editor de los peques"> | <img src="docs/img/movil-peques.png" alt="Editor en el móvil" width="420"> |
 
-En **👕 Peques** cada niño tiene su **nombre**, **peinado** (coletas, melena o corto), **color de pelo**, **camiseta**, **mochila** y un **extra**. Lo que tiene un 🔒 se desbloquea con los retos; si lo tocas, te dice cómo conseguirlo.
+En **👕 Peques** pones el **nombre de tu cole** (sale en el cartel de la entrada y al llegar) y cada niño tiene su **nombre**, **peinado** (coletas, melena o corto), **color de pelo**, **camiseta**, **mochila** y un **extra**. Lo que tiene un 🔒 se desbloquea con los retos; si lo tocas, te dice cómo conseguirlo.
 
 ### 🎁 Retos
 
@@ -226,7 +234,7 @@ El juego no trata datos personales fuera del propio dispositivo.
 
 | | |
 | --- | --- |
-| **Qué se guarda** | Quién lleva a los niños, nombre y aspecto de cada peque, retos conseguidos, récord de puntos, si ya viste el tutorial y si el sonido está silenciado |
+| **Qué se guarda** | Quién lleva a los niños, el nombre del cole, nombre y aspecto de cada peque, retos conseguidos, récord de puntos, si ya viste el tutorial y si el sonido está silenciado |
 | **Dónde** | Solo en el `localStorage` del navegador de ese móvil o tablet. Nada se envía a ningún servidor |
 | **Qué no hace** | Sin cookies, sin analítica, sin publicidad y sin rastreadores |
 | **Fuentes** | Las letras van dentro de la propia web (`fonts/`): el juego no hace peticiones a Google |
@@ -252,7 +260,7 @@ flowchart LR
     bucle --> render["render()<br/>fondos · personajes · HUD"]
     update --> generador["spawn()<br/>obstáculos por tramo"]
     update --> momentos["Momentos<br/>dientes · semáforo · puerta"]
-    render --> capas["Capas pre-renderizadas<br/>casa · calle · cole"]
+    render --> capas["Capas pre-renderizadas<br/>casa · Sanse · Alcobendas · cole"]
     render --> personajes["drawAdult() · drawKid()<br/>dibujo vectorial animado"]
     update --> retos["finish()<br/>estrellas · récord · retos"]
     retos --> almacen[("localStorage")]
@@ -269,10 +277,10 @@ stateDiagram-v2
         [*] --> Casa
         Casa --> Dientes: a mitad de la casa
         Dientes --> Casa
-        Casa --> Calle: SALIDA
-        Calle --> Semaforo: a mitad de la calle
-        Semaforo --> Calle
-        Calle --> Cole
+        Casa --> Sanse: SALIDA
+        Sanse --> Semaforo: entre Sanse y Alcobendas
+        Semaforo --> Alcobendas
+        Alcobendas --> Cole
         Cole --> Puerta: llegada
     }
     Carrera --> Final: la puerta se abre o se cierra
@@ -283,7 +291,7 @@ stateDiagram-v2
 
 | Pieza | Cómo funciona |
 | --- | --- |
-| **Mundo** | Una carrera de 30.000 unidades: casa hasta 9.000, calle hasta 24.000 y cole hasta el final. La velocidad sube de 330 a 500 por segundo |
+| **Mundo** | Una carrera de 30.000 unidades: casa hasta 9.000, Sanse hasta 17.100, Alcobendas hasta 24.000 y cole hasta el final. La velocidad sube de 330 a 500 por segundo |
 | **Reloj** | Empieza a las 8:40 y avanza un minuto cada 5,5 s. Los golpes y los fallos en los momentos suman minutos |
 | **Física** | Gravedad, salto y doble salto con *buffer* de pulsación; agacharse en el aire te hace caer rápido; el paraguas reduce la gravedad |
 | **Obstáculos** | Se generan por delante según el tramo, con separación según la velocidad. Cada uno sabe si es *bajo* (saltar) o *alto* (agacharse) |
@@ -341,6 +349,8 @@ python3 scripts/capturas.py
 - [x] Personalizar a los peques y 8 retos con premios
 - [x] Fondos ilustrados por capas y personajes con sombreado
 - [x] Fuentes dentro de la web, sin peticiones a Google
+- [x] Calles de Sanse y Alcobendas, con el toro de los encierros
+- [x] Nombre del cole editable
 - [ ] Jugar sin internet (app instalable)
 - [ ] Mañanas distintas: lunes, viernes con lluvia, día de excursión
 - [ ] Eventos sorpresa: *¡Se ha dejado el almuerzo!*
