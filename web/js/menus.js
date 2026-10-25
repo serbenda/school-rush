@@ -16,7 +16,8 @@ function menu(){
     <div class="opt"><span class="ol">🎚️ Modo</span><div class="chips" id="modos">${Object.keys(MODOS).map(k=>`<button class="chip ${k===G.modo?'sel':''}" data-m="${k}" title="${esc(MODOS[k].desc)}">${MODOS[k].icono} ${MODOS[k].nombre}</button>`).join('')}</div></div>
     <div class="opt"><span class="ol">📅 Mañana</span><div class="chips" id="mananas">${Object.keys(MANANAS).map(k=>`<button class="chip ${k===G.manana?'sel':''}" data-d="${k}">${MANANAS[k].icono} ${MANANAS[k].nombre}</button>`).join('')}</div></div>
     <p class="mdesc" id="mdesc">${esc(MODO().desc)}</p>
-    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}<button class="chip voz ${G.voz?'sel':''}" id="voz">${G.voz?'🗣️ Voz: sí':'🤫 Voz: no'}</button></div>
+    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}<button class="chip voz ${G.voz?'sel':''}" id="voz">${G.voz?'🗣️ Voz: sí':'🤫 Voz: no'}</button><button class="chip ${G.calm?'sel':''}" id="calm">🧘 Menos movimiento</button><button class="chip ${G.big?'sel':''}" id="big">🔠 Letras grandes</button></div>
+    ${IOS&&!STANDALONE&&!G.iosTipOff?'<p class="iostip" id="iostip">📲 En iPhone: <b>Compartir</b> → <b>Añadir a pantalla de inicio</b> para jugar a pantalla completa y sin internet <button class="x" id="iosx" aria-label="Cerrar">✕</button></p>':''}
     <p class="best">${(()=>{const r=leerRecords()[jugadorActual()];const b=r&&r[G.modo];return b?`🏆 Récord de ${esc(jugadorActual())} (${MODO().nombre}): ${b.score} · `:'';})()}🎁 Retos: ${G.done.length}/${RETOS.length}</p>
     <button class="btn" id="play">¡A CORRER!</button></div>`;
   m.classList.remove('hidden');
@@ -32,6 +33,9 @@ function menu(){
   m.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{G.player=b.dataset.p;saveOpts();sfx('tap');menu();});
   m.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{G.modo=b.dataset.m;G.voz=MODOS[G.modo].voz||G.voz;saveOpts();sfx('tap');menu();});
   m.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{G.manana=b.dataset.d;saveOpts();sfx('tap');menu();});
+  $('#calm').onclick=()=>{G.calm=!G.calm;try{localStorage.setItem('sr-calm',G.calm?'1':'0');}catch(e){}sfx('tap');menu();};
+  $('#big').onclick=()=>{G.big=!G.big;try{localStorage.setItem('sr-big',G.big?'1':'0');}catch(e){}document.body.classList.toggle('big',G.big);sfx('tap');menu();};
+  if($('#iosx'))$('#iosx').onclick=()=>{G.iosTipOff=true;try{localStorage.setItem('sr-iostip','1');}catch(e){}menu();};
   $('#voz').onclick=()=>{G.voz=!G.voz;saveOpts();sfx('tap');if(G.voz){audio();hablar('¡Hola! Yo te aviso',true);}menu();};
   $('#play').onclick=play;
 }
@@ -72,14 +76,18 @@ function play(){
   if(TOUCH){try{const el=document.documentElement;if(!document.fullscreenElement&&el.requestFullscreen)el.requestFullscreen({navigationUI:'hide'}).then(()=>{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock('landscape').catch(()=>{});}).catch(()=>{});}catch(e){}}
 }
 
-function burst(){const g=$('#game');for(let i=0;i<40;i++){const d=document.createElement('div');d.className='conf';d.textContent=pick(['🎉','⭐','✨','🎈','🍞']);d.style.left=rnd(2,96)+'%';d.style.animationDuration=rnd(1,2)+'s';g.appendChild(d);setTimeout(()=>d.remove(),2100);}}
+function burst(){const g=$('#game');for(let i=0;i<(G.calm?12:40);i++){const d=document.createElement('div');d.className='conf';d.textContent=pick(['🎉','⭐','✨','🎈','🍞']);d.style.left=rnd(2,96)+'%';d.style.animationDuration=rnd(1,2)+'s';g.appendChild(d);setTimeout(()=>d.remove(),2100);}}
 // ---------- bucle ----------
 let last=0;
+let perfT=0,perfN=0,slowS=0;
 function loop(t){
-  const dt=Math.min(.033,(t-last)/1000||0);last=t;
+  const raw=(t-last)/1000||0;const dt=Math.min(.033,raw);last=t;
+  // modo ligero automático si el móvil va lento (media < 40 fps durante 3 s)
+  if(G.state==='play'&&!G.lite&&raw>0&&raw<.5){perfT+=raw;perfN++;if(perfT>=1){const fps=perfN/perfT;slowS=fps<40?slowS+1:0;perfT=0;perfN=0;if(slowS>=3){G.lite=true;fit();}}}
   update(dt);render();
   requestAnimationFrame(loop);
 }
+try{G.iosTipOff=localStorage.getItem('sr-iostip')==='1';}catch(e){}document.body.classList.toggle('big',G.big);
 buildArt();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{buildArt();}catch(e){}});
 menu();requestAnimationFrame(loop);
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));

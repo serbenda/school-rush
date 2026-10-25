@@ -22,13 +22,17 @@ const G={state:'menu',hero:'mama',muted:false,t:0};
 try{const h=localStorage.getItem('sr-hero');if(h==='mama'||h==='papa')G.hero=h;G.muted=localStorage.getItem('sr-muted')==='1';}catch(e){}
 
 // ---------- tamaño ----------
+const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const STANDALONE=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+G.calm=matchMedia('(prefers-reduced-motion: reduce)').matches;G.big=false;G.lite=false;
+try{const c=localStorage.getItem('sr-calm');if(c!==null)G.calm=c==='1';G.big=localStorage.getItem('sr-big')==='1';}catch(e){}
 const TOUCH=matchMedia('(pointer:coarse)').matches||('ontouchstart' in window&&innerWidth<1100);
 if(TOUCH)document.body.classList.add('touch');
 let SC=1,DPR=1;
 function fit(){
   const vw=innerWidth,vh=innerHeight,portrait=TOUCH&&vh>vw;
   document.body.classList.toggle('portrait',portrait);
-  const s=portrait?vw/W:Math.min(vw/W,vh/H)*(TOUCH?1:.985);SC=s;DPR=Math.min(2,devicePixelRatio||1);
+  const s=portrait?vw/W:Math.min(vw/W,vh/H)*(TOUCH?1:.985);SC=s;DPR=G.lite?1:Math.min(2,devicePixelRatio||1);
   const g=$('#game');g.style.width=Math.round(W*s)+'px';g.style.height=Math.round(H*s)+'px';
   cvs.width=Math.round(W*s*DPR);cvs.height=Math.round(H*s*DPR);
   g.style.setProperty('--ms',Math.round(Math.max(26,Math.min(44,H*s*.075)))+'px');

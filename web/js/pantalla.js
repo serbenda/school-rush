@@ -17,8 +17,8 @@ function drawWeather(cam){
   if(G.manana==='lluvia'){
     ctx.fillStyle='rgba(60,70,110,.28)';ctx.fillRect(0,0,W,H);
     ctx.strokeStyle='rgba(200,225,255,.65)';ctx.lineWidth=2;ctx.beginPath();
-    GOTAS.forEach(g=>{const y=(g.y+G.t*700)%H,x=(g.x-cam*.3-G.t*120)%W;const xx=x<0?x+W:x;ctx.moveTo(xx,y);ctx.lineTo(xx-5,y+g.l);});ctx.stroke();
-    if(Math.floor(G.t*7)%23===0){ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(0,0,W,H);}
+    (G.lite?GOTAS.slice(0,40):GOTAS).forEach(g=>{const y=(g.y+G.t*700)%H,x=(g.x-cam*.3-G.t*120)%W;const xx=x<0?x+W:x;ctx.moveTo(xx,y);ctx.lineTo(xx-5,y+g.l);});ctx.stroke();
+    if(!G.calm&&Math.floor(G.t*7)%23===0){ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(0,0,W,H);}
   }
   if(G.manana==='navidad'){
     // guirnalda de luces
@@ -26,7 +26,7 @@ function drawWeather(cam){
     for(let x=-off-120;x<W+120;x+=120)for(let k=1;k<6;k++){const t=k/6,px=x+120*t,py=70+4*40*t*(1-t);const on=(Math.floor(G.t*3)+k)%2;circ(px,py+6,5,['#ff4a4a','#ffd23f','#4ad66b','#4aa8ff','#ff8ad6'][k%5],1.5);if(on){ctx.globalAlpha=.35;circ(px,py+6,10,'#fff6a0',0);ctx.globalAlpha=1;}}
     // nieve en el suelo
     ctx.fillStyle='rgba(255,255,255,.85)';ctx.beginPath();ctx.moveTo(0,GY+2);for(let x=0;x<=W;x+=40)ctx.quadraticCurveTo(x+20,GY-6-hash(Math.floor((x+cam)/40))*6,x+40,GY+2);ctx.lineTo(W,GY+12);ctx.lineTo(0,GY+12);ctx.closePath();ctx.fill();
-    COPOS.forEach(c=>{const y=(c.y+G.t*c.s)%H,x=((c.x-cam*.4+Math.sin(G.t+c.y)*20)%W+W)%W;circ(x,y,c.r,'#fff',0);});
+    (G.lite?COPOS.slice(0,30):COPOS).forEach(c=>{const y=(c.y+G.t*c.s)%H,x=((c.x-cam*.4+Math.sin(G.t+c.y)*20)%W+W)%W;circ(x,y,c.r,'#fff',0);});
   }
 }
 function drawBus(x){
@@ -54,7 +54,7 @@ function render(){
   }
   const p=R.p;
   ctx.save();
-  if(R.shake>0)ctx.translate(rnd(-8,8)*R.shake*3,rnd(-6,6)*R.shake*3);
+  if(R.shake>0&&!G.calm)ctx.translate(rnd(-8,8)*R.shake*3,rnd(-6,6)*R.shake*3);
   drawScene();
   const cam=R.dist;
   // puerta del cole al final
@@ -141,8 +141,8 @@ function drawHUD(){
   if(R.tutPrompt){
     const pul=1+Math.sin(G.t*10)*.06;ctx.save();ctx.translate(W/2,200);ctx.scale(pul,pul);
     rr(-250,-60,500,120,30,'rgba(255,255,255,.95)',5);
-    if(R.tutPrompt==='jump'){txt('¡SALTA!',0,-18,52,'#ff6b4a');txt(TOUCH?'Pulsa el botón ⬆ SALTAR':'Pulsa ESPACIO o ↑',0,30,24,'#7b6cf6','center','#fff');}
-    else{txt('¡AGÁCHATE!',0,-18,52,'#ff6b4a');txt(TOUCH?'Mantén pulsado el botón ⬇ AGACHAR':'Mantén pulsado ↓',0,30,24,'#7b6cf6','center','#fff');}
+    if(R.tutPrompt==='jump'){txt('¡SALTA!',0,-18,G.big?62:52,'#ff6b4a');txt(TOUCH?'Pulsa el botón ⬆ SALTAR':'Pulsa ESPACIO o ↑',0,30,24,'#7b6cf6','center','#fff');}
+    else{txt('¡AGÁCHATE!',0,-18,G.big?62:52,'#ff6b4a');txt(TOUCH?'Mantén pulsado el botón ⬇ AGACHAR':'Mantén pulsado ↓',0,30,24,'#7b6cf6','center','#fff');}
     ctx.restore();
     const ax=PX+60,ay=R.tutPrompt==='jump'?330:400+Math.sin(G.t*10)*8;
     txt(R.tutPrompt==='jump'?'⬆':'⬇',ax,ay+(R.tutPrompt==='jump'?Math.sin(G.t*10)*8:0),64,'#ffd23f');

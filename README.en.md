@@ -88,6 +88,9 @@ It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school ga
 | 😌 **No frustration** | Nobody loses halfway: hits only add minutes, you always reach school |
 | 🚫 **No ads or purchases** | No accounts, no sign-ups, nothing to pay |
 | 🔇 **Mute** | 🔇 button to play silently |
+| ⏸ **Pause** | ⏸ button or `P`; pauses itself when you switch apps |
+| 🧘 **Calm mode** | No screen shake or flashes (on by default if the phone asks for reduced motion) |
+| 🔠 **Big text** | Larger text in game and menus |
 | 📱 **Where** | Phone or tablet (landscape: full screen with floating buttons; portrait: huge buttons below), or a computer with the keyboard. Installable as an app that **works offline** |
 
 <a id="stretches"></a>
