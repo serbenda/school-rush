@@ -8,6 +8,9 @@ Son las 8:40 y el cole cierra a las 9:00. Mamá o papá corren con los peques de
 - **Tostadas** para sumar puntos y rachas (x2…x5)
 - **Power-ups:** 🛴 patinete (arrasa con todo), ☂️ paraguas (planeas) y ☕ café (turbo)
 - Los peques te siguen; si te das un golpe, uno se tropieza y tienes que esperarle
+- **Personaliza a los peques:** nombre, peinado, pelo, camiseta, mochila y accesorios
+- **8 retos** que desbloquean gafas de sol, corona, orejas de gato, capa de héroe, mochila arcoíris…
+- Tutorial jugable la primera vez
 
 **Controles:** Espacio/↑ saltar · ↓ agacharse · en móvil, toca la derecha para saltar y mantén la izquierda para agacharte.
 
