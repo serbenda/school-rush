@@ -8,7 +8,7 @@ const OB={
   lego:{w:76,h:40,kind:'low',init:o=>{o.y=GY-40;},draw(o,x){
     rr(x,GY-22,44,22,4,'#e0412a',4);rr(x+30,GY-22,44,22,4,'#3d7be0',4);rr(x+14,GY-42,44,22,4,'#ffd23f',4);
     [[x+8,GY-26],[x+26,GY-26],[x+48,GY-26],[x+64,GY-26],[x+22,GY-46],[x+42,GY-46]].forEach(p=>rr(p[0],p[1],10,6,2,'#fff8',2));}},
-  ball:{w:52,h:52,kind:'low',init:o=>{o.y=GY-52;o.ph=Math.random()*3;},update(o,dt){o.t+=dt;o.y=GY-52-Math.abs(Math.sin(o.t*3.4+o.ph))*120;},draw(o,x){
+  ball:{w:52,h:52,kind:'low',init:o=>{o.y=GY-52;o.ph=Math.random()*3;},update(o,dt){o.t+=dt;o.y=GY-52-Math.abs(Math.sin(o.t*3.4+o.ph))*(R&&R.mode&&R.mode.ayuda?30:120);},draw(o,x){
     const cx=x+26,cy=o.y+26;circ(cx,cy,26,'#fff',4);ctx.save();ctx.beginPath();ctx.arc(cx,cy,24,0,Math.PI*2);ctx.clip();
     const r=o.t*-6;for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,30,r+i*2.1,r+i*2.1+1);ctx.closePath();ctx.fillStyle=['#e0412a','#3d7be0','#ffd23f'][i];ctx.fill();}ctx.restore();circ(cx,cy,26,null,4);circ(cx-8,cy-10,5,'#fff',0);
     ctx.globalAlpha=.2;ell(cx,GY-2,22-(GY-52-o.y)/12,5,'#000',0);ctx.globalAlpha=1;}},
@@ -87,12 +87,35 @@ const OB={
     ctx.beginPath();for(let i=0;i<5;i++){const a=i*Math.PI*2/5;ctx.lineTo(Math.cos(a)*8,Math.sin(a)*8);}ctx.closePath();shape(OL,0);
     for(let i=0;i<5;i++){const a=i*Math.PI*2/5;seg(Math.cos(a)*8,Math.sin(a)*8,Math.cos(a)*20,Math.sin(a)*20,OL,3);}ctx.restore();}},
 };
+// obstáculos especiales: muñeco de nieve (Navidad) y perro que viene por detrás (sorpresa)
+OB.snowman={w:64,h:96,kind:'low',init:o=>{o.y=GY-96;},draw(o,x){
+  circ(x+32,GY-28,30,'#fff',4);circ(x+32,GY-70,22,'#fff',4);
+  ctx.globalAlpha=.12;circ(x+40,GY-24,22,'#7b9cc8',0);circ(x+38,GY-66,15,'#7b9cc8',0);ctx.globalAlpha=1;
+  rr(x+14,GY-104,36,8,3,OL,0);rr(x+20,GY-122,24,20,3,OL,0);rr(x+20,GY-108,24,4,0,'#e0412a',0);
+  circ(x+25,GY-74,2.6,OL,0);circ(x+37,GY-74,2.6,OL,0);
+  ctx.beginPath();ctx.moveTo(x+30,GY-68);ctx.lineTo(x+12,GY-64);ctx.lineTo(x+30,GY-63);ctx.closePath();shape('#ff8a2a',2);
+  rr(x+12,GY-52,42,8,4,'#e0412a',3);rr(x+42,GY-52,8,22,3,'#e0412a',3);
+  [GY-36,GY-24].forEach(y=>circ(x+32,y,3,OL,0));
+  seg(x+6,GY-46,x-10,GY-62,'#7a4a2a',4);seg(x+58,GY-46,x+74,GY-60,'#7a4a2a',4);}};
+OB.dogchase={w:86,h:62,kind:'low',chase:true,init:o=>{o.y=GY-62;},draw(o,x){
+  ctx.save();ctx.translate(2*x+o.w,0);ctx.scale(-1,1);OB.dog.draw(o,x);ctx.restore();
+  if(!o.passed&&Math.sin(o.t*14)>0)txt('¡GUAU!',x+40,GY-92,22,'#ffd23f');}};
 const POOL={casa:['lego','ball','cat','clothes','basket','lego'],sanse:['fence','bull','puddle','dog','pigeon','stroller','fence'],alco:['puddle','dog','trash','pigeon','plank','stroller'],cole:['schoolball','puddle','pigeon','stroller','schoolball']};
 
 // ---------- objetos ----------
 function drawToast(x,y,t){
   const s=Math.cos(t*3+x*.01);ctx.save();ctx.translate(x,y);ctx.scale(.75+.25*Math.abs(s),1);
   rr(-17,-16,34,32,10,'#a85d23',4);rr(-12,-10,24,22,6,'#f6c77a',0);rr(-6,-4,12,8,3,'#fff3a0',2.5);ctx.restore();
+}
+function drawSandwich(x,y,t){
+  const s=Math.cos(t*3+x*.01);ctx.save();ctx.translate(x,y);ctx.scale(.75+.25*Math.abs(s),1);
+  ell(0,0,22,13,'#e3a56a',4);rr(-20,-2,40,5,2,'#7bd389',0);rr(-18,3,36,4,2,'#ff8fb0',0);seg(-12,-8,-4,-10,'#fff3c4',2.5);ctx.restore();
+}
+function drawLunch(x,y,t){
+  const b=Math.sin(t*5)*6;y+=b;
+  ctx.globalAlpha=.35;circ(x,y,36,'#ffd23f',0);ctx.globalAlpha=1;
+  rr(x-24,y-14,48,32,8,'#3d7be0',4);rr(x-24,y-14,48,10,6,'#2f5fb3',4);rr(x-8,y-24,16,10,4,null,4);
+  rr(x-14,y,28,12,4,'#fff',2.5);txt('🍎',x,y+6,12);
 }
 function drawPower(type,x,y,t){
   const b=Math.sin(t*4)*5;y+=b;

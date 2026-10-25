@@ -32,6 +32,7 @@ Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 - [⏱️ Los momentos](#momentos)
 - [🎮 Cómo se juega](#jugar)
 - [💥 Así se siente](#sensacion)
+- [🎚️ Modos y mañanas](#modos)
 - [👕 Los peques](#peques)
 - [📱 En el móvil](#movil)
 - [🔒 Privacidad](#privacidad)
@@ -64,6 +65,11 @@ Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse…
 - 🛴☂️☕ **Power-ups**: patinete, paraguas y café.
 - 👕 **Viste a los peques** con su nombre, peinado y accesorios.
 - 🎁 **8 retos** que desbloquean gafas de sol, corona, capa de héroe…
+- 👶🙂🔥 **Tres modos**: *Peques* (con ayuda y sin prisas), *Normal* y *Padres* (más rápido).
+- 🗣️ **Una voz que avisa** "¡Salta!", "¡Agáchate!", "¡Que viene el toro!", para quien aún no lee.
+- 📅 **Cuatro mañanas**: lunes, viernes con lluvia, día de excursión y Navidad.
+- 🥪🐶 **Sorpresas**: el almuerzo olvidado y un perro que viene por detrás.
+- 🏆 **Récords por jugador** y podio familiar.
 - ⭐ **Llega antes de las 8:58** para las tres estrellas.
 
 </td>
@@ -181,6 +187,60 @@ Una partida dura **algo más de un minuto** y, jugando bien, se llega sobre las 
 | <img src="docs/img/menu.png" alt="Menú"> | <img src="docs/img/golpe.png" alt="Golpe"> |
 | Eliges quién lleva a los niños y entras a vestirlos | Frenazo, ojos en X 😵, un peque tropieza y el reloj suma un minuto |
 
+<a id="modos"></a>
+
+## 🎚️ Modos, mañanas y sorpresas
+
+### Tres modos
+
+| | 👶 **Peques** | 🙂 **Normal** | 🔥 **Padres** |
+| --- | :---: | :---: | :---: |
+| Velocidad | Más despacio | Normal | Más rápido |
+| Obstáculos | Más separados | Normales | Más juntos |
+| **Ayuda** | **Salta y se agacha sola** si no llegas a tiempo | — | — |
+| Golpes | No restan tiempo | +1 min | +1 min |
+| Momentos | Más fáciles | Normales | Más difíciles |
+| Voz | Avisa de cada obstáculo | Avisa de lo importante | Avisa de lo importante |
+
+> En modo **Peques** una partida entera sin tocar nada llega al cole a tiempo: perfecto para los más pequeños, que solo tienen que disfrutar (o ayudar pulsando).
+
+### 🗣️ La voz
+
+Usa la voz del propio móvil, en español. Avisa en los cambios de tramo (*¡Sanse!*, *¡Alcobendas!*), de los peligros (*¡Que viene el toro!*, *¡Un perro por detrás!*), en los momentos (*¡Rojo! Espera al verde*… *¡Verde! ¡Ya!*) y al llegar. Se puede quitar con el botón **🗣️ Voz** del menú.
+
+### 📅 Cuatro mañanas
+
+| ☀️ Lunes | 🌧️ Viernes con lluvia |
+| :---: | :---: |
+| <img src="docs/img/sanse.png" alt="Lunes"> | <img src="docs/img/manana-lluvia.png" alt="Lluvia"> |
+| La mañana de siempre | Cielo gris, lluvia, **más charcos** y **más paraguas** ☂️ |
+| 🎒 **Día de excursión** | 🎄 **Navidad** |
+| <img src="docs/img/manana-excursion.png" alt="Excursión"> | <img src="docs/img/manana-navidad.png" alt="Navidad"> |
+| Gorras, **mochilas enormes**, **bocadillos** que valen más que las tostadas y el autobús esperando | Nieve, luces, **gorros de Papá Noel** y **muñecos de nieve** que saltar |
+
+### 🎁 Sorpresas
+
+| 🥪 ¡Se ha dejado el almuerzo! | 🐶 ¡Un perro por detrás! |
+| :---: | :---: |
+| <img src="docs/img/sorpresa-almuerzo.png" alt="Almuerzo"> | <img src="docs/img/sorpresa-perro.png" alt="Perro"> |
+| La fiambrera aparece en el aire: **sáltala** para cogerla (+150). Si se te escapa, toca volver a por ella | Un perro viene corriendo **desde atrás**: el aviso ⬅ ¡GUAU! parpadea y hay que **saltar** cuando llegue (+50) |
+
+Salen una vez por carrera, en sitios distintos cada vez.
+
+### 🎵 Música
+
+Cada tramo tiene su melodía: la de casa, un **pasodoble** para las fiestas de Sanse, la de Alcobendas y una **marcha** hasta la puerta del cole. Cuando quedan **menos de 3 minutos** para las 9:00, la música se acelera.
+
+### 🏁 El final
+
+<p align="center"><img src="docs/img/escena-final.png" alt="Escena final" width="70%"></p>
+
+Los peques entran corriendo y dicen adiós desde dentro, mamá o papá se despiden con el corazón 💗 y **el conserje cierra la puerta**. Si llegáis tarde, os espera con el libro de firmas 📖.
+
+### 🏆 Récords por jugador
+
+En el menú se elige **🙋 ¿Quién juega?** (los peques por su nombre, mamá o papá). Cada jugador tiene **su récord en cada modo**, y al terminar sale el **podio familiar** 🥇🥈🥉 del modo jugado. Ideal para picarse entre hermanas.
+
 <a id="peques"></a>
 
 ## 👕 Los peques
@@ -247,7 +307,7 @@ El juego no trata datos personales fuera del propio dispositivo.
 
 | | |
 | --- | --- |
-| **Qué se guarda** | Quién lleva a los niños, el nombre del cole, nombre y aspecto de cada peque, retos conseguidos, récord de puntos, si ya viste el tutorial y si el sonido está silenciado |
+| **Qué se guarda** | Quién lleva a los niños, quién juega, el modo, la mañana, si la voz está activa, los récords de cada jugador, el nombre del cole, nombre y aspecto de cada peque, retos conseguidos, récord de puntos, si ya viste el tutorial y si el sonido está silenciado |
 | **Dónde** | Solo en el `localStorage` del navegador de ese móvil o tablet. Nada se envía a ningún servidor |
 | **Qué no hace** | Sin cookies, sin analítica, sin publicidad y sin rastreadores |
 | **Fuentes** | Las letras van dentro de la propia web (`fonts/`): el juego no hace peticiones a Google |
@@ -265,7 +325,7 @@ Se abre a pantalla completa, con su icono, y **después de abrirlo una vez con c
 
 ## 🛠️ Bajo el capó
 
-HTML, CSS y JavaScript a pelo, **sin dependencias ni paso de compilación**: una página, una hoja de estilos y once scripts por temas que se cargan en orden, dibujando sobre un `<canvas>` de 960 × 540 que se escala a la pantalla.
+HTML, CSS y JavaScript a pelo, **sin dependencias ni paso de compilación**: una página, una hoja de estilos y doce scripts por temas que se cargan en orden, dibujando sobre un `<canvas>` de 960 × 540 que se escala a la pantalla.
 
 ```mermaid
 flowchart LR
@@ -312,7 +372,10 @@ stateDiagram-v2
 | **Personajes** | Dibujados con trazos vectoriales en cada fotograma: piernas y brazos con ciclo de carrera, estirar y aplastar, parpadeo, sombreado y sombras |
 | **Fondos** | Cada tramo se pinta **una sola vez** en capas grandes que luego solo se recortan y desplazan a distinta velocidad, para ir fluido en el móvil |
 | **Tutorial** | La primera partida pone dos obstáculos fijos y ralentiza el tiempo hasta que haces el gesto correcto |
-| **Sonido** | Música y efectos sintetizados con Web Audio: no hay archivos de audio |
+| **Sonido** | Música y efectos sintetizados con Web Audio: no hay archivos de audio. Cada tramo tiene su tema y el tempo sube a partir de las 8:57 |
+| **Voz** | `speechSynthesis` del navegador en español: sin archivos ni conexión |
+| **Ayuda (modo peques)** | Mira el obstáculo que llega, calcula cuándo chocaría según la velocidad y salta o se agacha justo a tiempo |
+| **Récords** | Por jugador y por modo, guardados en el móvil |
 | **Móvil** | En vertical el lienzo ocupa el ancho y los botones el resto; en horizontal, el lienzo ocupa la pantalla y los botones flotan encima |
 | **Sin internet** | Un *service worker* (`sw.js`) guarda el juego: primero intenta la red para tener la última versión y, si no hay conexión, usa lo guardado |
 
@@ -325,10 +388,11 @@ school-rush/
 │   ├── css/estilos.css          # Estilos, menús y adaptación a móvil
 │   ├── js/                      # Se cargan en este orden
 │   │   ├── base.js              # Utilidades, constantes, estado y ajuste a la pantalla
-│   │   ├── sonido.js            # Música y efectos con Web Audio
+│   │   ├── sonido.js            # Música por tramo, efectos y voz que avisa
 │   │   ├── dibujo.js            # Primitivas de dibujo con contorno
 │   │   ├── personajes.js        # Mamá, papá y los peques animados
 │   │   ├── peques.js            # Uniforme, peinados, colores, extras, retos y nombre del cole
+│   │   ├── modos.js             # Modos, mañanas, jugadores y récords
 │   │   ├── fondos.js            # Casa, Sanse, Alcobendas y el cole, por capas
 │   │   ├── obstaculos.js        # Obstáculos, tostadas y power-ups
 │   │   ├── partida.js           # Física, generación, golpes, momentos y final
@@ -367,7 +431,7 @@ pip install playwright && playwright install chromium
 python3 tests/humo.py
 ```
 
-El robot juega una carrera completa, prueba el editor de los peques, que los retos y el nombre del cole se guarden, y que los botones funcionen en el móvil en vertical y en horizontal. [GitHub Actions](.github/workflows/tests.yml) lo ejecuta en cada cambio y en cada *pull request*.
+El robot juega una carrera completa en modo normal y otra en **modo peques sin tocar nada** (debe llegar a tiempo), prueba las cuatro mañanas en modo padres, las sorpresas, los récords por jugador, el editor de los peques, que los retos y el nombre del cole se guarden, y que los botones funcionen en el móvil en vertical y en horizontal. [GitHub Actions](.github/workflows/tests.yml) lo ejecuta en cada cambio y en cada *pull request*.
 
 ### 🌿 Ramas
 
@@ -408,9 +472,13 @@ python3 scripts/capturas.py
 - [x] Código organizado por temas y tests automáticos
 - [x] Botones táctiles, modo vertical y pantalla completa en el móvil
 - [x] App instalable que funciona sin internet
-- [ ] Mañanas distintas: lunes, viernes con lluvia, día de excursión
-- [ ] Eventos sorpresa: *¡Se ha dejado el almuerzo!*
-- [ ] Música distinta en cada tramo
+- [x] Modos peques, normal y padres, con ayuda automática para los pequeños
+- [x] Voz que avisa en español
+- [x] Mañanas distintas: lunes, viernes con lluvia, día de excursión y Navidad
+- [x] Sorpresas: el almuerzo olvidado y el perro que viene por detrás
+- [x] Música distinta en cada tramo, que se acelera antes de las 9:00
+- [x] Escena final con el conserje y récords por jugador
+- [ ] Probarlo con las probadoras oficiales en un iPhone de verdad
 - [ ] El juego también en inglés (el README ya lo está)
 
 ## ⚖️ Licencia

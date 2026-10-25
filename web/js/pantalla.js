@@ -4,6 +4,37 @@
 // =====================================================================
 //  RENDER
 // =====================================================================
+function kidLook(i){
+  const K=G.kids[i];
+  if(G.manana==='excursion')return Object.assign({},K,{acc:'gorra',bigBag:true});
+  if(G.manana==='navidad')return Object.assign({},K,{acc:'navidad'});
+  return K;
+}
+// ---------- clima y ambiente de cada mañana ----------
+const COPOS=Array.from({length:70},(_,i)=>({x:hash(i)*W,y:hash(i+99)*H,r:2+hash(i+7)*3.5,s:30+hash(i+3)*50}));
+const GOTAS=Array.from({length:90},(_,i)=>({x:hash(i+5)*W,y:hash(i+55)*H,l:14+hash(i+9)*14}));
+function drawWeather(cam){
+  if(G.manana==='lluvia'){
+    ctx.fillStyle='rgba(60,70,110,.28)';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(200,225,255,.65)';ctx.lineWidth=2;ctx.beginPath();
+    GOTAS.forEach(g=>{const y=(g.y+G.t*700)%H,x=(g.x-cam*.3-G.t*120)%W;const xx=x<0?x+W:x;ctx.moveTo(xx,y);ctx.lineTo(xx-5,y+g.l);});ctx.stroke();
+    if(Math.floor(G.t*7)%23===0){ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(0,0,W,H);}
+  }
+  if(G.manana==='navidad'){
+    // guirnalda de luces
+    const off=(cam*.9)%120;ctx.beginPath();for(let x=-off-120;x<W+120;x+=120){ctx.moveTo(x,70);ctx.quadraticCurveTo(x+60,110,x+120,70);}ctx.lineWidth=2.5;ctx.strokeStyle='#2f5a3a';ctx.stroke();
+    for(let x=-off-120;x<W+120;x+=120)for(let k=1;k<6;k++){const t=k/6,px=x+120*t,py=70+4*40*t*(1-t);const on=(Math.floor(G.t*3)+k)%2;circ(px,py+6,5,['#ff4a4a','#ffd23f','#4ad66b','#4aa8ff','#ff8ad6'][k%5],1.5);if(on){ctx.globalAlpha=.35;circ(px,py+6,10,'#fff6a0',0);ctx.globalAlpha=1;}}
+    // nieve en el suelo
+    ctx.fillStyle='rgba(255,255,255,.85)';ctx.beginPath();ctx.moveTo(0,GY+2);for(let x=0;x<=W;x+=40)ctx.quadraticCurveTo(x+20,GY-6-hash(Math.floor((x+cam)/40))*6,x+40,GY+2);ctx.lineTo(W,GY+12);ctx.lineTo(0,GY+12);ctx.closePath();ctx.fill();
+    COPOS.forEach(c=>{const y=(c.y+G.t*c.s)%H,x=((c.x-cam*.4+Math.sin(G.t+c.y)*20)%W+W)%W;circ(x,y,c.r,'#fff',0);});
+  }
+}
+function drawBus(x){
+  rr(x,GY-120,300,108,16,'#ffd23f',5);for(let i=0;i<5;i++)rr(x+20+i*54,GY-104,42,40,6,'#bfe9ff',3.5);
+  rr(x+10,GY-56,280,22,6,'#fff',3);txt('EXCURSIÓN',x+150,GY-45,18,'#e0412a','center','#fff');
+  [x+60,x+240].forEach(wx=>{circ(wx,GY-10,20,'#3a3550',4);circ(wx,GY-10,8,'#b9bfcc',2);});
+  rr(x+292,GY-60,10,14,3,'#ff9f43',2);
+}
 function drawScene(){
   const cam=R?R.dist:G.t*200;
   // fondos por tramos con recorte en las fronteras
@@ -27,20 +58,23 @@ function render(){
   drawScene();
   const cam=R.dist;
   // puerta del cole al final
-  const gx=D+PX+60-cam;if(gx<W+300)drawSchoolGate(gx,R.moment&&R.moment.type==='gate'?R.moment.open:(R.dist>=D?1:.6));
+  const gx=D+PX+60-cam;
+  if(G.manana==='excursion'&&gx+620<W+320)drawBus(gx+620);
+  if(gx<W+300)drawSchoolGate(gx,R.outro?Math.max(0,1-Math.max(0,R.outro.t-1.5)/0.9):R.moment&&R.moment.type==='gate'?R.moment.open:(R.dist>=D?1:.6));
   // objetos
-  R.items.forEach(it=>{const x=it.x-cam;if(x<-60||x>W+60)return;if(it.kind==='toast')drawToast(x,it.y,G.t);else drawPower(it.type,x,it.y,G.t);});
+  R.items.forEach(it=>{const x=it.x-cam;if(x<-60||x>W+60)return;if(it.kind==='toast'){if(G.manana==='excursion')drawSandwich(x,it.y,G.t);else drawToast(x,it.y,G.t);}else if(it.kind==='lunch')drawLunch(x,it.y,G.t);else drawPower(it.type,x,it.y,G.t);});
   const shadow=(x,y,w,a)=>{ctx.globalAlpha=a;ell(x,y,w,Math.max(3,w*.16),'#2b1a3a',0);ctx.globalAlpha=1;};
   R.obs.forEach(o=>{const x=o.x-cam;if(x<-260||x>W+60||o.smash||o.type==='puddle')return;const air=GY-(o.y+o.h);if(OB[o.type].kind==='low'||o.type==='ball')shadow(x+o.w/2,GY+4,o.w*.48*Math.max(.4,1-air/250),.2);});
   R.obs.forEach(o=>{const x=o.x-cam;if(x<-260||x>W+60)return;
     if(o.smash){ctx.save();ctx.translate(x+o.w/2,o.y+o.h/2);ctx.rotate(o.rot||0);ctx.translate(-(x+o.w/2),-(o.y+o.h/2));OB[o.type].draw(o,x);ctx.restore();}
     else OB[o.type].draw(o,x);});
   // niños
-  R.kids.forEach((k,i)=>{
+  if(R.outro){drawOutroKids(gx,shadow);}
+  else R.kids.forEach((k,i)=>{
     const hy=R.hist[Math.max(0,R.hist.length-1-(i+1)*6)];const y=hy===undefined?GY:hy;
     shadow(PX+k.dx,GY+4,24*Math.max(.4,1-(GY-y)/300),.2);
     const air=y<GY-2,st=R.moment?'idle':(air?'jump':'run');
-    drawKid(PX+k.dx,y,{ph:p.ph*1.25+i,state:k.trip>0?'idle':st,rot:k.trip>0?-1.3:0,face:k.trip>0?'ouch':(air?'open':'happy'),stars:k.trip>0,blink:p.blinkT<0},G.kids[i]);
+    drawKid(PX+k.dx,y,{ph:p.ph*1.25+i,state:k.trip>0?'idle':st,rot:k.trip>0?-1.3:0,face:k.trip>0?'ouch':(air?'open':'happy'),stars:k.trip>0,blink:p.blinkT<0},kidLook(i));
   });
   // jugador
   shadow(PX+4,GY+4,40*Math.max(.35,1-(GY-p.y)/320),.22);
@@ -48,17 +82,40 @@ function render(){
     if(R.power&&R.power.type==='scooter'){rr(PX-40,GY-14,90,10,5,'#ff5d8f',4);circ(PX-30,GY-2,10,'#4a4a5c',4);circ(PX+40,GY-2,10,'#4a4a5c',4);seg(PX+40,GY-14,PX+36,GY-110,OL,7);seg(PX+26,GY-110,PX+48,GY-110,OL,7);
       for(let i=0;i<4;i++)seg(PX-120-i*30,GY-40-i*24,PX-60-i*30,GY-40-i*24,'rgba(255,255,255,.7)',4);}
     const lift=R.power&&R.power.type==='scooter'&&p.onG?-14:0;
-    const st=R.moment?'idle':p.ducking?'duck':(p.onG?'run':'jump');
+    const st=R.moment||R.outro?'idle':p.ducking?'duck':(p.onG?'run':'jump');
     drawAdult(PX,p.y+lift,{hero:G.hero,ph:p.ph,state:st,sx:p.sx,sy:p.sy,face:p.face,t:G.t,rot:p.spin>0?(1-p.spin)*Math.PI*2:(p.stumble>0?Math.sin(p.stumble*28)*.28*p.stumble/.7:0),blink:p.blinkT<0});
     if(R.power&&R.power.type==='umbrella'){const ux=PX+10,uy=p.y-200;seg(ux,uy,ux,uy+70,OL,5);ctx.beginPath();ctx.arc(ux,uy,62,Math.PI,0);ctx.closePath();shape('#7b6cf6',5);
       for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(ux,uy);ctx.arc(ux,uy,62,Math.PI+i*Math.PI/3,Math.PI+i*Math.PI/3+Math.PI/6);ctx.closePath();shape('#ffd23f',0);}ctx.beginPath();ctx.arc(ux,uy,62,Math.PI,0);ctx.closePath();shape(null,5);}
     if(R.power&&R.power.type==='coffee'&&Math.floor(G.t*20)%2){for(let i=0;i<3;i++)seg(PX-60-i*20,p.y-100+i*30,PX-100-i*20,p.y-100+i*30,'rgba(255,255,255,.8)',4);}
   }
+  // perro que viene por detrás: aviso en el borde
+  R.obs.forEach(o=>{if(o.type==='dogchase'&&!o.passed&&o.x+o.w<cam+10){const a=.6+.4*Math.sin(G.t*14);ctx.globalAlpha=a;rr(10,GY-130,150,54,16,'#ff6b4a',4);txt('⬅ ¡GUAU!',85,GY-103,24,'#fff');ctx.globalAlpha=1;}});
+  if(R.outro)drawOutroFront(gx);
   R.parts.forEach(q=>{ctx.globalAlpha=Math.min(1,q.t*2);circ(q.x,q.y,q.r,q.col,0);ctx.globalAlpha=1;});
   R.texts.forEach(s=>{ctx.globalAlpha=Math.min(1,s.t*2);txt(s.s,s.x,s.y,s.size,s.col);ctx.globalAlpha=1;});
+  drawWeather(cam);
   ctx.restore();
   drawMoment();
   drawHUD();
+}
+// ---------- escena final: los peques entran y el conserje cierra ----------
+function drawOutroKids(gx,shadow){
+  const o=R.outro;
+  R.kids.forEach((k,i)=>{
+    const x=o.kx[i],inside=o.t>1.15;
+    if(!inside){shadow(x,GY+4,24,.2);drawKid(x,GY,{ph:G.t*14+i,state:'run',face:'happy'},kidLook(i));}
+    else{const wx=gx+40+i*70,wy=GY-28;ctx.save();ctx.globalAlpha=.95;drawKid(wx,wy,{state:'jump',face:'open',rot:Math.sin(G.t*8+i)*.12},kidLook(i));ctx.restore();}
+  });
+}
+function drawOutroFront(gx){
+  const o=R.outro;
+  // conserje junto a la puerta
+  const cx=gx+210+Math.max(0,1.6-o.t)*120;
+  drawAdult(cx,GY,{hero:'conserje',state:o.t<1.6?'run':'idle',ph:G.t*10,t:G.t,face:o.late?'ouch':'happy',sx:-1});
+  if(o.t>2.4){txt(o.late?'📖 ¡A firmar!':'¡Buenos días!',cx,GY-200,22,o.late?'#ff6b6b':'#fff');}
+  // mamá o papá despidiéndose
+  if(o.t>1.2&&o.t<3.3){const a=Math.floor(G.t*3)%2;txt(a?'💗':'👋',PX+40,GY-190-((G.t*40)%30),30,'#fff');}
+  if(o.t>2.5&&!o.late&&!o.star){o.star=true;if(R.clock<=BELL-2)burst();}
 }
 function drawHUD(){
   // reloj
@@ -90,7 +147,7 @@ function drawHUD(){
     const ax=PX+60,ay=R.tutPrompt==='jump'?330:400+Math.sin(G.t*10)*8;
     txt(R.tutPrompt==='jump'?'⬆':'⬇',ax,ay+(R.tutPrompt==='jump'?Math.sin(G.t*10)*8:0),64,'#ffd23f');
   }
-  if(R.t<4&&!R.moment&&!R.tut){ctx.globalAlpha=Math.min(1,(4-R.t));
+  if(R.t<4&&!R.moment&&!R.tut&&!R.outro&&R.dist<2600){ctx.globalAlpha=Math.min(1,(4-R.t));
     txt(TOUCH?'⬆ SALTAR  (pulsa 2 veces = doble salto)':'ESPACIO / ↑ : SALTAR  (dos veces = doble salto)',W/2,240,24,'#fff');
     txt(TOUCH?'⬇ AGACHAR  (mantén pulsado)':'↓ : AGACHARSE',W/2,276,24,'#fff');ctx.globalAlpha=1;}
 }
