@@ -15,6 +15,8 @@ Made to play with my daughters (and to laugh at our mornings).
 ![Dependencies](https://img.shields.io/badge/dependencies-0-3f7fe6?style=flat-square)
 ![One file](https://img.shields.io/badge/game-1%20file-7b6cf6?style=flat-square)
 ![Mobile](https://img.shields.io/badge/mobile-touch-2bb673?style=flat-square)
+![PWA](https://img.shields.io/badge/PWA-installable-5a0fc8?style=flat-square&logo=pwa&logoColor=white)
+![Offline](https://img.shields.io/badge/works-offline-35b26a?style=flat-square)
 ![GDPR](https://img.shields.io/badge/data-stays%20on%20your%20phone-4fd6e8?style=flat-square)
 
 </div>
@@ -79,7 +81,7 @@ It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school ga
 | 😌 **No frustration** | Nobody loses halfway: hits only add minutes, you always reach school |
 | 🚫 **No ads or purchases** | No accounts, no sign-ups, nothing to pay |
 | 🔇 **Mute** | 🔇 button to play silently |
-| 📱 **Where** | Phone or tablet in landscape, or a computer with the keyboard |
+| 📱 **Where** | Phone or tablet (landscape: full screen with floating buttons; portrait: huge buttons below), or a computer with the keyboard. Installable as an app that **works offline** |
 
 <a id="stretches"></a>
 
@@ -114,13 +116,13 @@ Mid-run the game pauses for a moment… but **the clock keeps running**.
 
 ## 🎮 How to play
 
-| | 💻 Computer | 📱 Phone or tablet (landscape) |
+| | 💻 Computer | 📱 Phone or tablet |
 | --- | --- | --- |
-| **Jump** | `Space` or `↑` | Tap the **right half** |
-| **Double jump** | Press again in the air | Tap again in the air |
-| **Duck** | Hold `↓` | Hold the **left half** |
-| **Fast fall** | `↓` in the air | Left half in the air |
-| **Moments** | `Space` | Tap the screen |
+| **Jump** | `Space` or `↑` | Orange **⬆ SALTAR** button (or tap the screen) |
+| **Double jump** | Press again in the air | ⬆ again in the air |
+| **Duck** | Hold `↓` | Hold the purple **⬇ AGACHAR** button |
+| **Fast fall** | `↓` in the air | ⬇ in the air |
+| **Moments** | `Space` | Any button or the screen |
 
 The first time, a **slow-motion tutorial** shows *¡SALTA!* (jump) and *¡AGÁCHATE!* (duck) right when you need it.
 
@@ -221,7 +223,8 @@ python3 scripts/capturas.py
 - [x] Illustrated layered backgrounds and shaded characters
 - [x] Streets of Sanse and Alcobendas, with the runaway bull
 - [x] Editable school name
-- [ ] Offline play (installable app)
+- [x] Touch buttons, portrait mode and full screen on phones
+- [x] Installable app that works offline
 - [ ] Different mornings: Monday, rainy Friday, school trip day
 - [ ] Surprise events
 - [ ] The game in English

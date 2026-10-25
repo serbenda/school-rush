@@ -144,6 +144,11 @@ def main():
         preparar(m, url, retos='["first","stars3"]')
         m.tap("#tokids"); m.wait_for_timeout(300)
         m.screenshot(path=str(IMG / "movil-peques.png"))
+        # móvil en vertical
+        v = b.new_context(viewport={"width": 390, "height": 844}, has_touch=True, is_mobile=True, device_scale_factor=2).new_page()
+        preparar(v, url)
+        v.tap("#play"); v.wait_for_timeout(600)
+        ir_a(v, 11800); v.screenshot(path=str(IMG / "movil-vertical.png"))
         b.close()
     srv.shutdown()
     print("Capturas en", IMG)
