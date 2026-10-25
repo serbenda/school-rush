@@ -13,7 +13,7 @@ Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 ![HTML5](https://img.shields.io/badge/HTML5-Canvas-e5483a?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-a%20pelo-ffcf3a?style=flat-square&logo=javascript&logoColor=black)
 ![Dependencias](https://img.shields.io/badge/dependencias-0-3f7fe6?style=flat-square)
-![Un archivo](https://img.shields.io/badge/juego-1%20archivo-7b6cf6?style=flat-square)
+[![Tests](https://github.com/serbenda/school-rush/actions/workflows/tests.yml/badge.svg)](https://github.com/serbenda/school-rush/actions/workflows/tests.yml)
 ![Móvil](https://img.shields.io/badge/m%C3%B3vil-t%C3%A1ctil-2bb673?style=flat-square)
 ![PWA](https://img.shields.io/badge/PWA-instalable-5a0fc8?style=flat-square&logo=pwa&logoColor=white)
 ![Offline](https://img.shields.io/badge/funciona-sin%20internet-35b26a?style=flat-square)
@@ -189,7 +189,7 @@ Una partida dura **algo más de un minuto** y, jugando bien, se llega sobre las 
 | :---: | :---: |
 | <img src="docs/img/peques.png" alt="Editor de los peques"> | <img src="docs/img/movil-peques.png" alt="Editor en el móvil" width="420"> |
 
-En **👕 Peques** pones el **nombre de tu cole** (sale en el cartel de la entrada y al llegar) y cada niño tiene su **nombre**, **peinado** (coletas, melena o corto), **color de pelo**, **camiseta**, **mochila** y un **extra**. Lo que tiene un 🔒 se desbloquea con los retos; si lo tocas, te dice cómo conseguirlo.
+En **👕 Peques** pones el **nombre de tu cole** (sale en el cartel de la entrada y al llegar) y cada niño tiene su **nombre**, el **uniforme del cole** (jersey negro con cuello de polo y falda de cuadros verde o pantalón gris), **peinado** (coletas, melena o corto), **color de pelo**, **camiseta**, **mochila** y un **extra**. Lo que tiene un 🔒 se desbloquea con los retos; si lo tocas, te dice cómo conseguirlo.
 
 ### 🎁 Retos
 
@@ -265,7 +265,7 @@ Se abre a pantalla completa, con su icono, y **después de abrirlo una vez con c
 
 ## 🛠️ Bajo el capó
 
-HTML, CSS y JavaScript a pelo, en **un único `index.html` sin dependencias ni paso de compilación**, dibujando sobre un `<canvas>` de 960 × 540 que se escala a la pantalla.
+HTML, CSS y JavaScript a pelo, **sin dependencias ni paso de compilación**: una página, una hoja de estilos y once scripts por temas que se cargan en orden, dibujando sobre un `<canvas>` de 960 × 540 que se escala a la pantalla.
 
 ```mermaid
 flowchart LR
@@ -320,16 +320,33 @@ stateDiagram-v2
 
 ```
 school-rush/
-├── index.html                  # El juego entero: estilos, dibujo, lógica y menús
-├── manifest.webmanifest        # Datos para instalarlo como app
-├── sw.js                       # Service worker: juego sin internet
-├── icons/                      # Iconos de la app
-├── fonts/                      # Letras Fredoka y Lilita One (SIL OFL), servidas desde la propia web
+├── web/                         # El juego: es lo que se publica en GitHub Pages
+│   ├── index.html               # Estructura de la página y botones del móvil
+│   ├── css/estilos.css          # Estilos, menús y adaptación a móvil
+│   ├── js/                      # Se cargan en este orden
+│   │   ├── base.js              # Utilidades, constantes, estado y ajuste a la pantalla
+│   │   ├── sonido.js            # Música y efectos con Web Audio
+│   │   ├── dibujo.js            # Primitivas de dibujo con contorno
+│   │   ├── personajes.js        # Mamá, papá y los peques animados
+│   │   ├── peques.js            # Uniforme, peinados, colores, extras, retos y nombre del cole
+│   │   ├── fondos.js            # Casa, Sanse, Alcobendas y el cole, por capas
+│   │   ├── obstaculos.js        # Obstáculos, tostadas y power-ups
+│   │   ├── partida.js           # Física, generación, golpes, momentos y final
+│   │   ├── pantalla.js          # Dibujo de cada fotograma, HUD y momentos
+│   │   ├── controles.js         # Teclado, pantalla táctil y botones
+│   │   └── menus.js             # Menú, editor de peques y bucle principal
+│   ├── manifest.webmanifest     # Datos para instalarlo como app
+│   ├── sw.js                    # Service worker: juego sin internet
+│   ├── icons/                   # Iconos de la app
+│   └── fonts/                   # Fredoka y Lilita One (SIL OFL)
+├── tests/
+│   └── humo.py                  # Juega una partida entera en escritorio y móvil y comprueba que todo va
 ├── scripts/
-│   └── capturas.py             # Robot que juega y saca las imágenes del README
-├── docs/img/                   # Imágenes del README (generadas por el robot)
+│   └── capturas.py              # Robot que juega y saca las imágenes del README
+├── docs/img/                    # Imágenes del README (generadas por el robot)
 ├── .github/workflows/
-│   └── pages.yml               # Publica el juego en GitHub Pages en cada cambio en main
+│   ├── tests.yml                # Tests en cada cambio y pull request
+│   └── pages.yml                # Publica web/ en GitHub Pages
 ├── README.md · README.en.md
 └── LICENSE
 ```
@@ -339,9 +356,18 @@ school-rush/
 ```bash
 git clone https://github.com/serbenda/school-rush.git
 cd school-rush
-python3 -m http.server 8000   # para que carguen las fuentes
-# abre http://localhost:8000
+python3 -m http.server 8000 -d web
+# abre http://localhost:8000 (o http://IP-de-tu-ordenador:8000 desde el móvil)
 ```
+
+### 🧪 Tests
+
+```bash
+pip install playwright && playwright install chromium
+python3 tests/humo.py
+```
+
+El robot juega una carrera completa, prueba el editor de los peques, que los retos y el nombre del cole se guarden, y que los botones funcionen en el móvil en vertical y en horizontal. [GitHub Actions](.github/workflows/tests.yml) lo ejecuta en cada cambio y en cada *pull request*.
 
 ### 🌿 Ramas
 
@@ -378,6 +404,8 @@ python3 scripts/capturas.py
 - [x] Fuentes dentro de la web, sin peticiones a Google
 - [x] Calles de Sanse y Alcobendas, con el toro de los encierros
 - [x] Nombre del cole editable
+- [x] Uniforme del cole: jersey negro y falda de cuadros verde o pantalón gris
+- [x] Código organizado por temas y tests automáticos
 - [x] Botones táctiles, modo vertical y pantalla completa en el móvil
 - [x] App instalable que funciona sin internet
 - [ ] Mañanas distintas: lunes, viernes con lluvia, día de excursión

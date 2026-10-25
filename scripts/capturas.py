@@ -9,6 +9,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 RAIZ = Path(__file__).resolve().parent.parent
+WEB = RAIZ / "web"
 IMG = RAIZ / "docs" / "img"
 IMG.mkdir(parents=True, exist_ok=True)
 
@@ -16,7 +17,7 @@ IMG.mkdir(parents=True, exist_ok=True)
 class Silencioso(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a): pass
 def servidor():
-    h = lambda *a, **k: Silencioso(*a, directory=str(RAIZ), **k)
+    h = lambda *a, **k: Silencioso(*a, directory=str(WEB), **k)
     s = socketserver.TCPServer(("127.0.0.1", 0), h)
     threading.Thread(target=s.serve_forever, daemon=True).start()
     return s, f"http://127.0.0.1:{s.server_address[1]}/index.html"

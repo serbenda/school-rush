@@ -13,7 +13,7 @@ Made to play with my daughters (and to laugh at our mornings).
 ![HTML5](https://img.shields.io/badge/HTML5-Canvas-e5483a?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-ffcf3a?style=flat-square&logo=javascript&logoColor=black)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-3f7fe6?style=flat-square)
-![One file](https://img.shields.io/badge/game-1%20file-7b6cf6?style=flat-square)
+[![Tests](https://github.com/serbenda/school-rush/actions/workflows/tests.yml/badge.svg)](https://github.com/serbenda/school-rush/actions/workflows/tests.yml)
 ![Mobile](https://img.shields.io/badge/mobile-touch-2bb673?style=flat-square)
 ![PWA](https://img.shields.io/badge/PWA-installable-5a0fc8?style=flat-square&logo=pwa&logoColor=white)
 ![Offline](https://img.shields.io/badge/works-offline-35b26a?style=flat-square)
@@ -159,7 +159,7 @@ The first time, a **slow-motion tutorial** shows *¡SALTA!* (jump) and *¡AGÁCH
 
 <p align="center"><img src="docs/img/peques.png" alt="Kids editor" width="80%"></p>
 
-You can type **your school's name** (it appears on the gate and when you arrive), and each kid has a **name**, **hairstyle** (pigtails, long or short), **hair colour**, **T-shirt**, **backpack** and an **extra**. Anything with a 🔒 is unlocked by a challenge:
+You can type **your school's name** (it appears on the gate and when you arrive), and each kid has a **name**, the **school uniform** (black jumper with polo collar, and green tartan skirt or grey trousers), **hairstyle** (pigtails, long or short), **hair colour**, **T-shirt**, **backpack** and an **extra**. Anything with a 🔒 is unlocked by a challenge:
 
 | Challenge | Prize |
 | --- | --- |
@@ -187,7 +187,7 @@ You can type **your school's name** (it appears on the gate and when you arrive)
 
 ## 🛠️ Under the hood
 
-Vanilla HTML, CSS and JavaScript in **a single `index.html` with no dependencies or build step**, drawing on a 960 × 540 `<canvas>` scaled to the screen.
+Vanilla HTML, CSS and JavaScript **with no dependencies or build step** (one page, one stylesheet and eleven topic scripts in `web/`), drawing on a 960 × 540 `<canvas>` scaled to the screen.
 
 | Part | How it works |
 | --- | --- |
@@ -201,11 +201,14 @@ Vanilla HTML, CSS and JavaScript in **a single `index.html` with no dependencies
 ```bash
 git clone https://github.com/serbenda/school-rush.git
 cd school-rush
-python3 -m http.server 8000   # so the fonts load
+python3 -m http.server 8000 -d web
 # open http://localhost:8000
 
-# README screenshots (Playwright + ffmpeg)
+# tests (play a whole run on desktop and phone)
 pip install playwright && playwright install chromium
+python3 tests/humo.py
+
+# README screenshots (Playwright + ffmpeg)
 python3 scripts/capturas.py
 ```
 
@@ -223,6 +226,8 @@ python3 scripts/capturas.py
 - [x] Illustrated layered backgrounds and shaded characters
 - [x] Streets of Sanse and Alcobendas, with the runaway bull
 - [x] Editable school name
+- [x] School uniform
+- [x] Code split by topic and automated tests
 - [x] Touch buttons, portrait mode and full screen on phones
 - [x] Installable app that works offline
 - [ ] Different mornings: Monday, rainy Friday, school trip day
