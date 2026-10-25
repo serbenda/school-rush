@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>¡Que llegamos tarde!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6e5;--ink:#2b2340;--accent:#ff6b4a;--ok:#2bb673;--card:#fff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:'Baloo 2',system-ui,sans-serif;overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#app{display:flex;flex-direction:column;height:100%;max-width:560px;margin:0 auto}
+#hud{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:var(--ink);color:#fff;font-weight:800;border-radius:0 0 18px 18px}
+#hud.hidden{visibility:hidden}
+#clock{font-size:28px;font-variant-numeric:tabular-nums;background:#000;padding:0 12px;border-radius:10px;color:#7cff7c;min-width:92px;text-align:center}
+#clock.late{color:#ff5a5a;animation:blink .5s infinite alternate}
+#phaseName{flex:1;text-align:center;font-size:18px}
+#mute{background:none;border:0;font-size:22px;cursor:pointer}
+#stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;overflow:hidden;transition:background .4s}
+#stage.night{background:#1d1b4a}
+#stage.shake{animation:shake .3s}
+.card{background:var(--card);border-radius:26px;padding:22px;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.08);max-width:440px;width:100%}
+.card h1{margin:6px 0;font-size:34px;line-height:1.1;color:var(--accent)}
+.card h2{margin:6px 0;font-size:28px}
+.card p{font-size:18px;margin:8px 0}
+.big{font-size:64px;line-height:1.1}
+.ctrl{background:#f1ecff;border-radius:12px;padding:6px;font-weight:800}
+.btn{font:inherit;font-weight:800;font-size:22px;border:0;border-radius:999px;padding:10px 30px;background:var(--accent);color:#fff;box-shadow:0 6px 0 #c94a30;cursor:pointer;margin:8px 4px 0}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c94a30}
+.btn.alt{background:#7b6cf6;box-shadow:0 6px 0 #5446c4}
+.names{display:flex;gap:10px;justify-content:center;margin:10px 0}
+.names label{font-size:26px;display:flex;align-items:center;gap:4px}
+.names input{font:inherit;font-size:18px;width:120px;padding:4px 10px;border-radius:12px;border:3px solid #e2dbff}
+.best{color:#7b6cf6;font-weight:800}
+canvas.game{border-radius:22px;touch-action:none;box-shadow:0 8px 0 rgba(0,0,0,.12)}
+/* despertar */
+.room{display:flex;gap:14px;width:100%;justify-content:center}
+.bed{background:#3b357a;color:#fff;border-radius:24px;padding:14px 8px;flex:1;max-width:220px;text-align:center;position:relative;cursor:pointer;transition:background .3s}
+.bed.awake{background:#2bb673}
+.bed .kid{font-size:68px;transition:transform .1s;line-height:1}
+.bed .bedimg{font-size:58px;margin-top:-18px}
+.bed .name{font-weight:800;font-size:20px}
+.zzz{position:absolute;right:12px;top:6px;font-size:28px;animation:bob 1.4s infinite}
+.meter{height:16px;background:rgba(255,255,255,.25);border-radius:8px;overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd23f,#7cff7c)}
+.float{position:absolute;left:50%;top:30%;pointer-events:none;font-weight:800;font-size:18px;animation:up 1s forwards;white-space:nowrap;transform:translateX(-50%);color:#fff;text-shadow:0 2px 0 #000;z-index:5}
+/* vestir */
+.dress{width:100%;max-width:460px;text-align:center}
+.avatar{font-size:76px;line-height:1}
+.who{font-size:20px}
+.checklist{display:flex;justify-content:center;gap:6px;margin:10px 0}
+.checklist span{font-size:30px;padding:4px 6px;border-radius:12px;background:#eee;opacity:.35}
+.checklist span.done{opacity:1;background:#c6f6d5}
+.checklist span.now{opacity:1;background:#ffe08a;outline:3px solid var(--accent);animation:bob .8s infinite}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grid button{font-size:38px;padding:8px 0;border:0;border-radius:16px;background:#fff;box-shadow:0 4px 0 rgba(0,0,0,.12);cursor:pointer}
+.grid button:active{transform:translateY(3px)}
+.grid button.wrong{background:#ffd6cc;animation:shake .3s}
+/* cole */
+.gate{width:100%;max-width:440px;text-align:center}
+.school{font-size:90px;line-height:1}
+.kids{display:flex;justify-content:center;gap:30px;margin:6px 0}
+.gk{position:relative;font-weight:800;transition:transform .8s,opacity .8s}
+.gk .e{font-size:54px}
+.gk.cur{animation:bob .8s infinite}
+.gk.gone,.gk.run{transform:translateY(-120px) scale(.4);opacity:0}
+.bar{position:relative;height:44px;background:#ffd6cc;border-radius:22px;overflow:hidden;margin:14px 0}
+.zone{position:absolute;top:0;bottom:0;background:var(--ok)}
+.needle{position:absolute;top:0;bottom:0;width:8px;background:var(--ink);border-radius:4px}
+/* varios */
+#toast{position:fixed;top:64px;left:50%;transform:translate(-50%,-20px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:14px;font-weight:800;opacity:0;transition:.2s;z-index:20;max-width:90vw;text-align:center;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.bad{background:#e0412a}#toast.good{background:var(--ok)}
+.conf{position:fixed;top:-40px;font-size:28px;animation:fall linear forwards;pointer-events:none;z-index:30}
+.stars{font-size:48px;letter-spacing:4px}
+.stats{display:flex;justify-content:center;gap:16px;font-weight:800}
+@keyframes blink{to{opacity:.4}}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@keyframes up{to{transform:translate(-50%,-70px);opacity:0}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="hud" class="hidden">
+    <div id="clock">7:45</div>
+    <div id="phaseName"></div>
+    <div>🔔 9:00 <button id="mute" aria-label="Sonido">🔊</button></div>
+  </header>
+  <main id="stage"></main>
+</div>
+<div id="toast"></div>
+
+<script>
+// ===== utilidades =====
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=m=>{m=Math.floor(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0');};
+
+const W=400,H=600;
+const START=7*60+45, BELL=9*60;   // empieza 7:45, campana 9:00
+const REAL_SEC_PER_MIN=1.2;        // 1 minuto de juego = 1,2 s reales
+const KID_EMO=['👧','🧒'];
+const stage=$('#stage');
+
+const G={clock:START,running:false,names:['Sofía','Leo'],penalty:0,bonus:0,tick:null,onKey:null,resize:null,muted:false,keys:{}};
+try{const n=JSON.parse(localStorage.getItem('cole-names'));if(Array.isArray(n)&&n.length===2)G.names=n;}catch(e){}
+
+// ===== sonido (sin archivos, con WebAudio) =====
+let AC;
+function sfx(type){
+  if(G.muted)return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const map={good:[660,990,.1],bad:[220,90,.25],win:[523,1046,.45],tap:[420,560,.05],bell:[880,880,.6]};
+    const [f1,f2,d]=map[type];const t=AC.currentTime;
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.type=type==='bad'?'sawtooth':'triangle';
+    o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+d);
+    g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d);
+  }catch(e){}
+}
+$('#mute').onclick=()=>{G.muted=!G.muted;$('#mute').textContent=G.muted?'🔇':'🔊';};
+
+// ===== feedback =====
+let toastT;
+function toast(msg,kind){const t=$('#toast');t.textContent=msg;t.className='show '+(kind||'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',1500);}
+function floatAt(el,txt,color){const f=document.createElement('div');f.className='float';f.textContent=txt;if(color)f.style.color=color;el.appendChild(f);setTimeout(()=>f.remove(),1000);}
+function shake(){stage.classList.remove('shake');void stage.offsetWidth;stage.classList.add('shake');}
+function confetti(){for(let i=0;i<26;i++){const d=document.createElement('div');d.className='conf';d.textContent=pick(['🎉','⭐','✨','🎈','🌟']);d.style.left=rnd(2,96)+'vw';d.style.animationDuration=rnd(.9,1.7)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),1800);}}
+function addMin(n,msg){G.clock+=n;G.penalty+=n;toast('⏱️ +'+n+' min · '+msg,'bad');sfx('bad');shake();updClock();}
+function bonusMin(n,msg){G.clock-=n;G.bonus+=n;toast('⏱️ −'+n+' min · '+msg,'good');sfx('good');updClock();}
+function updClock(){const c=$('#clock');c.textContent=fmt(G.clock);c.classList.toggle('late',G.clock>=BELL-10);}
+
+// ===== bucle principal =====
+let last=0;
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  if(G.running){G.clock+=dt/REAL_SEC_PER_MIN;updClock();}
+  if(G.tick)G.tick(dt);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(e.key))e.preventDefault();
+  if(!G.keys[e.key]&&G.onKey)G.onKey(e.key);
+  G.keys[e.key]=true;
+});
+addEventListener('keyup',e=>{G.keys[e.key]=false;});
+addEventListener('resize',()=>G.resize&&G.resize());
+
+// ===== lienzo para los minijuegos de acción =====
+function makeCanvas(){
+  stage.innerHTML='';
+  const c=document.createElement('canvas');c.width=W;c.height=H;c.className='game';stage.appendChild(c);
+  const fit=()=>{const s=Math.min((stage.clientWidth-24)/W,(stage.clientHeight-24)/H);c.style.width=W*s+'px';c.style.height=H*s+'px';};
+  fit();G.resize=fit;
+  return {c,ctx:c.getContext('2d'),toLocal(e){const r=c.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};}};
+}
+function emo(ctx,e,x,y,size,rot){
+  ctx.save();ctx.translate(x,y);if(rot)ctx.rotate(rot);
+  ctx.font=size+'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(e,0,0);ctx.restore();
+}
+function label(ctx,txt,x,y,size,color){ctx.font='800 '+size+'px "Baloo 2",system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineWidth=5;ctx.strokeStyle='#fff';ctx.strokeText(txt,x,y);ctx.fillStyle=color||'#2b2340';ctx.fillText(txt,x,y);}
+
+// ===== FASE 1: despertar =====
+function phaseWake(done){
+  stage.className='night';
+  const kids=G.names.map((n,i)=>({n,v:0,awake:false,lazy:i===1?11:8}));
+  stage.innerHTML=`<div class="room">${kids.map(k=>`<div class="bed"><div class="zzz">💤</div><div class="kid">😴</div><div class="bedimg">🛏️</div><div class="name">${esc(k.n)}</div><div class="meter"><i></i></div></div>`).join('')}</div>`;
+  const els=[...stage.querySelectorAll('.bed')];
+  const lines=['¡Arriba!','¡Despierta!','¡Buenos días!','¡Que llegamos tarde!','¡Ha salido el sol! ☀️','¡Cosquillas! 🤭'];
+  const excuses=['5 minutitos más…','Mmmfff…','Hoy no hay cole…','Estaba soñando con un dragón…','Zzzz…'];
+  els.forEach((el,i)=>el.addEventListener('pointerdown',()=>{
+    const k=kids[i];if(k.awake)return;
+    k.v+=9;sfx('tap');
+    const f=el.querySelector('.kid');f.style.transform=`scale(1.2) rotate(${rnd(-15,15)}deg)`;setTimeout(()=>f.style.transform='',100);
+    if(Math.random()<.3)floatAt(el,pick(lines));
+  }));
+  let finished=false;
+  G.tick=dt=>{
+    kids.forEach((k,i)=>{
+      if(k.awake)return;const el=els[i];
+      k.v=Math.max(0,k.v-k.lazy*dt);
+      if(k.v>35&&Math.random()<dt*.25){k.v-=25;floatAt(el,pick(excuses),'#ffd23f');}
+      if(k.v>=100){
+        k.awake=true;el.classList.add('awake');el.querySelector('.kid').textContent='🤩';el.querySelector('.zzz').textContent='☀️';
+        sfx('good');floatAt(el,'¡En pie!');
+      }else el.querySelector('.kid').textContent=k.v<30?'😴':k.v<65?'😪':'🥱';
+      el.querySelector('.meter i').style.width=Math.min(100,k.v)+'%';
+    });
+    if(!finished&&kids.every(k=>k.awake)){finished=true;setTimeout(done,600);}
+  };
+}
+
+// ===== FASE 2: desayuno =====
+function phaseBreakfast(done){
+  const {c,ctx,toLocal}=makeCanvas();
+  const GOOD=['🥛','🍞','🍌','🍎','🧃','🥐','🍓','🧇'],BAD=['🧦','🧸','📱','🪀','👟','🔑'];
+  const NEED=10;let got=0,bx=W/2,items=[],spawn=.3,finished=false,shakeT=0,pops=[];
+  const mv=e=>{bx=toLocal(e).x;};
+  c.addEventListener('pointermove',mv);c.addEventListener('pointerdown',mv);
+  G.tick=dt=>{
+    if(G.keys.ArrowLeft)bx-=440*dt;if(G.keys.ArrowRight)bx+=440*dt;
+    bx=Math.max(34,Math.min(W-34,bx));
+    spawn-=dt;
+    if(spawn<=0&&!finished){spawn=rnd(.45,.8);const bad=Math.random()<.32;
+      items.push({x:rnd(30,W-30),y:-30,e:bad?pick(BAD):pick(GOOD),bad,v:rnd(150,210)+got*12,r:0,vr:rnd(-3,3)});}
+    items.forEach(it=>{it.y+=it.v*dt;it.r+=it.vr*dt;});
+    items=items.filter(it=>{
+      if(it.y>H-100&&it.y<H-45&&Math.abs(it.x-bx)<44){
+        if(it.bad){addMin(1,pick(['¡Puaj, un calcetín en el bol!','¡Eso no se come!','¡Al bol no, que es un juguete!']));shakeT=.3;}
+        else{got++;sfx('good');pops.push({x:it.x,y:it.y,t:.7});}
+        return false;}
+      return it.y<H+40;});
+    pops.forEach(p=>p.t-=dt);pops=pops.filter(p=>p.t>0);shakeT=Math.max(0,shakeT-dt);
+    // dibujo
+    ctx.save();if(shakeT)ctx.translate(rnd(-6,6),0);
+    ctx.fillStyle='#ffe9c7';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#ffd9a0';for(let y=0;y<H-80;y+=40)for(let x=(y/40%2)*20;x<W;x+=40)ctx.fillRect(x,y,20,20);
+    emo(ctx,'🪟',70,70,70);emo(ctx,'🕰️',330,70,50);
+    ctx.fillStyle='#b5713f';ctx.fillRect(0,H-50,W,50);ctx.fillStyle='#8f5530';ctx.fillRect(0,H-50,W,8);
+    items.forEach(it=>emo(ctx,it.e,it.x,it.y,42,it.r));
+    emo(ctx,'🥣',bx,H-72,66);
+    pops.forEach(p=>label(ctx,'+1',p.x,p.y-(.7-p.t)*80,26,'#2bb673'));
+    label(ctx,'🥣 '+got+' / '+NEED,W/2,32,30);
+    ctx.restore();
+    if(got>=NEED&&!finished){finished=true;setTimeout(done,500);}
+  };
+}
+
+// ===== FASE 4: vestirse =====
+function phaseDress(done){
+  const SEQ=[['👕','camiseta'],['👖','pantalón'],['🧦','calcetines'],['👟','zapatillas'],['🧥','abrigo'],['🎒','mochila']];
+  const DIS=[['🩱','bañador'],['🎃','disfraz de calabaza'],['🩴','chanclas'],['🤿','gafas de bucear'],['👑','corona'],['🦺','chaleco de obra'],['🎩','chistera'],['🩰','zapatillas de ballet']];
+  let k=0,step=0,sockEvent=false,finished=false;
+  const render=()=>{
+    const opts=shuffle([...SEQ,...shuffle(DIS).slice(0,6)]);
+    stage.innerHTML=`<div class="dress"><div class="avatar">${KID_EMO[k]}</div><div class="who">Vistiendo a <b>${esc(G.names[k])}</b></div>
+      <div class="checklist">${SEQ.map((s,i)=>`<span class="${i<step?'done':i===step?'now':''}">${s[0]}</span>`).join('')}</div>
+      <div class="grid">${opts.map(o=>`<button data-e="${o[0]}">${o[0]}</button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.grid button').forEach(b=>b.onpointerdown=e=>{e.preventDefault();choose(b.dataset.e,b);});
+  };
+  const choose=(e,b)=>{
+    if(finished)return;
+    const want=SEQ[step];
+    if(e===want[0]){
+      sfx('good');step++;
+      if(k===1&&step===4&&!sockEvent){sockEvent=true;step=2;setTimeout(()=>{toast('🙈 ¡'+G.names[1]+' se ha quitado zapatillas y calcetines!','bad');sfx('bad');shake();},150);}
+      if(step>=SEQ.length){k++;step=0;
+        if(k>=G.names.length){finished=true;done();return;}
+        toast('✅ ¡Hecho! Ahora le toca a '+G.names[k],'good');}
+      render();
+    }else{
+      const inSeq=SEQ.find(x=>x[0]===e);
+      if(inSeq)addMin(1,'¡Todavía no! Primero: '+want[1]);
+      else addMin(1,'¿Al cole con '+DIS.find(x=>x[0]===e)[1]+'? 🙄');
+      b.classList.add('wrong');
+    }
+  };
+  render();
+}
+
+// ===== FASE 3: asearse (dientes, cara y pelo) =====
+function phaseWash(done){
+  const {c,ctx,toLocal}=makeCanvas();
+  const TASKS=[
+    {key:'dientes',tool:'🪥',title:'Dientes',need:6,dirt:['🦠','🦠','🍬','🍫'],msg:'✨ ¡Dientes brillantes!',hint:'¡Frota sobre los bichos!',
+     spots:(()=>{const a=[];for(let i=0;i<6;i++){a.push({x:85+i*46,y:270});a.push({x:85+i*46,y:370});}return a;})()},
+    {key:'cara',tool:'🧽',title:'Cara',need:5,dirt:['🍫','🍓','🟤','🥛'],msg:'😊 ¡Cara limpita!',hint:'¡Limpia las manchas de la cara!',
+     spots:[{x:150,y:250},{x:250,y:250},{x:200,y:300},{x:140,y:340},{x:260,y:340},{x:200,y:390},{x:200,y:200},{x:120,y:290},{x:280,y:290}]},
+    {key:'pelo',tool:'🪮',title:'Pelo',need:5,dirt:['🌀','🌀','〰️','🪶'],msg:'💇 ¡Bien peinado!',hint:'¡Peina los enredos!',
+     spots:[{x:110,y:230},{x:160,y:190},{x:200,y:175},{x:240,y:190},{x:290,y:230},{x:130,y:280},{x:270,y:280},{x:200,y:225}]},
+  ];
+  let k=0,ti=0,cleaned=0,bx=W/2,by=H/2,dirt=[],foam=[],finished=false,busy=false,lastX=null,lastY=null,t=0;
+  const task=()=>TASKS[ti];
+  const spawn=()=>{const free=task().spots.filter(s=>!dirt.some(d=>d.s===s));if(!free.length)return;dirt.push({s:pick(free),hp:100,e:pick(task().dirt)});};
+  const reset=()=>{dirt=[];cleaned=0;for(let i=0;i<3;i++)spawn();};
+  reset();
+  const scrub=(x,y)=>{
+    if(lastX!==null&&!busy){
+      const d=Math.hypot(x-lastX,y-lastY);
+      dirt.forEach(g=>{if(Math.hypot(g.s.x-x,g.s.y-y)<48){g.hp-=d*.9;if(Math.random()<.3)foam.push({x:g.s.x+rnd(-25,25),y:g.s.y+rnd(-25,25),t:.8});}});
+    }
+    lastX=x;lastY=y;
+  };
+  c.addEventListener('pointermove',e=>{const p=toLocal(e);bx=p.x;by=p.y;scrub(p.x,p.y);});
+  c.addEventListener('pointerdown',e=>{const p=toLocal(e);bx=p.x;by=p.y;lastX=p.x;lastY=p.y;});
+  const drawScene=()=>{
+    const T=task();
+    if(T.key==='dientes'){
+      ctx.fillStyle='#b8323f';ctx.beginPath();ctx.ellipse(W/2,320,175,120,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#e8606e';ctx.beginPath();ctx.ellipse(W/2,345,110,45,0,0,Math.PI*2);ctx.fill();
+      T.spots.forEach(s=>{ctx.fillStyle='#fffdf5';ctx.beginPath();ctx.roundRect(s.x-20,s.y-26,40,52,10);ctx.fill();});
+    }else{
+      // cara grande
+      ctx.fillStyle='#ffd7b0';ctx.beginPath();ctx.arc(W/2,300,140,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#2b2340';ctx.beginPath();ctx.arc(150,275,12,0,Math.PI*2);ctx.arc(250,275,12,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#2b2340';ctx.lineWidth=6;ctx.beginPath();ctx.arc(W/2,330,40,.2*Math.PI,.8*Math.PI);ctx.stroke();
+      ctx.fillStyle='#ff9f9f';ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(125,320,18,0,Math.PI*2);ctx.arc(275,320,18,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+      // pelo
+      ctx.fillStyle=k===0?'#6b3f1f':'#c98a3a';ctx.beginPath();ctx.ellipse(W/2,210,150,75,0,Math.PI,2*Math.PI);ctx.fill();
+      if(T.key==='pelo'){ctx.beginPath();ctx.ellipse(W/2,230,160,90,0,Math.PI*1.05,Math.PI*1.95);ctx.fill();ctx.fillRect(60,200,40,110);ctx.fillRect(300,200,40,110);}
+    }
+  };
+  G.tick=dt=>{
+    t+=dt;
+    const kv=520*dt;let moved=false;
+    if(G.keys.ArrowLeft){bx-=kv;moved=true;}if(G.keys.ArrowRight){bx+=kv;moved=true;}
+    if(G.keys.ArrowUp){by-=kv;moved=true;}if(G.keys.ArrowDown){by+=kv;moved=true;}
+    bx=Math.max(40,Math.min(W-40,bx));by=Math.max(140,Math.min(470,by));
+    if(moved)scrub(bx,by);
+    dirt=dirt.filter(g=>{if(g.hp<=0){cleaned++;sfx('good');foam.push({x:g.s.x,y:g.s.y,t:1,big:true});return false;}return true;});
+    const T=task();
+    if(!busy&&dirt.length<3&&cleaned+dirt.length<T.need)spawn();
+    foam.forEach(f=>f.t-=dt);foam=foam.filter(f=>f.t>0);
+    // dibujo
+    ctx.fillStyle='#d7f0ff';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#bfe3fa';for(let y=0;y<H;y+=50)for(let x=(y/50%2)*25;x<W;x+=50)ctx.fillRect(x,y,25,25);
+    label(ctx,KID_EMO[k]+' '+G.names[k]+' · '+T.title+' '+Math.min(cleaned,T.need)+'/'+T.need,W/2,36,24);
+    // mini checklist de tareas
+    TASKS.forEach((x,i)=>{ctx.globalAlpha=i<ti?1:i===ti?1:.35;emo(ctx,(i<ti?'✅':x.tool),W/2-50+i*50,82,30);ctx.globalAlpha=1;});
+    drawScene();
+    dirt.forEach(g=>{ctx.globalAlpha=Math.max(.3,g.hp/100);emo(ctx,g.e,g.s.x,g.s.y+Math.sin(t*6+g.s.x)*3,34);ctx.globalAlpha=1;});
+    foam.forEach(f=>{ctx.globalAlpha=f.t;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(f.x,f.y,f.big?22:9,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;});
+    emo(ctx,T.tool,bx,by,64,Math.sin(t*20)*.15);
+    label(ctx,T.hint,W/2,H-40,22,'#7b6cf6');
+    if(!busy&&cleaned>=T.need){
+      busy=true;sfx('win');toast(T.msg,'good');
+      setTimeout(()=>{
+        ti++;
+        if(ti>=TASKS.length){ti=0;k++;if(k<G.names.length)toast('Ahora le toca a '+G.names[k]);}
+        if(k>=G.names.length){if(!finished){finished=true;done();}return;}
+        reset();busy=false;lastX=null;
+      },700);
+    }
+  };
+}
+
+// ===== FASE 5: tráfico (con gasolina) =====
+function phaseTraffic(done){
+  const {c,ctx,toLocal}=makeCanvas();
+  const LX=[100,200,300],PY=H-110,CAR=Math.PI/2;
+  let lane=1,px=200,obs=[],spawn=.6,prog=0,inv=0,scroll=0,finished=false,t=0;
+  let fuel=70,empty=false,warned=false,fuelSpawn=2.5;
+  let side=[];for(let i=0;i<9;i++)side.push({x:pick([24,376]),y:i*75,e:pick(['🌳','🌲','🏠','🏪','🌳','🏢'])});
+  const refill=()=>{fuel=Math.min(100,fuel+9);sfx('tap');if(fuel>=100){empty=false;warned=false;toast('⛽ ¡Depósito lleno! ¡En marcha!','good');sfx('good');}};
+  const move=d=>{if(empty)return;lane=Math.max(0,Math.min(2,lane+d));sfx('tap');};
+  G.onKey=k=>{if(empty){if([' ','Enter','ArrowUp','ArrowLeft','ArrowRight'].includes(k))refill();return;}if(k==='ArrowLeft')move(-1);if(k==='ArrowRight')move(1);};
+  let sx=null;
+  c.addEventListener('pointerdown',e=>{if(empty){refill();sx=null;return;}sx=toLocal(e).x;});
+  c.addEventListener('pointerup',e=>{if(empty||sx===null)return;const x=toLocal(e).x;if(Math.abs(x-sx)>30)move(x>sx?1:-1);else move(x<W/2?-1:1);sx=null;});
+  const draw=()=>{
+    ctx.fillStyle='#7cc96b';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#55555f';ctx.fillRect(50,0,300,H);
+    ctx.fillStyle='#fff';ctx.fillRect(50,0,5,H);ctx.fillRect(345,0,5,H);
+    for(let y=-80+scroll;y<H;y+=80){ctx.fillRect(147,y,6,40);ctx.fillRect(247,y,6,40);}
+    side.forEach(s=>emo(ctx,s.e,s.x,s.y,38));
+    if(prog>=93)emo(ctx,'🏫',200,60+(prog-93)*20,90);
+    obs.forEach(o=>emo(ctx,o.e,LX[o.lane],o.y,o.kind==='car'?54:40,o.kind==='car'?CAR:0));
+    if(!(inv&&Math.floor(t*12)%2))emo(ctx,'🚗',px,PY,60,CAR);
+    ctx.fillStyle='rgba(255,255,255,.85)';ctx.beginPath();ctx.roundRect(40,12,320,34,17);ctx.fill();
+    ctx.fillStyle='#2bb673';ctx.beginPath();ctx.roundRect(70,24,260*prog/100,10,5);ctx.fill();
+    emo(ctx,'🏠',58,29,22);emo(ctx,'🏫',342,29,22);emo(ctx,'🚗',70+260*prog/100,29,20);
+    ctx.fillStyle='rgba(255,255,255,.9)';ctx.beginPath();ctx.roundRect(10,H-44,150,32,16);ctx.fill();
+    emo(ctx,'⛽',30,H-28,20);
+    ctx.fillStyle='#ddd';ctx.beginPath();ctx.roundRect(46,H-34,104,12,6);ctx.fill();
+    ctx.fillStyle=fuel<25?(Math.floor(t*4)%2?'#e0412a':'#ff9f8f'):'#ffb020';
+    ctx.beginPath();ctx.roundRect(46,H-34,104*fuel/100,12,6);ctx.fill();
+    if(empty){
+      ctx.fillStyle='rgba(43,35,64,.75)';ctx.fillRect(0,0,W,H);
+      emo(ctx,'⛽',W/2,200,90);
+      label(ctx,'¡Sin gasolina!',W/2,280,38,'#e0412a');
+      label(ctx,'Toca rápido para llenar',W/2,320,24);
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(80,350,240,30,15);ctx.fill();
+      ctx.fillStyle='#ffb020';ctx.beginPath();ctx.roundRect(84,354,232*fuel/100,22,11);ctx.fill();
+      label(ctx,Math.round(fuel)+'%',W/2,365,20);
+    }
+  };
+  G.tick=dt=>{
+    t+=dt;
+    if(empty){draw();return;}
+    const speed=260+prog*1.6;
+    scroll=(scroll+speed*dt)%80;
+    px+=(LX[lane]-px)*Math.min(1,dt*14);
+    inv=Math.max(0,inv-dt);
+    if(!finished){prog=Math.min(100,prog+dt*3.6);fuel=Math.max(0,fuel-dt*7);}
+    if(fuel<25&&!warned){warned=true;toast('⚠️ ¡Reserva! Coge un bidón ⛽');}
+    if(fuel<=0&&!finished){empty=true;sfx('bad');shake();toast('😱 ¡Nos hemos quedado sin gasolina!','bad');draw();return;}
+    spawn-=dt;fuelSpawn-=dt;
+    if(fuelSpawn<=0&&prog<90){fuelSpawn=rnd(3,4.5);obs.push({lane:Math.floor(rnd(0,3)),y:-40,e:'⛽',kind:'fuel',v:speed});}
+    if(spawn<=0&&prog<93){
+      spawn=Math.max(.38,rnd(.55,.95)-prog*.003);
+      if(Math.random()<.14)obs.push({lane:Math.floor(rnd(0,3)),y:-40,e:'🟢',kind:'bonus',v:speed});
+      else{
+        const l=Math.floor(rnd(0,3));
+        obs.push({lane:l,y:-50,e:pick(['🚗','🚙','🚌','🚕','🚚','🛵']),kind:'car',v:speed*rnd(.35,.6)});
+        if(Math.random()<.25+prog*.004){const l2=(l+1+Math.floor(rnd(0,2)))%3;obs.push({lane:l2,y:-60-rnd(0,40),e:pick(['🚗','🚙','🚕']),kind:'car',v:speed*rnd(.35,.6)});}
+      }
+    }
+    obs.forEach(o=>o.y+=o.v*dt);
+    obs=obs.filter(o=>{
+      if(Math.abs(LX[o.lane]-px)<45&&Math.abs(o.y-PY)<50){
+        if(o.kind==='bonus'){bonusMin(1,'¡Semáforo verde!');return false;}
+        if(o.kind==='fuel'){fuel=Math.min(100,fuel+45);warned=false;sfx('good');toast('⛽ ¡Gasolina!','good');return false;}
+        if(!inv){addMin(2,pick(['¡Pii piii! ¡Frenazo!','¡Atasco monumental!','¡Uy, por poco!']));inv=1.5;return false;}
+      }
+      return o.y<H+60;});
+    side.forEach(s=>{s.y+=speed*dt;if(s.y>H+40){s.y-=9*75;s.e=pick(['🌳','🌲','🏠','🏪','🌳','🏢']);}});
+    draw();
+    if(prog>=100&&!finished){finished=true;setTimeout(done,400);}
+  };
+}
+
+// ===== FASE 6: entrada al cole =====
+function phaseGate(done){
+  let k=0,pos=0,dir=1,speed=1.1,zone,finished=false,busy=false;
+  const newZone=()=>{const w=.24-k*.06;zone={a:rnd(.08,.92-w),w};};
+  const render=()=>{
+    stage.innerHTML=`<div class="gate"><div class="school">🏫</div>
+      <div class="kids">${G.names.map((n,i)=>`<div class="gk ${i<k?'gone':''} ${i===k?'cur':''}"><div class="e">${KID_EMO[i]}</div><div>${esc(n)}</div></div>`).join('')}</div>
+      <p class="who">Beso de despedida para <b>${esc(G.names[k])}</b> 😘</p>
+      <div class="bar"><div class="zone"></div><div class="needle"></div></div>
+      <button class="btn" id="kiss">😘 ¡Beso!</button></div>`;
+    const z=stage.querySelector('.zone');z.style.left=zone.a*100+'%';z.style.width=zone.w*100+'%';
+    $('#kiss').onpointerdown=e=>{e.preventDefault();attempt();};
+  };
+  const attempt=()=>{
+    if(busy||finished)return;
+    if(pos>=zone.a&&pos<=zone.a+zone.w){
+      sfx('good');busy=true;
+      const el=stage.querySelectorAll('.gk')[k];floatAt(el,pick(['¡Adiós! 👋','¡Te quiero!','¡Hasta luego!']),'#2b2340');
+      setTimeout(()=>el.classList.add('run'),200);
+      k++;
+      setTimeout(()=>{busy=false;if(k>=G.names.length){finished=true;sfx('bell');done();}else{speed+=.4;newZone();render();}},900);
+    }else addMin(1,pick(['«¡No me quiero ir!» 🤗 Abrazo extra','«¡Se me olvidó el almuerzo!»','«¡Otro beso!» 😚']));
+  };
+  G.onKey=key=>{if(key===' '||key==='Enter')attempt();};
+  newZone();render();
+  G.tick=dt=>{
+    if(busy)return;
+    pos+=dir*speed*dt;if(pos>1){pos=1;dir=-1;}if(pos<0){pos=0;dir=1;}
+    const n=stage.querySelector('.needle');if(n)n.style.left=`calc(${pos*100}% - 4px)`;
+  };
+}
+
+// ===== flujo del juego =====
+const PHASES=[
+  {name:'¡A despertarse!',icon:'⏰',how:'Los peques están KO. Tócalos muchas veces hasta llenar la barra… ¡ojo, que se vuelven a dormir!',ctrl:'👆 Toca / haz clic rápido',fn:phaseWake},
+  {name:'Desayuno',icon:'🥣',how:'Atrapa 10 cosas ricas con el bol. ¡Esquiva calcetines, juguetes y el móvil!',ctrl:'👆 Arrastra el bol · ⬅️ ➡️',fn:phaseBreakfast},
+  {name:'¡A asearse!',icon:'🧼',how:'Toca dejarles como un pincel: cepilla los dientes 🪥, limpia la cara 🧽 y peina los enredos 🪮. Frota encima de cada mancha.',ctrl:'👆 Arrastra y frota · ⬅️ ⬆️ ⬇️ ➡️',fn:phaseWash},
+  {name:'¡A vestirse!',icon:'👕',how:'Ropa en orden: camiseta, pantalón, calcetines, zapatillas, abrigo y mochila. ¡Nada de disfraces!',ctrl:'👆 Toca la prenda que toca',fn:phaseDress},
+  {name:'Tráfico',icon:'🚗',how:'¡Hora punta! Esquiva coches y autobuses. Los semáforos verdes 🟢 te devuelven tiempo y los bidones ⛽ llenan el depósito. ¡Si te quedas sin gasolina, toca rápido para repostar!',ctrl:'⬅️ ➡️ · toca izquierda o derecha',fn:phaseTraffic},
+  {name:'Entrada al cole',icon:'🏫',how:'Dale el beso de despedida cuando la aguja esté en la zona verde. ¡Si fallas, abrazo extra!',ctrl:'👆 Botón · barra espaciadora',fn:phaseGate},
+];
+
+function runPhase(i){
+  G.tick=null;G.onKey=null;G.resize=null;stage.className='';
+  if(i>=PHASES.length)return end();
+  const p=PHASES[i];
+  $('#phaseName').textContent=p.icon+' '+(i+1)+'/'+PHASES.length;
+  stage.innerHTML=`<div class="card"><div class="big">${p.icon}</div><h2>${p.name}</h2><p>${p.how}</p><p class="ctrl">${p.ctrl}</p><p style="font-size:14px;opacity:.6">El reloj está parado hasta que pulses</p><button class="btn" id="go">¡Vamos!</button></div>`;
+  $('#go').onclick=()=>{
+    sfx('tap');stage.innerHTML='';G.running=true;let fin=false;
+    p.fn(()=>{if(fin)return;fin=true;G.running=false;G.tick=null;G.onKey=null;sfx('win');confetti();setTimeout(()=>runPhase(i+1),900);});
+  };
+}
+
+function start(){
+  G.clock=START;G.penalty=0;G.bonus=0;
+  $('#hud').classList.remove('hidden');updClock();
+  runPhase(0);
+}
+
+function end(){
+  G.running=false;$('#phaseName').textContent='🏁';
+  const arr=Math.floor(G.clock),diff=BELL-arr,t=fmt(arr);
+  let stars,title,msg;
+  if(diff>=10){stars=3;title='¡Familia puntual!';msg=`Llegáis a las <b>${t}</b>, ¡${diff} minutos antes de la campana! Hasta el conserje aplaude 👏`;}
+  else if(diff>=0){stars=2;title='¡Por los pelos!';msg=`Entráis a las <b>${t}</b>. La puerta se cerraba detrás… ¡pero dentro!`;}
+  else{stars=1;title='¡Llegamos tarde!';msg=`Son las <b>${t}</b>, ${-diff} min tarde. Toca firmar en conserjería ✍️ ¡Mañana lo bordáis!`;}
+  let best=null,record=false;
+  try{best=parseInt(localStorage.getItem('cole-best-min'));if(isNaN(best)||arr<best){localStorage.setItem('cole-best-min',arr);record=!isNaN(best);best=arr;}}catch(e){}
+  stage.innerHTML=`<div class="card"><div class="big">${stars>=2?'🏫🎉':'🏫😅'}</div><h1>${title}</h1>
+    <div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${msg}</p>
+    <div class="stats"><span>😬 +${G.penalty} min</span><span>🟢 −${G.bonus} min</span></div>
+    ${record?'<p class="best">🏆 ¡Nuevo récord!</p>':best!==null?`<p class="best">🏆 Mejor llegada: ${fmt(best)}</p>`:''}
+    <button class="btn" id="again">Otra mañana</button><button class="btn alt" id="menu">Menú</button></div>`;
+  $('#again').onclick=start;$('#menu').onclick=menu;
+  if(stars>=2)confetti();sfx(stars>=2?'win':'bad');
+}
+
+function menu(){
+  G.running=false;G.tick=null;G.onKey=null;stage.className='';
+  $('#hud').classList.add('hidden');
+  let best=null;try{best=parseInt(localStorage.getItem('cole-best-min'));}catch(e){}
+  stage.innerHTML=`<div class="card"><div class="big">⏰🏃🎒🏫</div><h1>¡Que llegamos tarde!</h1>
+    <p>Son las <b>7:45</b> y la puerta del cole cierra a las <b>9:00</b>. Despierta, da el desayuno, asea, viste y lleva a los peques al cole… ¡antes de que suene la campana!</p>
+    <div class="names"><label>👧<input id="n0" maxlength="12" value="${esc(G.names[0])}"></label><label>🧒<input id="n1" maxlength="12" value="${esc(G.names[1])}"></label></div>
+    ${best&&!isNaN(best)?`<p class="best">🏆 Mejor llegada: ${fmt(best)}</p>`:''}
+    <button class="btn" id="play">¡A jugar!</button></div>`;
+  $('#play').onclick=()=>{
+    G.names=[$('#n0').value.trim()||'Peque 1',$('#n1').value.trim()||'Peque 2'];
+    try{localStorage.setItem('cole-names',JSON.stringify(G.names));}catch(e){}
+    sfx('tap');start();
+  };
+}
+menu();
+</script>
+</body>
+</html>
