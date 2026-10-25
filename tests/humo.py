@@ -67,6 +67,28 @@ def main():
         ok(pg.evaluate("()=>localStorage.getItem('sr-cole')") == "Mi cole", "El nombre del cole se guarda solo en el móvil")
         ok(not errores, "Sin errores en la consola" + (f": {errores[:3]}" if errores else ""))
 
+        # --- modo peques: sin tocar nada, la ayuda salta y se agacha sola ---
+        pg.goto(url); pg.evaluate("()=>{localStorage.clear();localStorage.setItem('sr-tut','1');localStorage.setItem('sr-modo','peques')}"); pg.goto(url)
+        pg.wait_for_timeout(600); pg.click("#play")
+        pg.evaluate("()=>{setInterval(()=>{if(G.state==='play'&&R.moment&&(R.moment.type!=='light'||R.moment.phase==='green'))press();},60)}")
+        t0 = time.time()
+        while time.time() - t0 < 170 and pg.evaluate("()=>G.state") != "end":
+            pg.wait_for_timeout(1000)
+        pq = pg.evaluate("()=>({state:G.state,clock:R.clock,hits:R.hits,events:R.events.every(e=>e.done)})")
+        ok(pq["state"] == "end" and pq["clock"] < 9*60, f"Modo peques sin tocar nada: llega a tiempo con {pq['hits']} golpe(s)")
+        ok(pq["hits"] <= 3, "Modo peques: la ayuda evita casi todos los golpes")
+        ok(pq["events"], "Las sorpresas (almuerzo y perro) aparecen en la carrera")
+        rec = pg.evaluate("()=>leerRecords()")
+        ok(any("peques" in v for v in rec.values()), "El récord se guarda por jugador y por modo")
+
+        # --- mañanas distintas y modo padres ---
+        for man in ("lluvia", "excursion", "navidad"):
+            pg.goto(url); pg.evaluate(f"()=>{{localStorage.clear();localStorage.setItem('sr-tut','1');localStorage.setItem('sr-manana','{man}');localStorage.setItem('sr-modo','padres')}}"); pg.goto(url)
+            pg.wait_for_timeout(500); pg.click("#play"); pg.wait_for_timeout(300)
+            pg.evaluate("()=>{R.dist=12000;R.gen=12400;R.obs=[];R.items=[];R.moments.forEach(m=>{if(m.at<13000)m.done=true})}")
+            pg.wait_for_timeout(1500)
+            ok(pg.evaluate("()=>G.state==='play'&&R.mode.vel>1"), f"Mañana '{man}' en modo padres: se juega sin errores")
+
         # --- móvil en vertical y horizontal ---
         for nombre, vp in (("vertical", {"width": 390, "height": 844}), ("horizontal", {"width": 844, "height": 390})):
             m = b.new_context(viewport=vp, has_touch=True, is_mobile=True).new_page()

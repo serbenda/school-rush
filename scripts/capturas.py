@@ -110,6 +110,26 @@ def main():
         for _ in range(16): pg.keyboard.press("Space"); pg.wait_for_timeout(70)
         pg.wait_for_timeout(2200); pg.screenshot(path=str(IMG / "final.png"))
 
+        # mañanas distintas, sorpresas y escena final
+        def nueva(manana="lunes"):
+            preparar(pg, url)
+            pg.evaluate(f"()=>{{G.manana='{manana}';saveOpts();}}")
+            pg.click("#play"); pg.wait_for_timeout(500)
+            pg.evaluate("()=>{R.events.forEach(e=>e.done=true);R.texts=[];R.banner=null;R.tut=false}")
+        for man, d in (("lluvia", 11800), ("navidad", 19200), ("excursion", 29900)):
+            nueva(man); pg.evaluate("()=>{R.t=9}"); ir_a(pg, d, 1300 if man=="excursion" else 1800); pg.evaluate("()=>{R.obs=R.obs.filter(o=>o.x>R.dist+PX+200)}") if man=="excursion" else None; pg.screenshot(path=str(IMG / f"manana-{man}.png"))
+        nueva(); pg.evaluate("()=>{R.t=9}"); ir_a(pg, 11500, 400)
+        pg.evaluate("()=>{R.texts=[];R.events[0].type='lunch';R.events[0].at=R.dist+5;R.events[0].done=false}")
+        pg.wait_for_timeout(700); pg.screenshot(path=str(IMG / "sorpresa-almuerzo.png"))
+        nueva(); pg.evaluate("()=>{R.t=9}"); ir_a(pg, 20000, 400)
+        pg.evaluate("()=>{R.texts=[];R.p.inv=3;R.events[1].type='chase';R.events[1].at=R.dist+5;R.events[1].done=false}")
+        pg.wait_for_timeout(420); pg.screenshot(path=str(IMG / "sorpresa-perro.png"))
+        nueva()
+        pg.evaluate("()=>{R.dist=29990;R.obs=[];R.items=[];R.texts=[];R.moments.forEach(m=>{if(m.type!=='gate')m.done=true})}")
+        pg.wait_for_timeout(500)
+        for _ in range(20): pg.keyboard.press("Space"); pg.wait_for_timeout(70)
+        pg.wait_for_timeout(2600); pg.screenshot(path=str(IMG / "escena-final.png"))
+
         # editor de los peques con algunos retos conseguidos
         preparar(pg, url, retos='["first","stars3","mult5","reflex"]')
         pg.evaluate("""()=>{G.kids[0]=Object.assign(G.kids[0],{acc:'gafas'});G.kids[1]=Object.assign(G.kids[1],{acc:'corona',style:'coletas',hair:'#f2c14e',top:'#7b6cf6'});saveKids();menu();}""")

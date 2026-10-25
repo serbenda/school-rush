@@ -367,7 +367,10 @@ function bgCasa(cam){
   blit(ART.casaFloor,1,cam,GY);seg(0,GY,W,GY,OL,4);
 }
 function sky(top,bottom){
+  if(G.manana==='lluvia'){top='#7d8aa8';bottom='#c9d2e2';}
+  if(G.manana==='navidad'){top='#9fb6dc';bottom='#e8eff9';}
   fillR(0,0,W,GY,lin(0,0,0,GY,[[0,top],[1,bottom]]));
+  if(G.manana==='lluvia'||G.manana==='navidad')return;
   fillR(0,0,W,GY,rad(840,80,10,320,[[0,'rgba(255,240,170,.55)'],[1,'rgba(255,240,170,0)']]));
   ctx.save();ctx.translate(840,80);ctx.rotate(G.t*.3);for(let i=0;i<12;i++){ctx.rotate(Math.PI/6);ctx.fillStyle='rgba(255,224,102,.45)';ctx.beginPath();ctx.moveTo(44,-6);ctx.lineTo(80,0);ctx.lineTo(44,6);ctx.closePath();ctx.fill();}ctx.restore();
   circ(840,80,38,rad(830,70,5,40,[[0,'#fff6b0'],[1,'#ffd84a']]),4);

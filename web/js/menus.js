@@ -10,10 +10,14 @@ function menu(){
   const m=$('#menu');
   m.innerHTML=`<div class="card"><h1>SCHOOL RUSH</h1><div class="sub">¡Que llegamos tarde! 🔔</div>
     <p>Son las <b>8:40</b> y el cole cierra a las <b>9:00</b>. ¡Corre con los peques de casa al cole!</p>
-    <div class="heroes">${Object.keys(HEROES).map(h=>`<button class="hero ${G.hero===h?'sel':''}" data-h="${h}"><canvas width="220" height="240"></canvas>${HEROES[h].name}</button>`).join('')}
+    <div class="heroes">${['mama','papa'].map(h=>`<button class="hero ${G.hero===h?'sel':''}" data-h="${h}"><canvas width="220" height="240"></canvas>${HEROES[h].name}</button>`).join('')}
       <button class="hero kids" id="tokids"><canvas width="220" height="240"></canvas>👕 Peques</button></div>
-    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}</div>
-    <p class="best">${best?`🏆 Récord: ${best} · `:''}🎁 Retos: ${G.done.length}/${RETOS.length}</p>
+    <div class="opt"><span class="ol">🙋 ¿Quién juega?</span><div class="chips" id="players">${jugadores().map(n=>`<button class="chip ${n===jugadorActual()?'sel':''}" data-p="${esc(n)}">${esc(n)}</button>`).join('')}</div></div>
+    <div class="opt"><span class="ol">🎚️ Modo</span><div class="chips" id="modos">${Object.keys(MODOS).map(k=>`<button class="chip ${k===G.modo?'sel':''}" data-m="${k}" title="${esc(MODOS[k].desc)}">${MODOS[k].icono} ${MODOS[k].nombre}</button>`).join('')}</div></div>
+    <div class="opt"><span class="ol">📅 Mañana</span><div class="chips" id="mananas">${Object.keys(MANANAS).map(k=>`<button class="chip ${k===G.manana?'sel':''}" data-d="${k}">${MANANAS[k].icono} ${MANANAS[k].nombre}</button>`).join('')}</div></div>
+    <p class="mdesc" id="mdesc">${esc(MODO().desc)}</p>
+    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}<button class="chip voz ${G.voz?'sel':''}" id="voz">${G.voz?'🗣️ Voz: sí':'🤫 Voz: no'}</button></div>
+    <p class="best">${(()=>{const r=leerRecords()[jugadorActual()];const b=r&&r[G.modo];return b?`🏆 Récord de ${esc(jugadorActual())} (${MODO().nombre}): ${b.score} · `:'';})()}🎁 Retos: ${G.done.length}/${RETOS.length}</p>
     <button class="btn" id="play">¡A CORRER!</button></div>`;
   m.classList.remove('hidden');
   m.querySelectorAll('.hero[data-h]').forEach(b=>{
@@ -25,6 +29,10 @@ function menu(){
   const kx=$('#tokids canvas').getContext('2d');kx.setTransform(1.4,0,0,1.4,0,0);
   drawWith(kx,()=>{drawKid(52,168,{state:'idle',face:'happy'},G.kids[1]);drawKid(108,168,{state:'idle',face:'happy'},G.kids[0]);});
   $('#tokids').onclick=()=>{sfx('tap');custom();};
+  m.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{G.player=b.dataset.p;saveOpts();sfx('tap');menu();});
+  m.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{G.modo=b.dataset.m;G.voz=MODOS[G.modo].voz||G.voz;saveOpts();sfx('tap');menu();});
+  m.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{G.manana=b.dataset.d;saveOpts();sfx('tap');menu();});
+  $('#voz').onclick=()=>{G.voz=!G.voz;saveOpts();sfx('tap');if(G.voz){audio();hablar('¡Hola! Yo te aviso',true);}menu();};
   $('#play').onclick=play;
 }
 let editK=0;
@@ -58,7 +66,7 @@ function custom(){
 }
 function drawWith(c,fn){const old=ctx;ctx=c;try{fn();}finally{ctx=old;}}
 function play(){
-  try{localStorage.setItem('sr-hero',G.hero);}catch(e){}saveKids();
+  try{localStorage.setItem('sr-hero',G.hero);}catch(e){}saveKids();G.player=jugadorActual();saveOpts();
   $('#menu').classList.add('hidden');$('#custom').classList.add('hidden');$('#end').classList.add('hidden');
   newRun();G.state='play';audio();startMusic();sfx('power');document.body.classList.add('playing');setTimeout(fit,50);
   if(TOUCH){try{const el=document.documentElement;if(!document.fullscreenElement&&el.requestFullscreen)el.requestFullscreen({navigationUI:'hide'}).then(()=>{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock('landscape').catch(()=>{});}).catch(()=>{});}catch(e){}}

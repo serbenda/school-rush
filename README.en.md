@@ -64,6 +64,13 @@ It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school ga
 - 🛴☂️☕ **Power-ups**: scooter, umbrella and coffee.
 - 👕 **Dress the kids** with their name, hairstyle and accessories.
 - 🎁 **8 challenges** that unlock sunglasses, a crown, a hero cape…
+- 👶🙂🔥 **Three modes**: *Peques* (kids: slower, auto-jump/duck help, no time penalties), *Normal* and *Padres* (parents: faster).
+- 🗣️ **A voice that warns** "Jump!", "Duck!", "The bull is coming!" (Spanish, device voice) for kids who can't read yet.
+- 📅 **Four mornings**: Monday, rainy Friday, school trip day and Christmas.
+- 🥪🐶 **Surprises**: the forgotten lunchbox and a dog chasing from behind.
+- 🎵 **Music per stretch** (a pasodoble for Sanse's fiesta) that speeds up near 9:00.
+- 🏁 **Animated ending**: the caretaker closes the gate behind you.
+- 🏆 **Per-player records** and family podium.
 - ⭐ **Arrive by 8:58** for three stars.
 
 </td>
@@ -196,7 +203,9 @@ Vanilla HTML, CSS and JavaScript **with no dependencies or build step** (one pag
 | **Physics** | Gravity, jump and double jump with input buffering; ducking mid-air makes you fall fast; the umbrella lowers gravity |
 | **Characters** | Vector drawings animated every frame: run cycle, squash and stretch, blinking, shading and ground shadows |
 | **Backgrounds** | Each stretch is painted **once** into large layers that are then just scrolled at different speeds (parallax), so it runs smoothly on phones |
-| **Sound** | Music and effects synthesised with Web Audio: no audio files |
+| **Sound** | Music and effects synthesised with Web Audio: no audio files; each stretch has its own theme |
+| **Voice** | Browser `speechSynthesis` in Spanish |
+| **Kids' help** | Looks at the incoming obstacle and jumps or ducks just in time |
 
 ```bash
 git clone https://github.com/serbenda/school-rush.git
@@ -228,6 +237,7 @@ python3 scripts/capturas.py
 - [x] Editable school name
 - [x] School uniform
 - [x] Code split by topic and automated tests
+- [x] Kids / normal / parents modes, voice, four mornings, surprises, music per stretch, ending scene and per-player records
 - [x] Touch buttons, portrait mode and full screen on phones
 - [x] Installable app that works offline
 - [ ] Different mornings: Monday, rainy Friday, school trip day
