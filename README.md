@@ -2,6 +2,8 @@
 
 <img src="docs/img/banner.png" alt="School Rush · ¡Que llegamos tarde!" width="100%">
 
+**🇪🇸 Español** · [🇬🇧 English](README.en.md)
+
 **Una carrera de dibujos animados para llevar a los peques al cole antes de que suene la campana de las 9:00.**<br>
 Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 
@@ -18,6 +20,25 @@ Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 </div>
 
 ---
+
+<details>
+<summary><b>📑 Índice</b></summary>
+
+- [🏃 La idea](#idea)
+- [👨‍👩‍👧 Para familias](#familias)
+- [🗺️ Los tres tramos](#tramos)
+- [⏱️ Los momentos](#momentos)
+- [🎮 Cómo se juega](#jugar)
+- [💥 Así se siente](#sensacion)
+- [👕 Los peques](#peques)
+- [📱 En el móvil](#movil)
+- [🔒 Privacidad](#privacidad)
+- [🛠️ Bajo el capó](#tecnica)
+- [🗺️ Hoja de ruta](#ruta)
+
+</details>
+
+<a id="idea"></a>
 
 ## 🏃 La idea
 
@@ -47,12 +68,29 @@ Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse…
 </tr>
 </table>
 
+<a id="familias"></a>
+
+## 👨‍👩‍👧 Para familias
+
+| | |
+| --- | --- |
+| 👶 **Edad** | Para todos. Los peques lo entienden en una partida gracias al tutorial, y los mayores pueden ir a por las 3 estrellas y los retos |
+| ⏱️ **Duración** | Algo más de **1 minuto** por partida: perfecto para "una y nos vamos" |
+| 😌 **Sin frustración** | Nadie pierde a mitad: los golpes solo suman minutos al reloj y siempre se llega al cole |
+| 🚫 **Sin anuncios ni compras** | Ni cuentas, ni registros, ni nada que pagar |
+| 🔇 **Silenciable** | Botón 🔇 para jugar sin sonido |
+| 📱 **Dónde** | Móvil o tablet en horizontal, o en el ordenador con el teclado |
+
+<a id="tramos"></a>
+
 ## 🗺️ Los tres tramos
 
 | 🏠 La casa | 🌳 La calle | 🏫 El cole |
 | :---: | :---: | :---: |
 | <img src="docs/img/casa.png" alt="La casa"> | <img src="docs/img/calle.png" alt="La calle"> | <img src="docs/img/cole.png" alt="El cole"> |
 | Estantería con libros, dibujos en la pared y Legos por el suelo | Balcones, persianas y tiendas de barrio: panadería, farmacia, kiosco… | Fachada de ladrillo, torre del reloj, valla verde y balonazos |
+
+<a id="momentos"></a>
 
 ## ⏱️ Los momentos
 
@@ -68,6 +106,8 @@ A mitad de carrera, el juego se para un instante… pero **el reloj sigue corrie
 | 🪥 Dientes | *¡Sonrisa brillante!* **+150 puntos** | *Dientes a medias…* **+1 min** |
 | 🚦 Semáforo | Hasta **+200 puntos** según lo rápido que reacciones | Pulsar en rojo: **+1 min** (como mucho dos veces) |
 | 🚪 Puerta | *¡Dentro!* **+200 puntos** | *Te toca firmar en conserjería* **+2 min** |
+
+<a id="jugar"></a>
 
 ## 🎮 Cómo se juega
 
@@ -122,6 +162,17 @@ A mitad de carrera, el juego se para un instante… pero **el reloj sigue corrie
 
 Una partida dura **algo más de un minuto** y, jugando bien, se llega sobre las 8:55.
 
+<a id="sensacion"></a>
+
+## 💥 Así se siente
+
+| Menú | ¡Golpe! |
+| :---: | :---: |
+| <img src="docs/img/menu.png" alt="Menú"> | <img src="docs/img/golpe.png" alt="Golpe"> |
+| Eliges quién lleva a los niños y entras a vestirlos | Frenazo, ojos en X 😵, un peque tropieza y el reloj suma un minuto |
+
+<a id="peques"></a>
+
 ## 👕 Los peques
 
 | Escritorio | Móvil |
@@ -145,6 +196,8 @@ En **👕 Peques** cada niño tiene su **nombre**, **peinado** (coletas, melena 
 
 <p align="center"><img src="docs/img/final.png" alt="Final con premios" width="70%"></p>
 
+<a id="movil"></a>
+
 ## 📱 En el móvil
 
 | Menú | Carrera |
@@ -153,7 +206,7 @@ En **👕 Peques** cada niño tiene su **nombre**, **peinado** (coletas, melena 
 
 Se juega **en horizontal**; si el móvil está en vertical, el juego te pide que lo gires.
 
-> Todas las imágenes de este README las saca un robot que juega partidas de verdad (ver [Capturas automáticas](#-capturas-automáticas)).
+> Todas las imágenes de este README las saca un robot que juega partidas de verdad (ver [Capturas automáticas](#capturas)).
 
 ## ✨ Características
 
@@ -164,6 +217,8 @@ Se juega **en horizontal**; si el móvil está en vertical, el juego te pide que
 - 🎵 **Música y efectos** generados en directo, sin archivos de audio. Botón 🔇 para silenciar.
 - 🏆 **Récord de puntos** guardado en el móvil.
 - 🔒 **Sin anuncios, sin cuentas y sin recoger datos.**
+
+<a id="privacidad"></a>
 
 ## 🔒 Privacidad
 
@@ -184,6 +239,8 @@ El juego no trata datos personales fuera del propio dispositivo.
 | Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → menú **⋮** → **Añadir a pantalla de inicio** | Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → **Compartir** → **Añadir a pantalla de inicio** |
 
 De momento necesita conexión; jugar sin internet está en la hoja de ruta.
+
+<a id="tecnica"></a>
 
 ## 🛠️ Bajo el capó
 
@@ -247,7 +304,7 @@ school-rush/
 ├── docs/img/                   # Imágenes del README (generadas por el robot)
 ├── .github/workflows/
 │   └── pages.yml               # Publica el juego en GitHub Pages en cada cambio en main
-├── README.md
+├── README.md · README.en.md
 └── LICENSE
 ```
 
@@ -260,6 +317,8 @@ python3 -m http.server 8000   # para que carguen las fuentes
 # abre http://localhost:8000
 ```
 
+<a id="capturas"></a>
+
 ### 🤖 Capturas automáticas
 
 `scripts/capturas.py` abre el juego en un Chromium real con **Playwright**, juega una partida con un pequeño robot (salta lo bajo y se agacha con lo alto), va a cada tramo y momento, saca las capturas en escritorio y móvil y monta el GIF con **ffmpeg** en `docs/img/`.
@@ -268,6 +327,8 @@ python3 -m http.server 8000   # para que carguen las fuentes
 pip install playwright && playwright install chromium
 python3 scripts/capturas.py
 ```
+
+<a id="ruta"></a>
 
 ## 🗺️ Hoja de ruta
 
@@ -284,11 +345,13 @@ python3 scripts/capturas.py
 - [ ] Mañanas distintas: lunes, viernes con lluvia, día de excursión
 - [ ] Eventos sorpresa: *¡Se ha dejado el almuerzo!*
 - [ ] Música distinta en cada tramo
-- [ ] El juego también en inglés
+- [ ] El juego también en inglés (el README ya lo está)
 
 ## ⚖️ Licencia
 
 © 2026 Santiago. **Todos los derechos reservados.** Puedes jugar y ver el código, pero no copiarlo, modificarlo ni redistribuirlo sin permiso. Ver [LICENSE](LICENSE).
+
+Idea, diseño y pruebas: **Santiago** (y sus probadoras oficiales 👧).
 
 Fuentes: *Fredoka* y *Lilita One*, de Google Fonts, con licencia SIL Open Font License (incluidas en `fonts/`).
 
