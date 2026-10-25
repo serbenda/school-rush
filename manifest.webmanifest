@@ -1,0 +1,17 @@
+{
+  "name": "School Rush · ¡Que llegamos tarde!",
+  "short_name": "School Rush",
+  "description": "Lleva a los peques al cole antes de que suene la campana de las 9:00.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#1e1838",
+  "theme_color": "#1e1838",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

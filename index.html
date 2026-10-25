@@ -4,17 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1e1838">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="School Rush">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>School Rush · ¡Que llegamos tarde!</title>
 <style>
 @font-face{font-family:'Fredoka';src:url(fonts/Fredoka.ttf) format('truetype');font-weight:300 700;font-display:swap}
 @font-face{font-family:'Lilita One';src:url(fonts/LilitaOne-Regular.ttf) format('truetype');font-display:swap}
 :root{--ink:#2b2340;--accent:#ff6b4a;--violet:#7b6cf6;--ok:#2bb673}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;background:#1e1838;overflow:hidden;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);touch-action:none;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;background:#1e1838;overflow:hidden;overscroll-behavior:none;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 #game{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.5)}
 canvas{display:block;width:100%;height:100%}
-.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(30,24,56,.45);padding:10px}
+.overlay{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;background:rgba(30,24,56,.45);padding:10px}
 .overlay.hidden{display:none}
 .card{background:#fff;border-radius:28px;padding:18px 24px;text-align:center;width:min(560px,94%);max-height:96%;overflow:auto;box-shadow:0 10px 0 rgba(0,0,0,.25)}
 h1{font-family:'Lilita One',system-ui,sans-serif;font-weight:400;font-size:clamp(34px,7vw,58px);line-height:1;color:var(--accent);margin:4px 0;letter-spacing:1px;text-shadow:0 4px 0 var(--ink)}
@@ -35,7 +42,7 @@ h1{font-family:'Lilita One',system-ui,sans-serif;font-weight:400;font-size:clamp
 .res{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-weight:700;margin:6px 0}
 .res span{background:#f7f5ff;border-radius:12px;padding:6px 12px}
 .best{color:var(--violet);font-weight:700}
-#mute{position:absolute;bottom:10px;right:10px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(43,35,64,.55);color:#fff;font-size:20px;cursor:pointer;z-index:5}
+#mute{position:absolute;top:2.5%;left:calc(76% - var(--ms,40px) - 6px);width:var(--ms,40px);height:var(--ms,40px);border-radius:50%;border:0;background:rgba(43,35,64,.55);color:#fff;font-size:calc(var(--ms,40px)*.48);cursor:pointer;z-index:5;padding:0}
 #game .conf{position:absolute;top:-40px;font-size:28px;animation:fall linear forwards;pointer-events:none;z-index:20}
 @keyframes fall{to{transform:translateY(700px) rotate(540deg)}}
 .prize{background:linear-gradient(135deg,#fff3a0,#ffd6e5);border:3px dashed var(--accent);border-radius:16px;padding:8px 12px;font-weight:700;margin:6px 0;animation:pop .5s}
@@ -45,7 +52,7 @@ h1{font-family:'Lilita One',system-ui,sans-serif;font-weight:400;font-size:clamp
 .card.wide{width:min(680px,96%)}
 .card.wide h1{font-size:34px}
 .school{display:flex;gap:8px;align-items:center;justify-content:center;margin:4px 0;font-weight:700;font-size:15px}
-.school input{font:inherit;font-size:15px;width:200px;padding:4px 10px;border-radius:12px;border:3px solid #e7e1ff}
+.school input{font:inherit;font-size:16px;width:200px;padding:4px 10px;border-radius:12px;border:3px solid #e7e1ff}
 .tabs{display:flex;gap:8px;justify-content:center;margin:6px 0}
 .tab{font:inherit;font-weight:700;font-size:16px;border:3px solid #e7e1ff;background:#f7f5ff;border-radius:999px;padding:4px 16px;cursor:pointer;color:var(--ink)}
 .tab.sel{border-color:var(--accent);background:#fff1ec}
@@ -67,8 +74,29 @@ h1{font-family:'Lilita One',system-ui,sans-serif;font-weight:400;font-size:clamp
 .retos{text-align:left;font-size:14px;background:#f7f5ff;border-radius:14px;padding:6px 12px;margin:4px 0}
 .retos summary{font-weight:700;cursor:pointer}
 .reto{padding:2px 0;color:#666}.reto.ok{color:var(--ok)}
-#rot{position:fixed;top:8px;left:50%;transform:translateX(-50%);background:var(--violet);color:#fff;font-weight:700;padding:6px 14px;border-radius:999px;display:none;z-index:10;font-size:14px}
-@media (orientation:portrait) and (pointer:coarse){#rot{display:block}}
+/* ---- móvil ---- */
+#pad{display:none}
+.touch.playing #pad{display:flex}
+.pb{border:0;color:#fff;font-family:'Lilita One',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;touch-action:none;-webkit-user-select:none;user-select:none;cursor:pointer}
+.pb b{font-size:34px;line-height:1}.pb span{font-size:15px;letter-spacing:1px}
+.pb.on{transform:scale(.94);filter:brightness(1.15)}
+#bDuck{background:#7b6cf6;box-shadow:0 6px 0 #5446c4}
+#bJump{background:#ff6b4a;box-shadow:0 6px 0 #c94a30}
+/* horizontal: botones flotando sobre el juego */
+.touch:not(.portrait) #game{border-radius:0;box-shadow:none}
+.touch:not(.portrait) #pad{position:fixed;left:0;right:0;bottom:0;justify-content:space-between;align-items:flex-end;padding:0 max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));pointer-events:none;z-index:20}
+.touch:not(.portrait) .pb{pointer-events:auto;width:92px;height:92px;border-radius:50%;opacity:.82}
+.touch:not(.portrait) .pb span{font-size:12px}
+/* vertical: juego arriba y botones grandes debajo */
+.portrait #wrap{flex-direction:column;justify-content:flex-start;padding-top:max(10px,env(safe-area-inset-top))}
+.portrait #game{border-radius:0;box-shadow:none}
+.portrait #pad{flex:1;width:100%;flex-direction:column;gap:10px;padding:14px 14px max(14px,env(safe-area-inset-bottom))}
+.portrait .pads{flex:1;display:flex!important;gap:14px}
+.portrait .pb{flex:1;border-radius:28px}
+.portrait .pb b{font-size:64px}.portrait .pb span{font-size:24px}
+.rotate{display:none;color:#c9c2ff;text-align:center;font-weight:600;font-size:15px}
+.portrait .rotate{display:block}
+@media (max-width:500px){.heroes{gap:6px}.hero{flex:1 1 0;min-width:0;padding:2px 4px 4px}.hero canvas{width:100%;max-width:84px;height:auto;aspect-ratio:220/240}.card{padding:14px 12px}.rl{width:64px}}
 @media (max-height:520px){
   .card{padding:10px 16px;border-radius:22px}
   h1{font-size:30px}.sub{font-size:15px;margin:0 0 4px}
@@ -83,7 +111,6 @@ h1{font-family:'Lilita One',system-ui,sans-serif;font-weight:400;font-size:clamp
 </style>
 </head>
 <body>
-<div id="rot">📱↻ Gira el móvil para jugar mejor</div>
 <div id="wrap">
   <div id="game">
     <canvas id="c"></canvas>
@@ -91,6 +118,13 @@ h1{font-family:'Lilita One',system-ui,sans-serif;font-weight:400;font-size:clamp
     <div id="menu" class="overlay"></div>
     <div id="end" class="overlay hidden"></div>
     <div id="custom" class="overlay hidden"></div>
+  </div>
+  <div id="pad">
+    <div class="pads" style="display:contents">
+      <button class="pb" id="bDuck" aria-label="Agacharse"><b>⬇</b><span>AGACHAR</span></button>
+      <button class="pb" id="bJump" aria-label="Saltar"><b>⬆</b><span>SALTAR</span></button>
+    </div>
+    <div class="rotate">📱↻ Gira el móvil para verlo más grande</div>
   </div>
 </div>
 
@@ -119,13 +153,18 @@ const G={state:'menu',hero:'mama',muted:false,t:0};
 try{const h=localStorage.getItem('sr-hero');if(h==='mama'||h==='papa')G.hero=h;G.muted=localStorage.getItem('sr-muted')==='1';}catch(e){}
 
 // ---------- tamaño ----------
+const TOUCH=matchMedia('(pointer:coarse)').matches||('ontouchstart' in window&&innerWidth<1100);
+if(TOUCH)document.body.classList.add('touch');
 let SC=1,DPR=1;
 function fit(){
-  const vw=innerWidth,vh=innerHeight,s=Math.min(vw/W,vh/H)*.985;SC=s;DPR=Math.min(2,devicePixelRatio||1);
+  const vw=innerWidth,vh=innerHeight,portrait=TOUCH&&vh>vw;
+  document.body.classList.toggle('portrait',portrait);
+  const s=portrait?vw/W:Math.min(vw/W,vh/H)*(TOUCH?1:.985);SC=s;DPR=Math.min(2,devicePixelRatio||1);
   const g=$('#game');g.style.width=Math.round(W*s)+'px';g.style.height=Math.round(H*s)+'px';
   cvs.width=Math.round(W*s*DPR);cvs.height=Math.round(H*s*DPR);
+  g.style.setProperty('--ms',Math.round(Math.max(26,Math.min(44,H*s*.075)))+'px');
 }
-addEventListener('resize',fit);fit();
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,250));fit();
 
 // ---------- sonido ----------
 let AC,master,musicGain,musicTimer=null;
@@ -916,7 +955,7 @@ function hit(o){
   if(p.inv>0)return;
   if(R.power&&R.power.type==='scooter'){o.smash=1;o.vy=-500;sfx('tap');puff(PX,GY-60,'#ffd23f',14);R.score+=20;say('¡CRASH!',PX+40,GY-170,'#ffd23f');return;}
   R.clock+=1;R.hits++;R.streak=0;R.mult=1;p.inv=1.4;p.face='dizzy';p.faceT=1.1;R.shake=.4;R.freeze=.13;p.stumble=.7;R.speed*=.45;
-  sfx('hit');puff(PX+10,p.y-60,'#fff',14,220);
+  sfx('hit');try{navigator.vibrate&&navigator.vibrate(70);}catch(e){}puff(PX+10,p.y-60,'#fff',14,220);
   say('+1 MIN',PX,p.y-190,'#ff6b6b',32);
   const ki=[1,0].find(i=>R.kids[i].trip<=0);if(ki!==undefined){const k=R.kids[ki];k.trip=1.4;k.dx-=10;setTimeout(()=>{if(R&&G.state==='play')say('¡ESPERA, '+(G.hero==='mama'?'MAMÁ':'PAPÁ')+'!',Math.max(150,PX+k.dx),GY-150,'#ffd23f',22);},250);}
   const MSG={fence:'¡Contra la talanquera!',bull:'¡Que viene el toro! 🐂',lego:'¡AY! ¡Un Lego!',ball:'¡Pelotazo!',cat:'¡Fsss! ¡El gato!',clothes:'¡Calzoncillo en la cara!',basket:'¡Cesto de ropa!',puddle:'¡Plaf! ¡Charco!',dog:'¡El perro quiere jugar!',trash:'¡Contra el cubo!',pigeon:'¡Palomas!',plank:'¡Coscorrón!',stroller:'¡Perdón, perdón!',schoolball:'¡Balonazo!'};
@@ -1022,7 +1061,7 @@ function update(dt){
   R.items=R.items.filter(it=>!it.taken&&it.x>R.dist-100);
 }
 function finish(){
-  G.state='end';stopMusic();
+  G.state='end';stopMusic();document.body.classList.remove('playing');
   const arr=Math.floor(R.clock),diff=BELL-arr;
   let stars,title,msg;
   if(diff>=2){stars=3;title='¡FAMILIA PUNTUAL!';msg=`Llegáis${alCole()} a las <b>${fmt(arr)}</b>. Hasta el conserje aplaude 👏`;}
@@ -1129,15 +1168,15 @@ function drawHUD(){
   if(R.tutPrompt){
     const pul=1+Math.sin(G.t*10)*.06;ctx.save();ctx.translate(W/2,200);ctx.scale(pul,pul);
     rr(-250,-60,500,120,30,'rgba(255,255,255,.95)',5);
-    if(R.tutPrompt==='jump'){txt('¡SALTA!',0,-18,52,'#ff6b4a');txt(TOUCH?'Toca la parte DERECHA de la pantalla':'Pulsa ESPACIO o ↑',0,30,24,'#7b6cf6','center','#fff');}
-    else{txt('¡AGÁCHATE!',0,-18,52,'#ff6b4a');txt(TOUCH?'Mantén pulsada la parte IZQUIERDA':'Mantén pulsado ↓',0,30,24,'#7b6cf6','center','#fff');}
+    if(R.tutPrompt==='jump'){txt('¡SALTA!',0,-18,52,'#ff6b4a');txt(TOUCH?'Pulsa el botón ⬆ SALTAR':'Pulsa ESPACIO o ↑',0,30,24,'#7b6cf6','center','#fff');}
+    else{txt('¡AGÁCHATE!',0,-18,52,'#ff6b4a');txt(TOUCH?'Mantén pulsado el botón ⬇ AGACHAR':'Mantén pulsado ↓',0,30,24,'#7b6cf6','center','#fff');}
     ctx.restore();
-    const ax=TOUCH?(R.tutPrompt==='jump'?W-120:120):PX+60,ay=R.tutPrompt==='jump'?330:400+Math.sin(G.t*10)*8;
+    const ax=PX+60,ay=R.tutPrompt==='jump'?330:400+Math.sin(G.t*10)*8;
     txt(R.tutPrompt==='jump'?'⬆':'⬇',ax,ay+(R.tutPrompt==='jump'?Math.sin(G.t*10)*8:0),64,'#ffd23f');
   }
   if(R.t<4&&!R.moment&&!R.tut){ctx.globalAlpha=Math.min(1,(4-R.t));
-    txt(TOUCH?'Toca la derecha: SALTAR (2 veces = doble)':'ESPACIO / ↑ : SALTAR  (dos veces = doble salto)',W/2,240,24,'#fff');
-    txt(TOUCH?'Mantén la izquierda: AGACHARSE':'↓ : AGACHARSE',W/2,276,24,'#fff');ctx.globalAlpha=1;}
+    txt(TOUCH?'⬆ SALTAR  (pulsa 2 veces = doble salto)':'ESPACIO / ↑ : SALTAR  (dos veces = doble salto)',W/2,240,24,'#fff');
+    txt(TOUCH?'⬇ AGACHAR  (mantén pulsado)':'↓ : AGACHARSE',W/2,276,24,'#fff');ctx.globalAlpha=1;}
 }
 function drawMoment(){
   const m=R.moment;if(!m)return;
@@ -1170,7 +1209,6 @@ function drawMoment(){
 // =====================================================================
 //  ENTRADA
 // =====================================================================
-const TOUCH=matchMedia('(pointer:coarse)').matches;
 function press(){if(G.state!=='play')return;if(R.moment){momentPress();return;}inp.jumpBuf=.14;}
 addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
@@ -1181,6 +1219,12 @@ addEventListener('keydown',e=>{
   if(e.key==='Escape'&&G.state==='play')menu();
 });
 addEventListener('keyup',e=>{if(e.key==='ArrowDown'||e.key==='s'||e.key==='S')inp.duckHeld=false;});
+const bJ=$('#bJump'),bD=$('#bDuck');
+const btnOn=(b,on)=>b.classList.toggle('on',on);
+bJ.addEventListener('pointerdown',e=>{e.preventDefault();audio();btnOn(bJ,true);press();});
+bD.addEventListener('pointerdown',e=>{e.preventDefault();audio();btnOn(bD,true);if(R&&R.moment)press();else inp.duckHeld=true;});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>{bJ.addEventListener(ev,()=>btnOn(bJ,false));bD.addEventListener(ev,()=>{btnOn(bD,false);inp.duckHeld=false;});});
+addEventListener('contextmenu',e=>e.preventDefault());
 const pointers=new Map();
 cvs.addEventListener('pointerdown',e=>{
   e.preventDefault();audio();
@@ -1196,14 +1240,14 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&AC)AC.susp
 //  MENÚ
 // =====================================================================
 function menu(){
-  G.state='menu';R=null;stopMusic();$('#end').classList.add('hidden');$('#custom').classList.add('hidden');
+  G.state='menu';R=null;stopMusic();document.body.classList.remove('playing');$('#end').classList.add('hidden');$('#custom').classList.add('hidden');
   let best=0;try{best=parseInt(localStorage.getItem('sr-best'))||0;}catch(e){}
   const m=$('#menu');
   m.innerHTML=`<div class="card"><h1>SCHOOL RUSH</h1><div class="sub">¡Que llegamos tarde! 🔔</div>
     <p>Son las <b>8:40</b> y el cole cierra a las <b>9:00</b>. ¡Corre con los peques de casa al cole!</p>
     <div class="heroes">${Object.keys(HEROES).map(h=>`<button class="hero ${G.hero===h?'sel':''}" data-h="${h}"><canvas width="220" height="240"></canvas>${HEROES[h].name}</button>`).join('')}
       <button class="hero kids" id="tokids"><canvas width="220" height="240"></canvas>👕 Peques</button></div>
-    <div class="how">${TOUCH?'<span>👉 Toca derecha: saltar</span><span>👈 Mantén izquierda: agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}</div>
+    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}</div>
     <p class="best">${best?`🏆 Récord: ${best} · `:''}🎁 Retos: ${G.done.length}/${RETOS.length}</p>
     <button class="btn" id="play">¡A CORRER!</button></div>`;
   m.classList.remove('hidden');
@@ -1251,7 +1295,8 @@ function drawWith(c,fn){const old=ctx;ctx=c;try{fn();}finally{ctx=old;}}
 function play(){
   try{localStorage.setItem('sr-hero',G.hero);}catch(e){}saveKids();
   $('#menu').classList.add('hidden');$('#custom').classList.add('hidden');$('#end').classList.add('hidden');
-  newRun();G.state='play';audio();startMusic();sfx('power');
+  newRun();G.state='play';audio();startMusic();sfx('power');document.body.classList.add('playing');setTimeout(fit,50);
+  if(TOUCH){try{const el=document.documentElement;if(!document.fullscreenElement&&el.requestFullscreen)el.requestFullscreen({navigationUI:'hide'}).then(()=>{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock('landscape').catch(()=>{});}).catch(()=>{});}catch(e){}}
 }
 
 function burst(){const g=$('#game');for(let i=0;i<40;i++){const d=document.createElement('div');d.className='conf';d.textContent=pick(['🎉','⭐','✨','🎈','🍞']);d.style.left=rnd(2,96)+'%';d.style.animationDuration=rnd(1,2)+'s';g.appendChild(d);setTimeout(()=>d.remove(),2100);}}
@@ -1264,6 +1309,7 @@ function loop(t){
 }
 buildArt();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{buildArt();}catch(e){}});
 menu();requestAnimationFrame(loop);
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
 </body>
 </html>

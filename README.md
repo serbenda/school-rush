@@ -15,6 +15,8 @@ Hecho para jugar con mis hijas (y para reírnos de nuestras mañanas).
 ![Dependencias](https://img.shields.io/badge/dependencias-0-3f7fe6?style=flat-square)
 ![Un archivo](https://img.shields.io/badge/juego-1%20archivo-7b6cf6?style=flat-square)
 ![Móvil](https://img.shields.io/badge/m%C3%B3vil-t%C3%A1ctil-2bb673?style=flat-square)
+![PWA](https://img.shields.io/badge/PWA-instalable-5a0fc8?style=flat-square&logo=pwa&logoColor=white)
+![Offline](https://img.shields.io/badge/funciona-sin%20internet-35b26a?style=flat-square)
 ![RGPD](https://img.shields.io/badge/datos-solo%20en%20tu%20m%C3%B3vil-4fd6e8?style=flat-square)
 
 </div>
@@ -120,13 +122,13 @@ A mitad de carrera, el juego se para un instante… pero **el reloj sigue corrie
 
 ### Controles
 
-| | 💻 Ordenador | 📱 Móvil o tablet (en horizontal) |
+| | 💻 Ordenador | 📱 Móvil o tablet |
 | --- | --- | --- |
-| **Saltar** | `Espacio` o `↑` | Toca la **mitad derecha** |
-| **Doble salto** | Pulsa otra vez en el aire | Toca otra vez en el aire |
-| **Agacharse** | Mantén `↓` | Mantén pulsada la **mitad izquierda** |
-| **Bajar rápido** | `↓` en el aire | Izquierda en el aire |
-| **Momentos** | `Espacio` | Toca la pantalla |
+| **Saltar** | `Espacio` o `↑` | Botón naranja **⬆ SALTAR** (o toca la pantalla) |
+| **Doble salto** | Pulsa otra vez en el aire | Pulsa ⬆ otra vez en el aire |
+| **Agacharse** | Mantén `↓` | Mantén el botón morado **⬇ AGACHAR** |
+| **Bajar rápido** | `↓` en el aire | ⬇ en el aire |
+| **Momentos** | `Espacio` | Cualquier botón o la pantalla |
 
 > La primera vez, un **tutorial a cámara lenta** te dice *¡SALTA!* y *¡AGÁCHATE!* justo cuando toca.
 
@@ -208,11 +210,22 @@ En **👕 Peques** pones el **nombre de tu cole** (sale en el cartel de la entra
 
 ## 📱 En el móvil
 
-| Menú | Carrera |
-| :---: | :---: |
-| <img src="docs/img/movil-menu.png" alt="Menú en el móvil"> | <img src="docs/img/movil-juego.png" alt="Carrera en el móvil"> |
+<table>
+<tr>
+<td width="28%" align="center" valign="top"><img src="docs/img/movil-vertical.png" alt="En vertical" width="220"><br><sub><b>En vertical:</b> botones enormes</sub></td>
+<td width="72%" align="center" valign="top"><img src="docs/img/movil-juego.png" alt="En horizontal"><br><sub><b>En horizontal:</b> pantalla completa con los botones a mano</sub><br><br><img src="docs/img/movil-menu.png" alt="Menú en el móvil"><br><sub><b>Menú</b></sub></td>
+</tr>
+</table>
 
-Se juega **en horizontal**; si el móvil está en vertical, el juego te pide que lo gires.
+Pensado para jugar con el dedo:
+
+| | |
+| --- | --- |
+| 🔄 **En horizontal** | El juego ocupa toda la pantalla y los botones **⬇ AGACHAR** y **⬆ SALTAR** flotan en las esquinas, a mano de los pulgares |
+| 📱 **En vertical** | El juego arriba y dos **botones enormes** debajo: ideal para los más pequeños |
+| ⛶ **Pantalla completa** | En Android se pone a pantalla completa y en horizontal al empezar |
+| 📳 **Vibración** | El móvil vibra en cada golpe (Android) |
+| 📦 **Como una app** | Se instala en la pantalla de inicio con su icono y **funciona sin internet** |
 
 > Todas las imágenes de este README las saca un robot que juega partidas de verdad (ver [Capturas automáticas](#capturas)).
 
@@ -244,9 +257,9 @@ El juego no trata datos personales fuera del propio dispositivo.
 
 | Android (Chrome) | iPhone / iPad (Safari) |
 | --- | --- |
-| Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → menú **⋮** → **Añadir a pantalla de inicio** | Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → **Compartir** → **Añadir a pantalla de inicio** |
+| Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → menú **⋮** → **Instalar aplicación** | Abre [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) → **Compartir** → **Añadir a pantalla de inicio** |
 
-De momento necesita conexión; jugar sin internet está en la hoja de ruta.
+Se abre a pantalla completa, con su icono, y **después de abrirlo una vez con conexión ya funciona sin internet**.
 
 <a id="tecnica"></a>
 
@@ -300,12 +313,17 @@ stateDiagram-v2
 | **Fondos** | Cada tramo se pinta **una sola vez** en capas grandes que luego solo se recortan y desplazan a distinta velocidad, para ir fluido en el móvil |
 | **Tutorial** | La primera partida pone dos obstáculos fijos y ralentiza el tiempo hasta que haces el gesto correcto |
 | **Sonido** | Música y efectos sintetizados con Web Audio: no hay archivos de audio |
+| **Móvil** | En vertical el lienzo ocupa el ancho y los botones el resto; en horizontal, el lienzo ocupa la pantalla y los botones flotan encima |
+| **Sin internet** | Un *service worker* (`sw.js`) guarda el juego: primero intenta la red para tener la última versión y, si no hay conexión, usa lo guardado |
 
 ### 📁 Estructura
 
 ```
 school-rush/
 ├── index.html                  # El juego entero: estilos, dibujo, lógica y menús
+├── manifest.webmanifest        # Datos para instalarlo como app
+├── sw.js                       # Service worker: juego sin internet
+├── icons/                      # Iconos de la app
 ├── fonts/                      # Letras Fredoka y Lilita One (SIL OFL), servidas desde la propia web
 ├── scripts/
 │   └── capturas.py             # Robot que juega y saca las imágenes del README
@@ -324,6 +342,15 @@ cd school-rush
 python3 -m http.server 8000   # para que carguen las fuentes
 # abre http://localhost:8000
 ```
+
+### 🌿 Ramas
+
+| Rama | Para qué |
+| --- | --- |
+| `main` | Versión estable: es la que se publica en [serbenda.github.io/school-rush](https://serbenda.github.io/school-rush/) |
+| `development` | Donde se prueban las novedades antes de pasar a `main` con un *pull request* |
+
+> Si cambias el juego, sube la versión en `sw.js` (`school-rush-v1` → `school-rush-v2`) para que los móviles con la app instalada se actualicen.
 
 <a id="capturas"></a>
 
@@ -351,7 +378,8 @@ python3 scripts/capturas.py
 - [x] Fuentes dentro de la web, sin peticiones a Google
 - [x] Calles de Sanse y Alcobendas, con el toro de los encierros
 - [x] Nombre del cole editable
-- [ ] Jugar sin internet (app instalable)
+- [x] Botones táctiles, modo vertical y pantalla completa en el móvil
+- [x] App instalable que funciona sin internet
 - [ ] Mañanas distintas: lunes, viernes con lluvia, día de excursión
 - [ ] Eventos sorpresa: *¡Se ha dejado el almuerzo!*
 - [ ] Música distinta en cada tramo
