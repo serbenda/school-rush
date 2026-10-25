@@ -11,7 +11,8 @@ addEventListener('keydown',e=>{
   if(e.repeat)return;
   if(e.key===' '||e.key==='ArrowUp'||e.key==='w'||e.key==='W')press();
   if(e.key==='ArrowDown'||e.key==='s'||e.key==='S')inp.duckHeld=true;
-  if(e.key==='Escape'&&G.state==='play')menu();
+  if((e.key==='Escape'||e.key==='p'||e.key==='P')&&(G.state==='play'||G.state==='outro'))pause();
+  else if((e.key==='Escape'||e.key==='p'||e.key==='P'||e.key===' ')&&G.state==='pause')resume();
 });
 addEventListener('keyup',e=>{if(e.key==='ArrowDown'||e.key==='s'||e.key==='S')inp.duckHeld=false;});
 const bJ=$('#bJump'),bD=$('#bDuck');
@@ -29,4 +30,6 @@ cvs.addEventListener('pointerdown',e=>{
 });
 const up=e=>{if(pointers.get(e.pointerId)==='duck'){pointers.delete(e.pointerId);inp.duckHeld=[...pointers.values()].includes('duck');}else pointers.delete(e.pointerId);};
 ['pointerup','pointercancel','pointerleave'].forEach(ev=>cvs.addEventListener(ev,up));
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&AC)AC.suspend();else if(AC&&G.state==='play')AC.resume();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(G.state==='play'||G.state==='outro')pause();if(AC)AC.suspend();}else if(AC&&G.state==='play')AC.resume();});
+window.addEventListener('pagehide',()=>{if(G.state==='play')pause();});
+$('#pausebtn').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(G.state==='pause')resume();else pause();});

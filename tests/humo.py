@@ -89,6 +89,22 @@ def main():
             pg.wait_for_timeout(1500)
             ok(pg.evaluate("()=>G.state==='play'&&R.mode.vel>1"), f"Mañana '{man}' en modo padres: se juega sin errores")
 
+        # --- pausa y ajustes ---
+        pg.goto(url); pg.evaluate("()=>{localStorage.clear();localStorage.setItem('sr-tut','1')}"); pg.goto(url)
+        pg.wait_for_timeout(500); pg.click("#calm"); pg.click("#big"); pg.wait_for_timeout(100)
+        ok(pg.evaluate("()=>G.calm&&G.big&&localStorage.getItem('sr-calm')==='1'"), "Ajustes 'Menos movimiento' y 'Letras grandes' se activan y se guardan")
+        pg.click("#play"); pg.wait_for_timeout(1500)
+        pg.click("#pausebtn"); pg.wait_for_timeout(200)
+        d0 = pg.evaluate("()=>[R.dist,R.clock]"); pg.wait_for_timeout(1200); d1 = pg.evaluate("()=>[R.dist,R.clock]")
+        ok(pg.evaluate("()=>G.state")=="pause" and d0 == d1 and pg.is_visible("#resume"), "La pausa para la carrera y el reloj")
+        pg.click("#resume"); pg.wait_for_timeout(600)
+        ok(pg.evaluate("()=>G.state")=="play" and pg.evaluate("()=>R.dist") > d1[0], "Al seguir, la carrera continúa")
+        pg.evaluate("()=>document.dispatchEvent(new Event('visibilitychange'))") 
+        pg.keyboard.press("p"); pg.wait_for_timeout(150)
+        ok(pg.evaluate("()=>G.state")=="pause", "La tecla P pausa")
+        pg.keyboard.press("p"); pg.wait_for_timeout(150)
+        ok(pg.evaluate("()=>G.state")=="play", "La tecla P reanuda")
+
         # --- móvil en vertical y horizontal ---
         for nombre, vp in (("vertical", {"width": 390, "height": 844}), ("horizontal", {"width": 844, "height": 390})):
             m = b.new_context(viewport=vp, has_touch=True, is_mobile=True).new_page()

@@ -87,6 +87,9 @@ Son las **8:40**. Hay que despertar, desayunar, lavarse los dientes, vestirse…
 | 😌 **Sin frustración** | Nadie pierde a mitad: los golpes solo suman minutos al reloj y siempre se llega al cole |
 | 🚫 **Sin anuncios ni compras** | Ni cuentas, ni registros, ni nada que pagar |
 | 🔇 **Silenciable** | Botón 🔇 para jugar sin sonido |
+| ⏸ **Pausa** | Botón ⏸ (o tecla `P`). También se pausa sola si cambias de app o te llaman |
+| 🧘 **Menos movimiento** | Sin temblores de pantalla ni destellos, y menos confeti. Se activa solo si el móvil tiene puesta la opción de reducir movimiento |
+| 🔠 **Letras grandes** | Textos más grandes en el juego y en los menús |
 | 📱 **Dónde** | Móvil o tablet en horizontal, o en el ordenador con el teclado |
 
 <a id="tramos"></a>
@@ -283,7 +286,8 @@ Pensado para jugar con el dedo:
 | --- | --- |
 | 🔄 **En horizontal** | El juego ocupa toda la pantalla y los botones **⬇ AGACHAR** y **⬆ SALTAR** flotan en las esquinas, a mano de los pulgares |
 | 📱 **En vertical** | El juego arriba y dos **botones enormes** debajo: ideal para los más pequeños |
-| ⛶ **Pantalla completa** | En Android se pone a pantalla completa y en horizontal al empezar |
+| ⛶ **Pantalla completa** | En Android se pone a pantalla completa y en horizontal al empezar. En iPhone, el menú explica cómo añadirlo a la pantalla de inicio para lo mismo |
+| 🐢 **Móviles antiguos** | Si el juego va lento, baja la calidad y los efectos solo para que siga fluido |
 | 📳 **Vibración** | El móvil vibra en cada golpe (Android) |
 | 📦 **Como una app** | Se instala en la pantalla de inicio con su icono y **funciona sin internet** |
 
@@ -376,6 +380,8 @@ stateDiagram-v2
 | **Voz** | `speechSynthesis` del navegador en español: sin archivos ni conexión |
 | **Ayuda (modo peques)** | Mira el obstáculo que llega, calcula cuándo chocaría según la velocidad y salta o se agacha justo a tiempo |
 | **Récords** | Por jugador y por modo, guardados en el móvil |
+| **iPhone** | El sonido y la voz se desbloquean con el primer toque (Safari no deja sonar nada antes) |
+| **Modo ligero** | Mide los fotogramas por segundo; si van por debajo de 40 durante 3 s, baja la resolución y las partículas |
 | **Móvil** | En vertical el lienzo ocupa el ancho y los botones el resto; en horizontal, el lienzo ocupa la pantalla y los botones flotan encima |
 | **Sin internet** | Un *service worker* (`sw.js`) guarda el juego: primero intenta la red para tener la última versión y, si no hay conexión, usa lo guardado |
 
@@ -478,6 +484,7 @@ python3 scripts/capturas.py
 - [x] Sorpresas: el almuerzo olvidado y el perro que viene por detrás
 - [x] Música distinta en cada tramo, que se acelera antes de las 9:00
 - [x] Escena final con el conserje y récords por jugador
+- [x] Pausa, menos movimiento, letras grandes y modo ligero para móviles antiguos
 - [ ] Probarlo con las probadoras oficiales en un iPhone de verdad
 - [ ] El juego también en inglés (el README ya lo está)
 

@@ -45,8 +45,8 @@ function spawn(){
     R.gen=x+def.w+speedAt(x)*gapS*rnd(1,1.7)+(def.vx?-def.vx*1.2:0);
   }
 }
-function say(s,x,y,col,size){R.texts.push({s,x,y,col:col||'#fff',t:1.1,size:size||26});}
-function puff(x,y,col,n,sp){for(let i=0;i<(n||10);i++)R.parts.push({x,y,vx:rnd(-1,1)*(sp||160),vy:rnd(-1,.2)*(sp||160),t:rnd(.3,.7),r:rnd(3,7),col:col||'#fff'});}
+function say(s,x,y,col,size){R.texts.push({s,x,y,col:col||'#fff',t:1.1,size:Math.round((size||26)*(G.big?1.3:1))});}
+function puff(x,y,col,n,sp){n=n||10;if(G.lite||G.calm)n=Math.ceil(n/2);for(let i=0;i<n;i++)R.parts.push({x,y,vx:rnd(-1,1)*(sp||160),vy:rnd(-1,.2)*(sp||160),t:rnd(.3,.7),r:rnd(3,7),col:col||'#fff'});}
 function hit(o){
   const p=R.p;
   if(p.inv>0)return;
@@ -234,4 +234,19 @@ function finish(){
   $('#again').onclick=play;if($('#tomenu'))$('#tomenu').onclick=menu;if($('#dress'))$('#dress').onclick=()=>{menu();custom();};
   if(prizes.length||rec)setTimeout(()=>{sfx('power');burst();},500);
   if(stars>=2)sfx('win');else sfx('bad');
+}
+
+// ---------- pausa ----------
+function pause(){
+  if(G.state!=='play'&&G.state!=='outro')return;
+  G.prev=G.state;G.state='pause';stopMusic();callar();inp.duckHeld=false;document.body.classList.remove('playing');document.body.classList.add('paused');
+  const o=$('#pauseov');
+  o.innerHTML=`<div class="card"><h1>PAUSA</h1><p>Son las <b>${fmt(R.clock)}</b>… ¡el reloj está parado!</p>
+    <button class="btn" id="resume">▶ SEGUIR</button><button class="btn alt" id="quit">MENÚ</button></div>`;
+  o.classList.remove('hidden');
+  $('#resume').onclick=resume;$('#quit').onclick=()=>{o.classList.add('hidden');document.body.classList.remove('paused');menu();};
+}
+function resume(){
+  if(G.state!=='pause')return;
+  $('#pauseov').classList.add('hidden');document.body.classList.remove('paused');G.state=G.prev||'play';document.body.classList.add('playing');audio();startMusic();setTimeout(fit,30);
 }

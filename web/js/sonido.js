@@ -6,6 +6,9 @@ let AC,master,musicGain,musicTimer=null;
 function audio(){
   if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=G.muted?0:1;master.connect(AC.destination);musicGain=AC.createGain();musicGain.gain.value=.05;musicGain.connect(master);}catch(e){}}
   if(AC&&AC.state==='suspended')AC.resume();
+  if(!audio.unlocked&&AC){audio.unlocked=true;
+    try{const b=AC.createBuffer(1,1,22050),src=AC.createBufferSource();src.buffer=b;src.connect(AC.destination);src.start(0);}catch(e){}
+    try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u);}}catch(e){}}
 }
 function tone(f1,f2,d,type,vol,when){
   if(!AC)return;const t=(when||AC.currentTime);
