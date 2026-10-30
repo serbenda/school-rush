@@ -7,6 +7,7 @@
 let R=null;
 const inp={jumpBuf:0,duckHeld:false};
 function newRun(){
+  try { globalThis.goatcounter?.count?.({ path: 'partida/school-rush', title: 'Partida empezada', event: true }); } catch { /* sin contador de visitas */ }
   R={dist:0,speed:330,clock:START,score:0,streak:0,mult:1,hits:0,toasts:0,t:0,shake:0,
      p:{y:GY,vy:0,onG:true,jumps:0,sx:1,sy:1,ph:0,inv:0,face:'happy',faceT:0,rot:0,spin:0,blinkT:2},
      kids:[{dx:-110,trip:0},{dx:-200,trip:0}],hist:[],
