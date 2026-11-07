@@ -101,6 +101,15 @@ def main():
         pg.wait_for_timeout(2600)
         ok(pg.evaluate("()=>!!R.blanca&&R.blanca.cafe&&secAt(BAR_X)==='alco'"), "En Alcobendas, Blanca saluda desde Álvaro's Gastrobar y da un café")
 
+        # --- elegir voz: prefiere las voces naturales y descarta las robóticas ---
+        orden = pg.evaluate("""()=>[{name:'eSpeak Spanish',lang:'es-ES',localService:true},{name:'Microsoft Elvira Online (Natural)',lang:'es-ES',localService:false},{name:'Paulina',lang:'es-MX',localService:true}].map(v=>[v.name,puntuarVoz(v)]).sort((a,b)=>b[1]-a[1]).map(x=>x[0])""")
+        ok(orden[0].startswith("Microsoft Elvira") and orden[-1].startswith("eSpeak"), "La voz elige la más natural y deja la robótica para el final")
+        pg.evaluate("()=>{G.voz=true;menu()}"); pg.wait_for_timeout(200)
+        if pg.query_selector("#vozpick"):
+            pg.click("#vozpick"); pg.wait_for_timeout(200)
+            ok(pg.is_visible("#vozok"), "Se abre el panel para elegir la voz")
+            pg.click("#vozok"); pg.wait_for_timeout(200)
+
         # --- pausa y ajustes ---
         pg.goto(url); pg.evaluate("()=>{localStorage.clear();localStorage.setItem('sr-tut','1')}"); pg.goto(url)
         pg.wait_for_timeout(500); pg.click("#calm"); pg.click("#big"); pg.wait_for_timeout(100)
