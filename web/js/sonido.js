@@ -70,19 +70,45 @@ $('#mute').textContent=G.muted?'🔇':'🔊';
 $('#mute').onclick=e=>{e.stopPropagation();G.muted=!G.muted;$('#mute').textContent=G.muted?'🔇':'🔊';if(master)master.gain.value=G.muted?0:1;try{localStorage.setItem('sr-muted',G.muted?'1':'0');}catch(e){}};
 
 // ---------- voz que avisa (para quien aún no lee) ----------
-let vozES=null,ultimaVoz=0;
+// Usa la voz del propio dispositivo. Elige la más natural que encuentre
+// (voces "neural", "natural", "mejorada" o de Google/Microsoft en línea) y evita las robóticas.
+let vozES=null,ultimaVoz=0,VOCES=[];
+const BUENAS=/natural|neural|online|premium|enhanced|mejorad|google|siri|wavenet/i;
+const NOMBRES=/m[oó]nica|paulina|marisol|elvira|dalia|helena|laura|luc[ií]a|elena|ximena|paloma|sabina|isabela|conchita|alvaro|álvaro|jorge|pablo/i;
+const MALAS=/espeak|compact|robot|novelty|bad news|bells|bubbles|whisper|zarvox|trinoids|cellos|organ|albert|fred|junior|ralph|grandpa|grandma|rocko|shelley|eddy|flo|reed|sandy/i;
+function puntuarVoz(v){
+  let p=0;
+  if(/^es[-_]ES/i.test(v.lang))p+=6;else if(/^es/i.test(v.lang))p+=3;else return -99;
+  if(BUENAS.test(v.name))p+=8;
+  if(NOMBRES.test(v.name))p+=3;
+  if(v.localService===false)p+=2;
+  if(MALAS.test(v.name))p-=20;
+  if(/female|mujer/i.test(v.name))p+=1;
+  return p;
+}
 function elegirVoz(){
-  try{const vs=speechSynthesis.getVoices();vozES=vs.find(v=>/^es[-_]ES/i.test(v.lang))||vs.find(v=>/^es/i.test(v.lang))||null;}catch(e){}
+  try{
+    VOCES=speechSynthesis.getVoices().filter(v=>/^es/i.test(v.lang)).map(v=>({v,p:puntuarVoz(v)})).filter(x=>x.p>-50).sort((a,b)=>b.p-a.p).map(x=>x.v);
+    let fav='';try{fav=localStorage.getItem('sr-vozname')||'';}catch(e){}
+    vozES=VOCES.find(v=>v.name===fav)||VOCES[0]||null;
+  }catch(e){}
 }
 try{if('speechSynthesis' in window){elegirVoz();speechSynthesis.onvoiceschanged=elegirVoz;}}catch(e){}
+// Frases con un poco de entonación: las exclamaciones algo más altas y rápidas, el resto natural
 function hablar(txt,urgente){
   if(!G.voz||G.muted)return;
   try{
-    if(!('speechSynthesis' in window))return;
+    if(!('speechSynthesis' in window)||!txt)return;
     const now=performance.now();if(!urgente&&now-ultimaVoz<900)return;ultimaVoz=now;
     if(urgente)speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(txt);u.lang='es-ES';if(vozES)u.voice=vozES;u.rate=1.15;u.pitch=1.15;u.volume=1;
+    if(!vozES)elegirVoz();
+    const limpio=txt.replace(/[^\p{L}\p{N}\s¡!¿?,.'’]/gu,'').replace(/\s+/g,' ').trim();
+    const u=new SpeechSynthesisUtterance(limpio);u.lang=vozES?vozES.lang:'es-ES';if(vozES)u.voice=vozES;
+    const exclama=/!/.test(txt),natural=vozES&&BUENAS.test(vozES.name);
+    u.rate=natural?(exclama?1.08:1):(exclama?1.02:.95);
+    u.pitch=exclama?1.12:1.02;u.volume=1;
     speechSynthesis.speak(u);
   }catch(e){}
 }
 function callar(){try{speechSynthesis.cancel();}catch(e){}}
+function probarVoz(v){try{callar();const u=new SpeechSynthesisUtterance('¡Hola, familia! ¡Que llegamos tarde al cole!');u.voice=v;u.lang=v.lang;u.rate=BUENAS.test(v.name)?1.05:1;u.pitch=1.1;speechSynthesis.speak(u);}catch(e){}}

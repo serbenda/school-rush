@@ -16,7 +16,7 @@ function menu(){
     <div class="opt"><span class="ol">🎚️ Modo</span><div class="chips" id="modos">${Object.keys(MODOS).map(k=>`<button class="chip ${k===G.modo?'sel':''}" data-m="${k}" title="${esc(MODOS[k].desc)}">${MODOS[k].icono} ${MODOS[k].nombre}</button>`).join('')}</div></div>
     <div class="opt"><span class="ol">📅 Mañana</span><div class="chips" id="mananas">${Object.keys(MANANAS).map(k=>`<button class="chip ${k===G.manana?'sel':''}" data-d="${k}">${MANANAS[k].icono} ${MANANAS[k].nombre}</button>`).join('')}</div></div>
     <p class="mdesc" id="mdesc">${esc(MODO().desc)}</p>
-    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}<button class="chip voz ${G.voz?'sel':''}" id="voz">${G.voz?'🗣️ Voz: sí':'🤫 Voz: no'}</button><button class="chip ${G.calm?'sel':''}" id="calm">🧘 Menos movimiento</button><button class="chip ${G.big?'sel':''}" id="big">🔠 Letras grandes</button></div>
+    <div class="how">${TOUCH?'<span>⬆ Saltar (doble)</span><span>⬇ Agacharse</span>':'<span>Espacio/↑: saltar (doble)</span><span>↓: agacharse</span>'}<button class="chip voz ${G.voz?'sel':''}" id="voz">${G.voz?'🗣️ Voz: sí':'🤫 Voz: no'}</button>${G.voz&&'speechSynthesis' in window?'<button class="chip" id="vozpick">🎙️ Elegir voz</button>':''}<button class="chip ${G.calm?'sel':''}" id="calm">🧘 Menos movimiento</button><button class="chip ${G.big?'sel':''}" id="big">🔠 Letras grandes</button></div>
     ${IOS&&!STANDALONE&&!G.iosTipOff?'<p class="iostip" id="iostip">📲 En iPhone: <b>Compartir</b> → <b>Añadir a pantalla de inicio</b> para jugar a pantalla completa y sin internet <button class="x" id="iosx" aria-label="Cerrar">✕</button></p>':''}
     <p class="best">${(()=>{const r=leerRecords()[jugadorActual()];const b=r&&r[G.modo];return b?`🏆 Récord de ${esc(jugadorActual())} (${MODO().nombre}): ${b.score} · `:'';})()}🎁 Retos: ${G.done.length}/${RETOS.length}</p>
     <button class="btn" id="play">¡A CORRER!</button></div>`;
@@ -36,6 +36,7 @@ function menu(){
   $('#calm').onclick=()=>{G.calm=!G.calm;try{localStorage.setItem('sr-calm',G.calm?'1':'0');}catch(e){}sfx('tap');menu();};
   $('#big').onclick=()=>{G.big=!G.big;try{localStorage.setItem('sr-big',G.big?'1':'0');}catch(e){}document.body.classList.toggle('big',G.big);sfx('tap');menu();};
   if($('#iosx'))$('#iosx').onclick=()=>{G.iosTipOff=true;try{localStorage.setItem('sr-iostip','1');}catch(e){}menu();};
+  if($('#vozpick'))$('#vozpick').onclick=()=>{sfx('tap');audio();vozPanel();};
   $('#voz').onclick=()=>{G.voz=!G.voz;saveOpts();sfx('tap');if(G.voz){audio();hablar('¡Hola! Yo te aviso',true);}menu();};
   $('#play').onclick=play;
 }
@@ -91,3 +92,19 @@ try{G.iosTipOff=localStorage.getItem('sr-iostip')==='1';}catch(e){}document.body
 buildArt();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{buildArt();}catch(e){}});
 menu();requestAnimationFrame(loop);
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+// ---------- elegir voz ----------
+function vozPanel(){
+  elegirVoz();$('#menu').classList.add('hidden');
+  const c=$('#custom');
+  const tipo=v=>BUENAS.test(v.name)?'<span class="vq">✨ natural</span>':(v.localService===false?'<span class="vq">en línea</span>':'');
+  const lista=VOCES.slice(0,12);
+  c.innerHTML=`<div class="card"><h1 style="font-size:30px">LA VOZ</h1>
+    <p class="small">Son las voces que trae tu ${TOUCH?'móvil':'ordenador'}. Toca una para oírla y elegirla.</p>
+    <div class="voces">${lista.length?lista.map((v,i)=>`<button class="vbtn ${vozES&&v.name===vozES.name?'sel':''}" data-i="${i}">🔊 ${esc(v.name.replace(/\s*\(.*\)$/,''))} <small>${esc(v.lang)}</small> ${tipo(v)}</button>`).join(''):'<p>No hay voces en español en este dispositivo.</p>'}</div>
+    <p class="small vhelp">${IOS?'💡 Para una voz más natural en iPhone: <b>Ajustes → Accesibilidad → Contenido leído → Voces → Español (España)</b> y descarga una voz <b>mejorada</b> o <b>premium</b> (por ejemplo Mónica).':TOUCH?'💡 Para una voz más natural en Android: <b>Ajustes → Accesibilidad → Texto a voz</b>, elige <b>Google</b> y descarga la voz de <b>Español (España)</b> en alta calidad.':'💡 En Edge y Chrome suelen aparecer voces <b>Natural</b> u <b>Online</b>, que son las que mejor suenan.'}</p>
+    <button class="btn" id="vozok">¡LISTO!</button></div>`;
+  c.classList.remove('hidden');
+  c.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>{const v=lista[+b.dataset.i];vozES=v;try{localStorage.setItem('sr-vozname',v.name);}catch(e){}c.querySelectorAll('.vbtn').forEach(x=>x.classList.toggle('sel',x===b));probarVoz(v);});
+  $('#vozok').onclick=()=>{sfx('tap');c.classList.add('hidden');menu();};
+}

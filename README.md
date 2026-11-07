@@ -213,6 +213,14 @@ Una partida dura **algo más de un minuto** y, jugando bien, se llega sobre las 
 
 Usa la voz del propio móvil, en español. Avisa en los cambios de tramo (*¡Sanse!*, *¡Alcobendas!*), de los peligros (*¡Que viene el toro!*, *¡Un perro por detrás!*), en los momentos (*¡Rojo! Espera al verde*… *¡Verde! ¡Ya!*) y al llegar. Se puede quitar con el botón **🗣️ Voz** del menú.
 
+Elige sola la voz **más natural** que tenga el dispositivo (las *natural*, *neural*, *mejorada* o de Google/Microsoft en línea) y deja las robóticas para el final. Con **🎙️ Elegir voz** puedes oír las que hay y quedarte con la que más os guste.
+
+| Para una voz aún más natural | |
+| --- | --- |
+| 📱 **iPhone / iPad** | *Ajustes → Accesibilidad → Contenido leído → Voces → Español (España)* y descarga una voz **mejorada** o **premium** (por ejemplo, Mónica) |
+| 🤖 **Android** | *Ajustes → Accesibilidad → Texto a voz*: elige el motor de **Google** y descarga **Español (España)** en alta calidad |
+| 💻 **Ordenador** | En **Edge** salen voces *Natural* (como Elvira o Álvaro) que suenan casi como una persona |
+
 ### 📅 Cuatro mañanas
 
 | ☀️ Lunes | 🌧️ Viernes con lluvia |
