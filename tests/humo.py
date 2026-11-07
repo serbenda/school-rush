@@ -37,12 +37,17 @@ def main():
     srv, url = servidor()
     with sync_playwright() as p:
         b = p.chromium.launch()
+        # el contador de visitas (GoatCounter) no se carga en los tests: ni cuenta visitas falsas ni depende de la red
+        real_new_page = b.new_page
+        def new_page(**kw):
+            pg_ = real_new_page(**kw); pg_.route("**/gc.zgo.at/**", lambda r: r.abort()); pg_.route("**goatcounter.com/**", lambda r: r.abort()); return pg_
+        b.new_page = new_page
 
         # --- escritorio: partida completa ---
         pg = b.new_page(viewport={"width": 1280, "height": 720})
         errores = []
         pg.on("pageerror", lambda e: errores.append(str(e)))
-        pg.on("console", lambda m: m.type == "error" and errores.append(m.text))
+        pg.on("console", lambda m: m.type == "error" and "Failed to load resource" not in m.text and errores.append(m.text))
         pg.goto(url); pg.evaluate("()=>{localStorage.clear();localStorage.setItem('sr-tut','1')}"); pg.goto(url)
         pg.wait_for_timeout(800)
         ok(pg.is_visible("#play"), "El menú se muestra con el botón ¡A CORRER!")
@@ -88,6 +93,13 @@ def main():
             pg.evaluate("()=>{R.dist=12000;R.gen=12400;R.obs=[];R.items=[];R.moments.forEach(m=>{if(m.at<13000)m.done=true})}")
             pg.wait_for_timeout(1500)
             ok(pg.evaluate("()=>G.state==='play'&&R.mode.vel>1"), f"Mañana '{man}' en modo padres: se juega sin errores")
+
+        # --- Álvaro's Gastrobar en Alcobendas ---
+        pg.goto(url); pg.evaluate("()=>{localStorage.clear();localStorage.setItem('sr-tut','1')}"); pg.goto(url)
+        pg.wait_for_timeout(500); pg.click("#play"); pg.wait_for_timeout(300)
+        pg.evaluate("()=>{R.dist=BAR_X-600;R.gen=R.dist+300;R.obs=[];R.items=[];R.events.forEach(e=>e.done=true);R.moments.forEach(m=>{if(m.at<BAR_X)m.done=true})}")
+        pg.wait_for_timeout(2600)
+        ok(pg.evaluate("()=>!!R.blanca&&R.blanca.cafe&&secAt(BAR_X)==='alco'"), "En Alcobendas, Blanca saluda desde Álvaro's Gastrobar y da un café")
 
         # --- pausa y ajustes ---
         pg.goto(url); pg.evaluate("()=>{localStorage.clear();localStorage.setItem('sr-tut','1')}"); pg.goto(url)

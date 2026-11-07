@@ -41,6 +41,12 @@ function drawScene(){
   const ranges=[['casa',-1e9,B1],['sanse',B1,BM],['alco',BM,B2],['cole',B2,1e12]];
   ranges.forEach(([k,a,b])=>{const sa=a-cam,sb=b-cam;if(sb<0||sa>W)return;ctx.save();ctx.beginPath();ctx.rect(Math.max(0,sa),0,Math.min(W,sb)-Math.max(0,sa),H);ctx.clip();BG[k](cam);ctx.restore();});
   const d1=B1-cam;if(d1>-200&&d1<W+50)drawFrontDoor(d1-60);
+  const bx=BAR_X-cam;if(bx>-560&&bx<W+140){drawAlvaros(bx,G.t);
+    const near=R&&R.blanca;const bxB=bx+262;
+    ctx.globalAlpha=.2;ell(bxB,GY+4,36,6,'#2b1a3a',0);ctx.globalAlpha=1;
+    drawAdult(bxB,GY,{hero:'blanca',state:'idle',t:G.t,wave:!!near,face:near?'open':'happy',sx:-1,blink:(G.t%3.3)<.12});
+    if(near&&near.t<2.6){const a=Math.min(1,(2.6-near.t)*2);ctx.globalAlpha=a;const qx=bxB+150,qy=GY-150;rr(qx-110,qy-30,220,58,18,'#fff',4);ctx.beginPath();ctx.moveTo(qx-100,qy+4);ctx.lineTo(qx-138,qy+14);ctx.lineTo(qx-100,qy+20);ctx.closePath();shape('#fff',0);txt('¡Hola, familia! ☕',qx,qy-1,22,'#c0392b','center','#fff');ctx.globalAlpha=1;}
+  }
 }
 function render(){
   ctx.setTransform(SC*DPR,0,0,SC*DPR,0,0);

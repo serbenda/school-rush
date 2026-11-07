@@ -11,7 +11,7 @@ const hash=i=>{const s=Math.sin(i*127.1+311.7)*43758.5453;return s-Math.floor(s)
 
 const W=960,H=540,GY=440;
 const START=8*60+40,BELL=9*60,SEC_PER_MIN=5.5;
-const D=30000,B1=9000,BM=17100,B2=24000;           // longitud y fronteras casa|calle|cole
+const D=30000,B1=9000,BM=17100,B2=24000,BAR_X=B2-1450;   // BAR_X: Álvaro's Gastrobar, en Alcobendas           // longitud y fronteras casa|calle|cole
 const PX=250;                              // posición de la mamá en pantalla
 const OL='#2b2340';
 

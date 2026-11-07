@@ -419,3 +419,46 @@ function drawSchoolGate(sx,open){
   const w=170*(1-open);for(let x=0;x<w;x+=20)seg(sx+10+x,GY-180,sx+10+x,GY,'#4a4a5c',6);
   if(w>4){seg(sx+10,GY-180,sx+10+w,GY-180,'#4a4a5c',8);seg(sx+10,GY-90,sx+10+w,GY-90,'#4a4a5c',6);}
 }
+
+// ---------------- ÁLVARO'S GASTROBAR (Alcobendas) ----------------
+function drawAlvaros(sx,t){
+  const top=GY-300,w=420;
+  // fachada
+  rr(sx,top,w,300,6,lin(sx,0,sx+w,0,[[0,'#f4e6cc'],[1,'#ead6b2']]),5);
+  rr(sx-8,top-14,w+16,18,4,'#fffaf0',4);
+  // letrero de madera con bombillas
+  const lx=sx+40,ly=top+18,lw=340,lh=84;
+  seg(lx+70,top+4,lx+70,ly,'#5a4030',3);seg(lx+lw-70,top+4,lx+lw-70,ly,'#5a4030',3);
+  rr(lx,ly,lw,lh,8,'#24160f',0);rr(lx+4,ly+4,lw-8,lh-8,6,'#d9a868',0);rr(lx+12,ly+12,lw-24,lh-24,4,'#fffaf0',0);
+  const ph=Math.floor(t*4);let i=0;
+  for(let x=lx+14;x<=lx+lw-14;x+=14){[ly+8,ly+lh-8].forEach(y=>{const on=(i+ph)%3!==0;if(on){ctx.globalAlpha=.35;circ(x,y,5,'#ffe08a',0);ctx.globalAlpha=1;}circ(x,y,2.6,on?'#fff3b0':'#a8743e',0);i++;});}
+  // taza con vapor
+  rr(lx+26,ly+34,26,22,4,'#fff',3);rr(lx+26,ly+34,26,5,2,'#6f3b1e',0);ctx.beginPath();ctx.arc(lx+54,ly+45,6,-Math.PI/2,Math.PI/2);ctx.lineWidth=3;ctx.strokeStyle=OL;ctx.stroke();
+  for(let k=0;k<2;k++){ctx.beginPath();ctx.moveTo(lx+34+k*10,ly+30);ctx.quadraticCurveTo(lx+30+k*10+Math.sin(t*3+k)*3,ly+24,lx+36+k*10,ly+16);ctx.lineWidth=2.5;ctx.strokeStyle='#c9c9d4';ctx.stroke();}
+  txt("ÁLVARO'S",lx+lw/2+22,ly+36,34,'#c0392b','center','#fffaf0');
+  ctx.font="12px 'Lilita One',system-ui,sans-serif";ctx.textAlign='center';ctx.fillStyle='#8a5a32';ctx.fillText('G A S T R O B A R',lx+lw/2+22,ly+62);
+  // toldo
+  const ay=top+120;for(let k=0;k<12;k++){ctx.beginPath();const ax=sx+14+k*33;ctx.moveTo(ax,ay);ctx.lineTo(ax+33,ay);ctx.lineTo(ax+33,ay+26);ctx.quadraticCurveTo(ax+16,ay+36,ax,ay+26);ctx.closePath();shape(k%2?'#fffaf0':'#c0392b',0);}
+  rr(sx+14,ay,396,26,2,null,4);
+  // escaparate con el bar por dentro
+  const wx=sx+22,wy=ay+40,ww=250,wh=GY-wy-8;
+  rr(wx,wy,ww,wh,4,'#fdf6e8',4);
+  ctx.save();ctx.beginPath();ctx.rect(wx+3,wy+3,ww-6,wh-6);ctx.clip();
+  fillR(wx,wy,ww,wh,lin(0,wy,0,wy+wh,[[0,'#fff6dc'],[1,'#f3dfb8']]));
+  // lámparas y estantería
+  [wx+60,wx+190].forEach(x=>{seg(x,wy,x,wy+18,OL,2);ctx.beginPath();ctx.arc(x,wy+26,12,Math.PI,0);ctx.closePath();shape('#e9b820',2.5);ctx.globalAlpha=.25;circ(x,wy+34,26,'#fff3b0',0);ctx.globalAlpha=1;});
+  rr(wx+20,wy+48,210,6,2,'#a8713a',2);for(let k=0;k<9;k++)rr(wx+26+k*23,wy+32,12,16,3,['#e9b820','#8c7279','#2bb673','#c0392b'][k%4],2);
+  // barra
+  rr(wx,wy+wh-46,ww,46,0,'#a8713a',0);rr(wx,wy+wh-50,ww,6,0,'#dcae74',0);
+  [wx+40,wx+110,wx+180].forEach(x=>{rr(x,wy+wh-66,16,16,3,'#fff',2);rr(x,wy+wh-66,16,4,1,'#6f3b1e',0);});
+  rr(wx+140,wy+wh-90,40,40,6,'#9aa3a8',2.5);rr(wx+146,wy+wh-82,28,10,2,'#3a3f42',0);
+  ctx.restore();
+  ctx.globalAlpha=.35;ctx.beginPath();ctx.moveTo(wx+18,wy+8);ctx.lineTo(wx+60,wy+8);ctx.lineTo(wx+26,wy+wh-10);ctx.closePath();ctx.fillStyle='#fff';ctx.fill();ctx.globalAlpha=1;
+  rr(wx,wy,ww,wh,4,null,4);
+  // puerta
+  const dx=sx+296,dw=96;rr(dx,wy-6,dw,GY-wy+6,6,'#8a5a32',4);rr(dx+10,wy+6,dw-20,GY-wy-40,4,'#cfeeff',3);circ(dx+dw-16,GY-60,4,'#ffd23f',2);
+  rr(dx+14,wy+24,dw-28,22,4,'#fff',2);txt('ABIERTO',dx+dw/2,wy+35,12,'#2bb673','center','#fff');
+  // terraza
+  const tx=sx-110;rr(tx+40,GY-70,8,70,2,'#3a3550',2);ell(tx+44,GY-72,40,8,'#fffaf0',3);rr(tx+30,GY-88,14,12,3,'#fff',2);
+  [tx,tx+80].forEach(x=>{rr(x,GY-48,24,6,2,'#c0392b',2.5);seg(x+3,GY-42,x+3,GY,OL,3);seg(x+21,GY-42,x+21,GY,OL,3);seg(x+21,GY-48,x+21,GY-80,OL,3);});
+}

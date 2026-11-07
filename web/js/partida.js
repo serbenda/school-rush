@@ -16,7 +16,7 @@ function newRun(){
      banner:{txt:G.manana==='lunes'?'¡CASA!':MANANAS[G.manana].banner,t:1.9},sec:'casa',end:false,freeze:0,st:{maxMult:1,powers:[],reflex:9},
      mode:MODO(),events:[],assistDuck:false,lastPrompt:0};
   // sorpresas: el almuerzo olvidado y el perro que viene por detrás, en sitios al azar
-  const zonaA=[B1+1400,BM-1600],zonaB=[BM+900,B2-1900];
+  const zonaA=[B1+1400,BM-1600],zonaB=[BM+900,BAR_X-1700];
   const [z1,z2]=Math.random()<.5?[zonaA,zonaB]:[zonaB,zonaA];
   R.events.push({type:'lunch',at:rnd(z1[0],z1[1]),done:false},{type:'chase',at:rnd(z2[0],z2[1]),done:false});
   hablar(G.manana==='lunes'?'¡Que llegamos tarde!':MANANAS[G.manana].banner.replace(/¡|!/g,''),true);
@@ -32,7 +32,7 @@ const speedAt=x=>(330+Math.min(170,x/140))*(R&&R.mode?R.mode.vel:1);
 function spawn(){
   while(R.gen<R.dist+W+700){
     const x=R.gen;
-    const blocked=R.moments.some(m=>x>m.at-1100&&x<m.at+250)||[B1,BM,B2].some(b=>x>b-450&&x<b+350)||x>D-1200||R.events.some(e=>x>e.at-200&&x<e.at+(e.type==='lunch'?1500:900));
+    const blocked=R.moments.some(m=>x>m.at-1100&&x<m.at+250)||[B1,BM,B2].some(b=>x>b-450&&x<b+350)||x>D-1200||R.events.some(e=>x>e.at-200&&x<e.at+(e.type==='lunch'?1500:900))||(x>BAR_X-700&&x<BAR_X+700);
     if(blocked){R.gen+=120;continue;}
     const sec=secAt(x);
     if(x>R.nextPow){const tipos=G.manana==='lluvia'?['umbrella','umbrella','scooter','coffee']:Object.keys(POWERS);R.items.push({kind:'power',type:pick(tipos),x:x,y:GY-170});R.nextPow=x+rnd(3800,5200);R.gen+=420;continue;}
@@ -110,6 +110,10 @@ function update(dt){
   const sec=secAt(R.dist+PX);if(sec!==R.sec){R.sec=sec;R.banner={txt:{sanse:'¡SANSE!',alco:'¡ALCOBENDAS!',cole:G.school?'¡'+G.school.toUpperCase()+'!':'¡EL COLE!'}[sec]||'',t:1.8};sfx('power');hablar({sanse:'¡Sanse!',alco:'¡Alcobendas!',cole:'¡Ya llegamos al cole!'}[sec]||'');}
   // momentos
   const m=R.moments.find(m=>!m.done&&R.dist>=m.at);if(m){startMoment(m);return;}
+  // Álvaro's Gastrobar: Blanca saluda desde la puerta y os da un café
+  if(!R.blanca&&R.dist+PX>BAR_X-120){R.blanca={t:0};hablar('¡Hola, familia! ¡Corred, que llegáis!',true);sfx('power');
+    setTimeout(()=>{if(R&&G.state==='play')say(G.hero==='papa'?'¡HOLA, BLANCA!':'¡GRACIAS, BLANCA!',PX+20,GY-210,'#ffd23f',24);},900);}
+  if(R.blanca){R.blanca.t+=dt;if(!R.blanca.cafe&&R.dist+PX>BAR_X+230){R.blanca.cafe=true;R.power={type:'coffee',t:POWERS.coffee.dur};if(!R.st.powers.includes('coffee'))R.st.powers.push('coffee');say('☕ ¡CAFÉ DE BLANCA!',PX+60,GY-250,'#fff',32);puff(PX,R.p.y-80,'#a85d23',16,200);sfx('win');}}
   // sorpresas
   R.events.forEach(ev=>{
     if(ev.done||R.dist<ev.at)return;ev.done=true;
