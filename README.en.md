@@ -103,7 +103,7 @@ It's **8:40**. Wake up, breakfast, brush teeth, get dressed… and the school ga
 | Bookshelf, kids' drawings on the wall and Lego on the floor | Town hall with arcades and flags, church tower with its **stork**, Calle Real, churro shop, bunting and wooden **bull-run fences** |
 | 🚇 **Alcobendas** | 🏫 **School** |
 | <img src="docs/img/alcobendas.png" alt="Alcobendas"> | <img src="docs/img/cole.png" alt="School"> |
-| **Exposed-brick** blocks with awnings, Marquesa Viuda de Aldama street, a brick church and the **Metro Line 10** entrance | Brick façade, clock tower and green fence. The sign shows **your school's name** (set it in 👕 Peques) |
+| **Exposed-brick** blocks with awnings, Marquesa Viuda de Aldama street, a brick church the **Metro Line 10** entrance and, just before school, **Álvaro's Gastrobar**, where Blanca waves from the door and gives you a coffee ☕ | Brick façade, clock tower and green fence. The sign shows **your school's name** (set it in 👕 Peques) |
 
 <a id="moments"></a>
 

@@ -104,7 +104,9 @@ De casa al cole pasando por **San Sebastián de los Reyes** y **Alcobendas**, di
 | Estantería con libros, dibujos en la pared y Legos por el suelo | El Ayuntamiento con sus soportales y banderas, la torre de la iglesia con su **cigüeña**, la Calle Real, la churrería, la peña taurina, banderines y **talanqueras** |
 | 🚇 **Alcobendas** | 🏫 **El cole** |
 | <img src="docs/img/alcobendas.png" alt="Alcobendas"> | <img src="docs/img/cole.png" alt="El cole"> |
-| Bloques de **ladrillo visto** con toldos y aparatos de aire, la calle Marquesa Viuda de Aldama, la iglesia de ladrillo y la boca de **metro de la Línea 10** | Fachada de ladrillo, torre del reloj y valla verde. El cartel lleva **el nombre de tu cole** (lo escribes en 👕 Peques) |
+| Bloques de **ladrillo visto** con toldos y aparatos de aire, la calle Marquesa Viuda de Aldama, la iglesia de ladrillo, la boca de **metro de la Línea 10** y, antes de llegar al cole, **Álvaro's Gastrobar** | Fachada de ladrillo, torre del reloj y valla verde. El cartel lleva **el nombre de tu cole** (lo escribes en 👕 Peques) |
+
+<p align="center"><img src="docs/img/alvaros.png" alt="Álvaro's Gastrobar" width="70%"><br><sub>Antes de llegar al cole, pasáis por <b>Álvaro's Gastrobar</b> y <b>Blanca</b> os saluda desde la puerta… ¡y os invita a un café! ☕</sub></p>
 
 <p align="center"><img src="docs/img/toro.png" alt="El toro de los encierros" width="70%"><br><sub>En Sanse, cuidado: ¡se ha escapado un toro del encierro! 🐂</sub></p>
 
@@ -473,6 +475,7 @@ python3 scripts/capturas.py
 - [x] Fondos ilustrados por capas y personajes con sombreado
 - [x] Fuentes dentro de la web, sin peticiones a Google
 - [x] Calles de Sanse y Alcobendas, con el toro de los encierros
+- [x] Álvaro's Gastrobar, con Blanca saludando y un café de regalo
 - [x] Nombre del cole editable
 - [x] Uniforme del cole: jersey negro y falda de cuadros verde o pantalón gris
 - [x] Código organizado por temas y tests automáticos

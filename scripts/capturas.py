@@ -85,6 +85,9 @@ def main():
         pg.evaluate("()=>{const o={type:'bull',x:R.dist+PX+560,w:108,h:76,t:0,vx:-175};OB.bull.init(o);R.obs.push(o)}")
         pg.wait_for_timeout(500); pg.screenshot(path=str(IMG / "toro.png"))
         ir_a(pg, 19300); pg.screenshot(path=str(IMG / "alcobendas.png"))
+        ir_a(pg, 22550 - 760, 200)
+        pg.evaluate("()=>{R.banner=null;R.texts=[]}"); pg.wait_for_timeout(850)
+        pg.screenshot(path=str(IMG / "alvaros.png"))
         ir_a(pg, 25200); pg.screenshot(path=str(IMG / "cole.png"))
 
         # golpe
